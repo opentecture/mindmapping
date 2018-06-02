@@ -1,6 +1,6 @@
 <span style=display:none; >[You are now in a GitHub source code view - click this link to view Read Me file as a web page]( https://rawgit.com/opentecture/mindmapping/master/ "View file as a web page." ) </span>
 
-<input type=button onclick=window.location.href="https://github.com/opentecture/mindmapping/blob/master/README.md";
+<input type="button" onclick=window.location.href="https://github.com/opentecture/mindmapping/blob/master/README.md";
 value="You are now in a GitHub web page view - Click this button to view this read me file as source code" />
 
 # [Mindmapping Read Me]( https://rawgit.com/opentecture/mindmapping/master/#README.md )
