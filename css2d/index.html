@@ -35,11 +35,11 @@
 	<body>
 		<div id="info"><a href="http://threejs.org" target="_blank" rel="noopener">three.js</a> - three.js css2d - label</div>
 
-		<script src="/assets/three.js"></script>
+		<script src="three.js"></script>
 
-		<script src="/assets/js/controls/OrbitControls.js"></script>
+		<script src="js/controls/OrbitControls.js"></script>
 
-		<script src="/assets/js/renderers/CSS2DRenderer.js"></script>
+		<script src="js/renderers/CSS2DRenderer.js"></script>
 
 		<script>
 			var camera, scene, renderer, labelRenderer;
@@ -67,9 +67,9 @@
 				var earthMaterial = new THREE.MeshPhongMaterial( {
 					specular: 0x333333,
 					shininess: 5,
-					map: textureLoader.load( '/assets/textures/planets/earth_atmos_2048.jpg' ),
-					specularMap: textureLoader.load( '/assets/textures/planets/earth_specular_2048.jpg' ),
-					normalMap: textureLoader.load( '/assets/textures/planets/earth_normal_2048.jpg' ),
+					map: textureLoader.load( 'textures/planets/earth_atmos_2048.jpg' ),
+					specularMap: textureLoader.load( 'textures/planets/earth_specular_2048.jpg' ),
+					normalMap: textureLoader.load( 'textures/planets/earth_normal_2048.jpg' ),
 					normalScale: new THREE.Vector2( 0.85, 0.85 )
 				} );
 				earth = new THREE.Mesh( earthGeometry, earthMaterial );
@@ -77,7 +77,7 @@
 				var moonGeometry = new THREE.SphereBufferGeometry( MOON_RADIUS, 16, 16 );
 				var moonMaterial = new THREE.MeshPhongMaterial( {
 					shininess: 5,
-					map: textureLoader.load( '/assets/textures/planets/moon_1024.jpg' )
+					map: textureLoader.load( 'textures/planets/moon_1024.jpg' )
 				} );
 				moon = new THREE.Mesh( moonGeometry, moonMaterial );
 				scene.add( moon );
@@ -89,6 +89,7 @@
 				var earthLabel = new THREE.CSS2DObject( earthDiv );
 				earthLabel.position.set( 0, EARTH_RADIUS, 0 );
 				earth.add( earthLabel );
+
 				var moonDiv = document.createElement( 'div' );
 				moonDiv.className = 'label';
 				moonDiv.textContent = 'Moon';
