@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8" >
 <meta name="viewport" content = "width=device-width,user-scalable=no,minimum-scale=1.0,maximum-scale=1.0" >
-<meta name=description content="Real-time 3D in your browser using the Three.js JavaScript library" >
+<meta name=description content="Real-time 3D Mindmap in your browser using the Three.js JavaScript library" >
 <meta name=keywords content="Three.js,WebGL,JavaScript,GitHub,FOSS,3D,STEM" >
 <meta name = "date" content = "2018-06-02" >
 <title>MindMap 3D R3</title>
@@ -16,7 +16,7 @@
 	button { background-color: #ddd; border: none; color: #322; cursor: pointer; padding: 3px 5px; }
 	button:hover { background: #ccc; color: #fff }
 
-	#divMenu { margin: 0 20px; position: absolute; }
+	#divMenu { margin: 0 20px; max-width: 20rem; position: absolute; }
 
 </style>
 </head>
@@ -58,12 +58,18 @@
 
 	function init() {
 
+		const source = "https://github.com/opentecture/mindmapping";
+
 		const title = document.title;
 
 		divTitle.innerHTML =
-		`<h1>
-			<a href="" >${title}</a>
-		</h1>`;
+			`<h2>
+				<a href="${source}" target="_top" ><img src="https://status.github.com/images/invertocat.png" height=18 ></a>
+				<a href = "" >${title}</a>
+			</h2>
+			<p>
+				${document.head.querySelector( '[name=description]' ).content }
+			</p>`;
 
 		renderer = new THREE.WebGLRenderer( { alpha: 1, antialias: true } );
 		renderer.setPixelRatio( window.devicePixelRatio );

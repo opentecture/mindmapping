@@ -6,7 +6,7 @@
 # [Mindmapping Read Me]( https://rawgit.com/opentecture/mindmapping/master/#README.md )
 
 
-<iframe src=https://pushme-pullyou.github.io/tootoo-templates/basic-html.html width=100% height=500px ></iframe>
+<iframe src=https://rawgit.com/opentecture/mindmapping/master/mindmap-3d/r3/mindmap-3d.html width=100% height=500px ></iframe>
 _basic-html.html_
 <span style="display: none" >Iframes are not viewable in GitHub source code view</span>
 
@@ -19,7 +19,7 @@ _basic-html.html_
 	* A bit more text about each vendor
 * Add file open and file save
 * Add second data file
-	* Data points for energy analysis apps
+	* Data points for energy analysis apps (random positions for now)
 
 ## [Mindmap 3D R2]( https://rawgit.com/opentecture/mindmapping/master/mindmap-3d/r2/mindmap-3d.html )
 
@@ -44,6 +44,8 @@ _basic-html.html_
 
 ## Wish list
 
+* Sliding menu - so works on phone
+* Auto-rotate
 * Coming next with UI:
 	* Adding data to new cubes / saving data to file for reuse
 	* Polylines between data points
@@ -53,7 +55,8 @@ _basic-html.html_
 
 ## Links of Interest
 
-
+Data used in mindmaps sourced from
+* http://gbxml.org/Software_Tools_that_Support_GreenBuildingXML_gbXML
 ## Change Log
 
 ### 2018-06-02 ~ Theo
