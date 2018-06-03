@@ -49,6 +49,15 @@ _basic-html.html_
 
 ## Change Log
 
+### 2018-06-02 ~ Theo
+
+Mindmap 3D R3
+* Add placards with vendor name and product.
+* Add more fields
+* Add text entry
+* Add file open and file save
+* Add second data file
+
 ### 2018-05-31 ~ Theo
 
 * Added file viewer
