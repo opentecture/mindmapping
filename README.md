@@ -7,7 +7,7 @@
 
 
 <iframe src=https://rawgit.com/opentecture/mindmapping/master/mindmap-3d/r3/mindmap-3d.html width=100% height=500px ></iframe>
-_basic-html.html_
+
 <span style="display: none" >Iframes are not viewable in GitHub source code view</span>
 
 ## [Mindmap 3D R3]( https://rawgit.com/opentecture/mindmapping/master/mindmap-3d/r3/mindmap-3d.html )
