@@ -5,30 +5,30 @@
 
 # [Mindmapping Read Me]( https://rawgit.com/opentecture/mindmapping/master/#README.md )
 
-<!--
+
 <iframe src=https://pushme-pullyou.github.io/tootoo-templates/basic-html.html width=100% height=500px ></iframe>
 _basic-html.html_
 <span style="display: none" >Iframes are not viewable in GitHub source code view</span>
 
-## Full Screen: []( .html )
--->
+## [Mindmap 3D R3]( https://rawgit.com/opentecture/mindmapping/master/mindmap-3d/r3/mindmap-3d.html )
+
+* Add placards with vendor name and product.
+* Add more fields
+* Add text entry
+	* links to web sites
+	* A bit more text about each vendor
+* Add file open and file save
+* Add second data file
+	* Data points for energy analysis apps
 
 ## [Mindmap 3D R2]( https://rawgit.com/opentecture/mindmapping/master/mindmap-3d/r2/mindmap-3d.html )
 
 * Very different approach from R1
-* Based on [Three.js Voxel Paunter]( https://threejs.org/examples/#webgl_interactive_voxelpainter )
+* Based on [Three.js Voxel Painter]( https://threejs.org/examples/#webgl_interactive_voxelpainter )
 * Loads data from [Mindmap-3D.json]( mindmap-3d/r2/mindmap-3d.json )
 * Applies random images to cubes / will eventually be vendor favicons
-* As you mouseover a cube, its associated text data appers in the menu
-* Coming next with UI:
-	* Adding data to new cubes / saving data to file for reuse
-	* Polylines between data points
-* Coming next with the data
-	* links to web sites
-	* A bit more text about each vendor
-	* Data points for file types
-	* Data points for energy analysis apps
-	* Data points for viewers
+* As you mouseover a cube, its associated text data appears in the menu
+
 
 ## [Mindmap 3D R1]( https://rawgit.com/opentecture/mindmapping/master/mindmap-3d/mindmap-3d-1.html )
 
@@ -42,7 +42,14 @@ _basic-html.html_
 * The mixture of 3D models along with 2D HTML text in a single scene spurred the idea for a 3D [mindmap]( https://en.wikipedia.org/wiki/Mind_map )
 
 
+## Wish list
 
+* Coming next with UI:
+	* Adding data to new cubes / saving data to file for reuse
+	* Polylines between data points
+* Coming next with the data
+	* Data points for file types
+	* Data points for viewers
 
 ## Links of Interest
 
@@ -52,11 +59,7 @@ _basic-html.html_
 ### 2018-06-02 ~ Theo
 
 Mindmap 3D R3
-* Add placards with vendor name and product.
-* Add more fields
-* Add text entry
-* Add file open and file save
-* Add second data file
+* See notes above
 
 ### 2018-05-31 ~ Theo
 
