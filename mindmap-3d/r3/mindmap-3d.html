@@ -1,220 +1,210 @@
 <!doctype html>
-<html lang="en" >
-<head>
-<meta charset="utf-8" >
-<meta name="viewport" content = "width=device-width,user-scalable=no,minimum-scale=1.0,maximum-scale=1.0" >
-<meta name=description content="Real-time 3D Mindmap in your browser using the Three.js JavaScript library" >
-<meta name=keywords content="Three.js,WebGL,JavaScript,GitHub,FOSS,3D,STEM" >
-<meta name = "date" content = "2018-06-02" >
-<title>MindMap 3D R3</title>
-<style>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,user-scalable=no,minimum-scale=1.0,maximum-scale=1.0">
+		<meta name=description content="Real-time 3D Mindmap in your browser using the Three.js JavaScript library">
+		<meta name=keywords content="Three.js,WebGL,JavaScript,GitHub,FOSS,3D,STEM">
+		<meta name="date" content="2018-06-02">
+		<title>MindMap 3D R3</title>
+		<link rel="stylesheet" href="mindmap.css">
+	</head>
+	<body>
+		<script src="https://cdn.rawgit.com/mrdoob/three.js/r92/build/three.min.js"></script>
+		<script src="https://cdn.rawgit.com/mrdoob/three.js/r92/examples/js/controls/OrbitControls.js"></script>
 
-	body { font: 11pt monospace; margin: 0; overflow: hidden; }
-	a { color: crimson; text-decoration: none; }
-	a:hover, a:focus { background-color: yellow; color: #aaa; text-decoration: underline }
+		<div id="divMenu">
+			<div id="divTitle"></div>
+			<p>
+				<button onclick=controls.autoRotate=!controls.autoRotate;>rotation</button>
+			</p>
 
-	button { background-color: #ddd; border: none; color: #322; cursor: pointer; padding: 3px 5px; }
-	button:hover { background: #ccc; color: #fff }
+			<p><input type=file id=inpFile onchange=openFile(this);></p>
+			<div id="divLog">Mouse over any cube to view and edit its details</div>
+		</div>
+		<script>
+			var mouse, raycaster, isShiftDown = false;
 
-	#divMenu { margin: 0 20px; max-width: 20rem; position: absolute; }
+			var rollOverMesh, rollOverMaterial;
+			var cubeGeo, cubeMaterial;
 
-</style>
-</head>
-<body>
-<script src = "https://cdn.rawgit.com/mrdoob/three.js/r92/build/three.min.js" ></script>
-<script src = "https://cdn.rawgit.com/mrdoob/three.js/r92/examples/js/controls/OrbitControls.js" ></script>
+			var objects = [];
 
-	<div id = "divMenu" >
+			var renderer, camera, controls, scene, axesHelper;
+			var geometry, material, mesh;
 
-		<div id = "divTitle" ></div>
+			init();
+			animate();
 
-		<p>
-			<button onclick=controls.autoRotate=!controls.autoRotate; >rotation</button>
-		</p>
+			function init() {
 
-		<p><button onclick=requestFile('building-analysis-software-tools.json'); >building analysis tools</button></p>
+				const source = "https://github.com/opentecture/mindmapping";
 
-		<p><input type=file id=inpFile onchange=openFile(this); ></p>
-		<div id = "divLog" >Mouse over any cube to view and edit its details</div>
+				const title = document.title;
 
-	</div>
-
-<script>
-
-
-	var mouse, raycaster, isShiftDown = false;
-
-	var rollOverMesh, rollOverMaterial;
-	var cubeGeo, cubeMaterial;
-
-	var objects = [];
-
-
-	var renderer, camera, controls, scene, axesHelper;
-	var geometry, material, mesh;
-
-	init();
-	animate();
-
-	function init() {
-
-		const source = "https://github.com/opentecture/mindmapping";
-
-		const title = document.title;
-
-		divTitle.innerHTML =
-			`<h2>
+				divTitle.innerHTML =
+					`<h2>
 				<a href="${source}" target="_top" ><img src="https://status.github.com/images/invertocat.png" height=18 ></a>
-				<a href = "" >${title}</a>
+				<a href="">${title}</a>
 			</h2>
 			<p>
-				${document.head.querySelector( '[name=description]' ).content }
+				${document.head.querySelector('[name=description]').content }
 			</p>`;
 
-		renderer = new THREE.WebGLRenderer( { alpha: 1, antialias: true } );
-		renderer.setPixelRatio( window.devicePixelRatio );
-		renderer.setSize( window.innerWidth, window.innerHeight );
+				renderer = new THREE.WebGLRenderer({
+					alpha: 1,
+					antialias: true
+				});
+				renderer.setPixelRatio(window.devicePixelRatio);
+				renderer.setSize(window.innerWidth, window.innerHeight);
 
-		document.body.appendChild( renderer.domElement );
+				document.body.appendChild(renderer.domElement);
 
-		camera = new THREE.PerspectiveCamera( 40, window.innerWidth / window.innerHeight, 1, 10000 );
-		camera.position.set( 1000, 800, 1000 );
-		//camera.up.set( 0, 0, 1 );
+				camera = new THREE.PerspectiveCamera(40, window.innerWidth / window.innerHeight, 1, 10000);
+				camera.position.set(1000, 800, 1000);
+				//camera.up.set( 0, 0, 1 );
 
-		controls = new THREE.OrbitControls( camera, renderer.domElement );
+				controls = new THREE.OrbitControls(camera, renderer.domElement);
 
+				scene = new THREE.Scene();
 
-		scene = new THREE.Scene();
+				window.addEventListener('resize', onWindowResize, false);
 
-		window.addEventListener( 'resize', onWindowResize, false );
+				window.addEventListener('orientationchange', onWindowResize, false);
 
-		window.addEventListener( 'orientationchange', onWindowResize, false );
+				var rollOverGeo = new THREE.BoxGeometry(50, 50, 50);
+				rollOverMaterial = new THREE.MeshBasicMaterial({
+					color: 0xff0000,
+					opacity: 0.5,
+					transparent: true
+				});
+				rollOverMesh = new THREE.Mesh(rollOverGeo, rollOverMaterial);
+				scene.add(rollOverMesh);
 
-		var rollOverGeo = new THREE.BoxGeometry( 50, 50, 50 );
-		rollOverMaterial = new THREE.MeshBasicMaterial( { color: 0xff0000, opacity: 0.5, transparent: true } );
-		rollOverMesh = new THREE.Mesh( rollOverGeo, rollOverMaterial );
-		scene.add( rollOverMesh );
+				// cubes
 
-		// cubes
+				cubeGeo = new THREE.BoxGeometry(50, 50, 50);
+				//cubeMaterial = new THREE.MeshLambertMaterial( { color: 0xfeb74c, map: new THREE.TextureLoader().load( "../../textures/im1.jpg" ) } );
 
-		cubeGeo = new THREE.BoxGeometry( 50, 50, 50 );
-		//cubeMaterial = new THREE.MeshLambertMaterial( { color: 0xfeb74c, map: new THREE.TextureLoader().load( "../../textures/im1.jpg" ) } );
+				// grid
 
-		// grid
+				var gridHelper = new THREE.GridHelper(1000, 20);
+				scene.add(gridHelper);
 
-		var gridHelper = new THREE.GridHelper( 1000, 20 );
-		scene.add( gridHelper );
+				//
 
-		//
+				raycaster = new THREE.Raycaster();
+				mouse = new THREE.Vector2();
 
-		raycaster = new THREE.Raycaster();
-		mouse = new THREE.Vector2();
+				var geometry = new THREE.PlaneBufferGeometry(1000, 1000);
+				//geometry.rotateX( - Math.PI / 2 );
+				geometry.applyMatrix(new THREE.Matrix4().makeRotationX(-0.5 * Math.PI));
 
-		var geometry = new THREE.PlaneBufferGeometry( 1000, 1000 );
-		//geometry.rotateX( - Math.PI / 2 );
-		geometry.applyMatrix( new THREE.Matrix4().makeRotationX( -0.5 * Math.PI ) );
+				plane = new THREE.Mesh(geometry, new THREE.MeshBasicMaterial({
+					visible: false
+				}));
+				plane.name = 'plane';
+				scene.add(plane);
 
-		plane = new THREE.Mesh( geometry, new THREE.MeshBasicMaterial( { visible: false } ) );
-		plane.name = 'plane';
-		scene.add( plane );
+				objects.push(plane);
 
-		objects.push( plane );
+				axesHelper = new THREE.AxesHelper(500);
+				scene.add(axesHelper);
 
-		axesHelper = new THREE.AxesHelper( 500 );
-		scene.add( axesHelper );
+				// Lights
 
-		// Lights
+				var ambientLight = new THREE.AmbientLight(0x606060);
+				scene.add(ambientLight);
 
-		var ambientLight = new THREE.AmbientLight( 0x606060 );
-		scene.add( ambientLight );
-
-		var directionalLight = new THREE.DirectionalLight( 0xffffff );
-		directionalLight.position.set( 1, 0.75, 0.5 ).normalize();
-		scene.add( directionalLight );
-
-
-		renderer.domElement.addEventListener( 'mousemove', onDocumentMouseMove, false );
-		renderer.domElement.addEventListener( 'mousedown', onDocumentMouseDown, false );
-		renderer.domElement.addEventListener( 'keydown', onDocumentKeyDown, false );
-		renderer.domElement.addEventListener( 'keyup', onDocumentKeyUp, false );
-
-		let url = 'mindmap-3d.json';
-
-		requestFile( url );
-
-	}
-
-	function requestFile( url ) {
-
-	//		let xhr;
-
-	const xhr = new XMLHttpRequest();
-	xhr.crossOrigin = 'anonymous';
-	xhr.open( 'GET', url, true );
-	xhr.onerror = function( xhr ) { console.log( 'error:', xhr  ); };
-	xhr.onprogress = function( xhr ) { console.log( 'bytes loaded:', xhr.loaded  ); }; /// or something
-	xhr.onload = callback;
-	xhr.send( null );
-
-		function callback( xhr ) {
-
-			//let response, json, lines;
-
-			const response = xhr.target.response;
-			//console.log( 'response', response );
-
-			//divContents.innerHTML = response;
-
-			json = JSON.parse( response );
-			console.log( 'json', json );
-
-			getVoxel( json );
-
-		}
-
-	}
+				var directionalLight = new THREE.DirectionalLight(0xffffff);
+				directionalLight.position.set(1, 0.75, 0.5).normalize();
+				scene.add(directionalLight);
 
 
-	function onDocumentMouseMove( event ) {
+				renderer.domElement.addEventListener('mousemove', onDocumentMouseMove, false);
+				renderer.domElement.addEventListener('mousedown', onDocumentMouseDown, false);
+				renderer.domElement.addEventListener('keydown', onDocumentKeyDown, false);
+				renderer.domElement.addEventListener('keyup', onDocumentKeyUp, false);
 
-		event.preventDefault();
+				let url = 'mindmap-3d.json';
 
-		mouse.set( ( event.clientX / window.innerWidth ) * 2 - 1, - ( event.clientY / window.innerHeight ) * 2 + 1 );
+				requestFile(url);
 
-		raycaster.setFromCamera( mouse, camera );
+			}
 
-		var intersects = raycaster.intersectObjects( objects );
+			function requestFile(url) {
 
-		if ( intersects.length > 0 ) {
+				//		let xhr;
 
-			var intersect = intersects[ 0 ];
+				const xhr = new XMLHttpRequest();
+				xhr.crossOrigin = 'anonymous';
+				xhr.open('GET', url, true);
+				xhr.onerror = function(xhr) {
+					console.log('error:', xhr);
+				};
+				xhr.onprogress = function(xhr) {
+					console.log('bytes loaded:', xhr.loaded);
+				}; /// or something
+				xhr.onload = callback;
+				xhr.send(null);
 
-			rollOverMesh.position.copy( intersect.point ).add( intersect.face.normal );
-			rollOverMesh.position.divideScalar( 50 ).floor().multiplyScalar( 50 ).addScalar( 25 );
+				function callback(xhr) {
 
-			if ( intersect.object.name !== 'plane') {
+					//let response, json, lines;
 
-				//console.log( 'intersect', intersect );
+					const response = xhr.target.response;
+					//console.log( 'response', response );
 
-				if ( intersect.object.userData ) {
-				currentItem = intersect.object.userData;
-				setEdit( currentItem );
+					//divContents.innerHTML = response;
+
+					json = JSON.parse(response);
+					console.log('json', json);
+
+					getVoxel(json);
+				}
+			}
+
+
+			function onDocumentMouseMove(event) {
+
+				event.preventDefault();
+
+				mouse.set((event.clientX / window.innerWidth) * 2 - 1, -(event.clientY / window.innerHeight) * 2 + 1);
+
+				raycaster.setFromCamera(mouse, camera);
+
+				var intersects = raycaster.intersectObjects(objects);
+
+				if (intersects.length > 0) {
+
+					var intersect = intersects[0];
+
+					rollOverMesh.position.copy(intersect.point).add(intersect.face.normal);
+					rollOverMesh.position.divideScalar(50).floor().multiplyScalar(50).addScalar(25);
+
+					if (intersect.object.name !== 'plane') {
+
+						//console.log( 'intersect', intersect );
+
+						if (intersect.object.userData) {
+							currentItem = intersect.object.userData;
+							setEdit(currentItem);
+
+						}
+
+					}
 
 				}
 
 			}
 
-		}
 
-	}
+			function setEdit(data) {
 
+				console.log('data', data);
+				divLog.innerHTML =
 
-	function setEdit( data ) {
-
-		console.log( 'data', data );
-		divLog.innerHTML =
-
-			`
+					`
 			<h3>Vendor</h3>
 			<input id=inpVendor onchange=setData(this); name="vendor" value = "${data.vendor}" >
 
@@ -235,263 +225,260 @@
 
 		`;
 
-	}
+			}
 
 
-	function setData( inp ) {
+			function setData(inp) {
 
-		console.log( 'inp', inp );
+				console.log('inp', inp);
 
-		thing = json.find( item => item.product === currentItem.product );
-		thing[ inp.name ] = inp.value;
+				thing = json.find(item => item.product === currentItem.product);
+				thing[inp.name] = inp.value;
 
-		console.log( 'thing', thing );
-		//console.log( 'item[ productName]', json[ productName ] );
+				console.log('thing', thing);
+				//console.log( 'item[ productName]', json[ productName ] );
 
-	}
-
-
-
-	function openFile( files ) {
-
-		const reader = new FileReader();
-		reader.onload = function( event ) {
-
-			json = JSON.parse( reader.result );
-			console.log( 'json', json );
-
-			getVoxel( json );
-
-			divLog.innerHTML =
-				'name: ' + files.files[0].name + '<br>' +
-				'size: ' + files.files[0].size.toLocaleString() + ' bytes<br>' +
-				'type: ' + files.files[0].type + '<br>' +
-				'modified: ' + files.files[0].lastModifiedDate.toLocaleDateString() +
-			'';
-
-			console.log( '', files );
-
-		}
-
-		reader.readAsText( files.files[0] );
-
-	}
+			}
 
 
 
-	function saveFile() {
+			function openFile(files) {
 
-		js = JSON.stringify( json, null, ' ' )
-		console.log( 'js', js );
-		var blob = new Blob( [ js ] );
-		var a = document.body.appendChild( document.createElement( 'a' ) );
-		a.href = window.URL.createObjectURL( blob );
-		a.download = 'mindmap-3d.json';
-		a.click();
-		//		delete a;
-		a = null;
+				const reader = new FileReader();
+				reader.onload = function(event) {
 
-	}
+					json = JSON.parse(reader.result);
+					console.log('json', json);
 
+					getVoxel(json);
 
+					divLog.innerHTML =
+						'name: ' + files.files[0].name + '<br>' +
+						'size: ' + files.files[0].size.toLocaleString() + ' bytes<br>' +
+						'type: ' + files.files[0].type + '<br>' +
+						'modified: ' + files.files[0].lastModifiedDate.toLocaleDateString() +
+						'';
 
-	function onDocumentMouseDown( event ) {
-
-		event.preventDefault();
-
-		mouse.set( ( event.clientX / window.innerWidth ) * 2 - 1, - ( event.clientY / window.innerHeight ) * 2 + 1 );
-
-		raycaster.setFromCamera( mouse, camera );
-
-		var intersects = raycaster.intersectObjects( objects );
-
-		if ( intersects.length > 0 ) {
-
-			var intersect = intersects[ 0 ];
-
-			// delete cube
-
-			if ( isShiftDown ) {
-
-				if ( intersect.object != plane ) {
-
-					scene.remove( intersect.object );
-
-					objects.splice( objects.indexOf( intersect.object ), 1 );
+					console.log('', files);
 
 				}
 
-			// create cube
-
-			} else {
-
-				var voxel = new THREE.Mesh( cubeGeo, cubeMaterial );
-				voxel.position.copy( intersect.point ).add( intersect.face.normal );
-				voxel.position.divideScalar( 50 ).floor().multiplyScalar( 50 ).addScalar( 25 );
-				scene.add( voxel );
-
-				objects.push( voxel );
+				reader.readAsText(files.files[0]);
 
 			}
 
-		} else {
-
-			//divLog.innerHTML = '';
-
-		}
-
-	}
-
-	function getVoxel( json ) {
-
-		for ( obj in json ) {
-
-			console.log( 'obj', obj );
-			item = json[ obj ];
-			cubeMaterial = new THREE.MeshLambertMaterial( {
-				color: 0xfeb74c, map: new THREE.TextureLoader()
-					.load( "https://jaanga.github.io/cookbook-threejs/textures/im" + ( 1 + Math.floor( 16 * Math.random() ) ) + ".jpg" ) } );
-
-			var voxel = new THREE.Mesh( cubeGeo, cubeMaterial );
-
-			x = item.positionX ? item.positionX : 1000 * Math.random() - 500;
-			y = 25;
-			z = item.positionZ ? item.positionZ : 500 * Math.random();
-			voxel.position.set( x, 25, z);
-			voxel.userData = item;
-
-			placard = drawPlacard( [item.vendor, item.product], 0.2, 120, 0, 100, 0 );
-			voxel.add( placard );
-
-			scene.add( voxel );
-
-			objects.push( voxel );
-
-		}
-
-	}
 
 
+			function saveFile() {
+				js = JSON.stringify(json, null, ' ')
+				console.log('js', js);
+				var blob = new Blob([js]);
+				var a = document.body.appendChild(document.createElement('a'));
+				a.href = window.URL.createObjectURL(blob);
+				a.download = 'mindmap-3d.json';
+				a.click();
+				//		delete a;
+				a = null;
+			}
 
-	function onDocumentKeyDown( event ) {
+			function onDocumentMouseDown(event) {
 
-		switch( event.keyCode ) {
+				event.preventDefault();
 
-			case 16: isShiftDown = true; break;
+				mouse.set((event.clientX / window.innerWidth) * 2 - 1, -(event.clientY / window.innerHeight) * 2 + 1);
 
-		}
+				raycaster.setFromCamera(mouse, camera);
 
-	}
+				var intersects = raycaster.intersectObjects(objects);
 
+				if (intersects.length > 0) {
 
+					var intersect = intersects[0];
 
-	function onDocumentKeyUp( event ) {
+					// delete cube
 
-		switch ( event.keyCode ) {
+					if (isShiftDown) {
 
-			case 16: isShiftDown = false; break;
+						if (intersect.object != plane) {
 
-		}
+							scene.remove(intersect.object);
 
-	}
+							objects.splice(objects.indexOf(intersect.object), 1);
 
+						}
 
+						// create cube
 
-	function drawPlacard( text, scale, color, x, y, z ) {
+					} else {
 
-// 2016-02-27 ~ https://github.com/jaanga/jaanga.github.io/tree/master/cookbook-threejs/examples/placards
+						var voxel = new THREE.Mesh(cubeGeo, cubeMaterial);
+						voxel.position.copy(intersect.point).add(intersect.face.normal);
+						voxel.position.divideScalar(50).floor().multiplyScalar(50).addScalar(25);
+						scene.add(voxel);
 
-		var placard = new THREE.Object3D();
-		var v = function( x, y, z ){ return new THREE.Vector3( x, y, z ); };
+						objects.push(voxel);
 
-		var texture = canvasMultilineText( text, { backgroundColor: color }   );
-		var spriteMaterial = new THREE.SpriteMaterial( { map: texture, opacity: 0.9, transparent: true } );
-		var sprite = new THREE.Sprite( spriteMaterial );
-		sprite.position.set( x, y, z ) ;
-		sprite.scale.set( scale * texture.image.width, scale * texture.image.height );
+					}
 
-		var geometry = new THREE.Geometry();
-		geometry.vertices = [ v( 0, 0, 0 ),  v( x, y, z ) ];
-		var material = new THREE.LineBasicMaterial( { color: 0xaaaaaa } );
-		var line = new THREE.Line( geometry, material );
+				} else {
 
-		placard.add( sprite, line );
+					//divLog.innerHTML = '';
 
-		return placard;
-
-
-		function canvasMultilineText( textArray, parameters ) {
-
-			var parameters = parameters || {} ;
-
-			var canvas = document.createElement( 'canvas' );
-			var context = canvas.getContext( '2d' );
-			var width = parameters.width ? parameters.width : 0;
-			var font = parameters.font ? parameters.font : '48px monospace';
-			var color = parameters.backgroundColor ? parameters.backgroundColor : 120 ;
-
-			if ( typeof textArray === 'string' ) textArray = [ textArray ];
-
-			context.font = font;
-
-			for ( var i = 0; i < textArray.length; i++) {
-
-				width = context.measureText( textArray[ i ] ).width > width ? context.measureText( textArray[ i ] ).width : width;
+				}
 
 			}
 
-			canvas.width = width + 20;
-			canvas.height =  parameters.height ? parameters.height : textArray.length * 60;
+			function getVoxel(json) {
 
-			context.fillStyle = 'hsl( ' + color + ', 80%, 50% )' ;
-			context.fillRect( 0, 0, canvas.width, canvas.height);
+				for (obj in json) {
 
-			context.lineWidth = 1 ;
-			context.strokeStyle = '#000';
-			context.strokeRect( 0, 0, canvas.width, canvas.height );
+					console.log('obj', obj);
+					item = json[obj];
+					cubeMaterial = new THREE.MeshLambertMaterial({
+						color: 0xfeb74c,
+						map: new THREE.TextureLoader()
+							.load("https://jaanga.github.io/cookbook-threejs/textures/im" + (1 + Math.floor(16 * Math.random())) + ".jpg")
+					});
 
-			context.fillStyle = '#000' ;
-			context.font = font;
+					var voxel = new THREE.Mesh(cubeGeo, cubeMaterial);
 
-			for ( i = 0; i < textArray.length; i++) {
+					x = item.positionX ? item.positionX : 1000 * Math.random() - 500;
+					y = 25;
+					z = item.positionZ ? item.positionZ : 500 * Math.random();
+					voxel.position.set(x, 25, z);
+					voxel.userData = item;
 
-				context.fillText( textArray[ i ], 10, 48  + i * 60 );
+					placard = drawPlacard([item.vendor, item.product], 0.2, 120, 0, 100, 0);
+					voxel.add(placard);
+
+					scene.add(voxel);
+
+					objects.push(voxel);
+
+				}
 
 			}
 
-			var texture = new THREE.Texture( canvas );
-			texture.minFilter = texture.magFilter = THREE.NearestFilter;
-			texture.needsUpdate = true;
-
-			return texture;
-
-		}
-
-	}
 
 
+			function onDocumentKeyDown(event) {
 
-	function onWindowResize() {
+				switch (event.keyCode) {
 
-		camera.aspect = window.innerWidth / window.innerHeight;
-		camera.updateProjectionMatrix();
+					case 16:
+						isShiftDown = true;
+						break;
 
-		renderer.setSize( window.innerWidth, window.innerHeight );
+				}
 
-		//console.log( 'onWindowResize  window.innerWidth', window.innerWidth );
-
-	}
+			}
 
 
 
-	function animate() {
+			function onDocumentKeyUp(event) {
 
-		requestAnimationFrame( animate );
-		renderer.render( scene, camera );
-		controls.update();
+				switch (event.keyCode) {
 
-	}
+					case 16:
+						isShiftDown = false;
+						break;
 
-</script>
-</body>
+				}
+
+			}
+
+
+
+			function drawPlacard(text, scale, color, x, y, z) {
+
+				// 2016-02-27 ~ https://github.com/jaanga/jaanga.github.io/tree/master/cookbook-threejs/examples/placards
+
+				var placard = new THREE.Object3D();
+				var v = function(x, y, z) {
+					return new THREE.Vector3(x, y, z);
+				};
+
+				var texture = canvasMultilineText(text, {
+					backgroundColor: color
+				});
+				var spriteMaterial = new THREE.SpriteMaterial({
+					map: texture,
+					opacity: 0.9,
+					transparent: true
+				});
+				var sprite = new THREE.Sprite(spriteMaterial);
+				sprite.position.set(x, y, z);
+				sprite.scale.set(scale * texture.image.width, scale * texture.image.height);
+
+				var geometry = new THREE.Geometry();
+				geometry.vertices = [v(0, 0, 0), v(x, y, z)];
+				var material = new THREE.LineBasicMaterial({
+					color: 0xaaaaaa
+				});
+				var line = new THREE.Line(geometry, material);
+
+				placard.add(sprite, line);
+
+				return placard;
+
+
+				function canvasMultilineText(textArray, parameters) {
+
+					var parameters = parameters || {};
+
+					var canvas = document.createElement('canvas');
+					var context = canvas.getContext('2d');
+					var width = parameters.width ? parameters.width : 0;
+					var font = parameters.font ? parameters.font : '48px monospace';
+					var color = parameters.backgroundColor ? parameters.backgroundColor : 120;
+
+					if (typeof textArray === 'string') textArray = [textArray];
+
+					context.font = font;
+
+					for (var i = 0; i < textArray.length; i++) {
+						width = context.measureText(textArray[i]).width > width ? context.measureText(textArray[i]).width : width;
+					}
+
+					canvas.width = width + 20;
+					canvas.height = parameters.height ? parameters.height : textArray.length * 60;
+
+					context.fillStyle = 'hsl( ' + color + ', 80%, 50% )';
+					context.fillRect(0, 0, canvas.width, canvas.height);
+
+					context.lineWidth = 1;
+					context.strokeStyle = '#000';
+					context.strokeRect(0, 0, canvas.width, canvas.height);
+
+					context.fillStyle = '#000';
+					context.font = font;
+
+					for (i = 0; i < textArray.length; i++) {
+
+						context.fillText(textArray[i], 10, 48 + i * 60);
+
+					}
+
+					var texture = new THREE.Texture(canvas);
+					texture.minFilter = texture.magFilter = THREE.NearestFilter;
+					texture.needsUpdate = true;
+
+					return texture;
+				}
+			}
+
+			function onWindowResize() {
+				camera.aspect = window.innerWidth / window.innerHeight;
+				camera.updateProjectionMatrix();
+				renderer.setSize(window.innerWidth, window.innerHeight);
+				//console.log( 'onWindowResize  window.innerWidth', window.innerWidth );
+			}
+
+			function animate() {
+				requestAnimationFrame(animate);
+				renderer.render(scene, camera);
+				controls.update();
+			}
+		</script>
+	</body>
 </html>
