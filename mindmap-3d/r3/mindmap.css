@@ -1,0 +1,36 @@
+body {
+  font: 11pt monospace;
+  margin: 0;
+  overflow: hidden;
+}
+
+a {
+  color: crimson;
+  text-decoration: none;
+}
+
+a:hover,
+a:focus {
+  background-color: yellow;
+  color: #aaa;
+  text-decoration: underline
+}
+
+button {
+  background-color: #ddd;
+  border: none;
+  color: #322;
+  cursor: pointer;
+  padding: 3px 5px;
+}
+
+button:hover {
+  background: #ccc;
+  color: #fff
+}
+
+#divMenu {
+  margin: 0 20px;
+  max-width: 20rem;
+  position: absolute;
+}
