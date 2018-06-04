@@ -1,0 +1,93 @@
+ [
+ {
+  "vendor": "Arup",
+  "product": "EnergySave"
+},
+{
+  "vendor": "ASHRAE",
+  "product": "Building EQ" },
+{
+  "vendor": "Autodesk",
+  "product": "Green Building Studio (GBS)" },
+{
+  "vendor": "Bentley",
+  "product": "Bentley-AECOsim" },
+{
+  "vendor": "Bentley",
+  "product": "Bentley-Hevacomp" },
+{
+  "vendor": "Bionova Ltd.",
+  "product": "One Click LCA" },
+{
+  "vendor": "blueCape",
+  "product": "BlueCFD-AIR" },
+{
+  "vendor": "CADLine",
+  "product": "Cymap" },
+{
+  "vendor": "Carrier",
+  "product": "HAP (Hourly Analysis Program)" },
+{
+  "vendor": "CYPE",
+  "product": "CYPETHERM Loads, HVAC, EPlus, and CYPELUX" },
+{
+  "vendor": "DesignBuilder",
+  "product": "DesignBuilder v2" },
+  {
+  "vendor": "vDIALux",
+  "product": "DIALux 4.9" },
+{
+  "vendor": "Digital Alchemy",
+  "product": "Simergy" },
+{
+  "vendor": "E4 Tech",
+  "product": "Lesosai" },
+{
+  "vendor": "Elite Software",
+  "product": "Chvac - Commercial HVAC Load Calculations" },
+{
+  "vendor": "EnergySoft, LLC",
+  "product": "EnergyPro" },
+{
+  "vendor": "Environmental Design Solutions Limited",
+  "product": "Tas" },
+{
+  "vendor": "greenspace Live",
+  "product": "greenspace Live Energy Design and Analysis Tools" },
+{
+  "vendor": "HVAC Solution",
+  "product": "HVAC Solution" },
+{
+  "vendor": "IES Limited",
+  "product": "Virtual Environment (VE)" },
+{
+  "vendor": "IZUBA énergies",
+  "product": "Pleiades" },
+{
+  "vendor": "Ladybug Tools",
+  "product": "Ladybug Tools gbXML ViewerViewerNot Yet" },
+{
+  "vendor": "mh-software GmbH",
+  "product": "RaumGEO" },
+{
+  "vendor": "National Renewable Energy Laboratory",
+  "product": "Open StudioAnalysisLevel 2 Certification" },
+{
+  "vendor": "National University of Ireland, Cork",
+  "product": "Cylon Controls Ltd. & Ace Controls ltd." },
+{
+  "vendor": "Relux Informatik AG",
+  "product": "ReluxSuite" },
+{
+  "vendor": "Sankom Sp. z o.o.",
+  "product": "Auditor OZC 6.9 Pro" },
+{
+  "vendor": "Software fur Haustechniker",
+  "product": "Win_Ht" },
+{
+  "vendor": "Solar-Computer",
+  "product": "Green-Building-Information-System (GBIS)" },
+{
+  "vendor": "Trane",
+  "product": "Trace 700" }
+]

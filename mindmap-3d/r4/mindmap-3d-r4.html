@@ -1,0 +1,355 @@
+<!doctype html>
+<html lang="en" >
+<head>
+<meta charset="utf-8" >
+<meta name="viewport" content = "width=device-width,user-scalable=no,minimum-scale=1.0,maximum-scale=1.0" >
+<meta name=description content="Real-time 3D in your browser using the Three.js JavaScript library" >
+<meta name=keywords content="Three.js,WebGL,JavaScript,GitHub,FOSS,3D,STEM" >
+<meta name = "date" content = "2018-05-06" >
+<title></title>
+<style>
+
+	body { font: 11pt monospace; margin: 0; overflow: hidden; }
+	a { color: crimson; text-decoration: none; }
+	a:hover, a:focus { background-color: yellow; color: #aaa; text-decoration: underline }
+
+	button { background-color: #ddd; border: none; color: #322; cursor: pointer; padding: 3px 5px; }
+	button:hover { background: #ccc; color: #fff }
+
+	#divMenu { margin: 0 20px; max-width: 20rem; position: absolute; }
+
+</style>
+</head>
+<body>
+<script src = "https://cdn.rawgit.com/mrdoob/three.js/r93/build/three.min.js" ></script>
+<script src = "https://cdn.rawgit.com/mrdoob/three.js/r93/examples/js/controls/DragControls.js"></script>
+<script src = "https://cdn.rawgit.com/mrdoob/three.js/r93/examples/js/controls/TrackballControls.js"></script>
+<script src = "https://cdn.rawgit.com/mrdoob/three.js/r92/examples/js/loaders/SVGLoader.js"></script>
+
+	<div id = "divMenu" >
+
+		<div id = "divTitle" ></div>
+
+		<p>
+			<button onclick=controls.autoRotate=!controls.autoRotate; >rotation</button>
+		</p>
+
+		<p>
+				<button onclick=requestFile('../../data/building-analysis-software-tools.json')>building-analysis-software-tools</button>
+			</p>
+
+			<p><input type=file id=inpFile onchange=openFile(this);></p>
+
+			<div id="divLog">Click any SVG to view and edit its details</div>
+
+			<p>Symbols taking a long time to load. ;-(</p>
+
+	</div>
+
+<script>
+
+	var rollOverMesh, rollOverMaterial;
+	var cubeGeo, cubeMaterial;
+	var objects = [];
+	var renderer, camera, controls, scene, axesHelper;
+	var geometry, material, mesh;
+
+	init();
+	animate();
+
+	function init() {
+
+		const title = location.href.split( '/' ).pop().slice( 0, -5 ).replace( /-/g, ' ' );
+		//const title = document.title;
+
+		divTitle.innerHTML =
+		`<h1>
+			<a href="" >${title}</a>
+		</h1>`;
+
+		renderer = new THREE.WebGLRenderer( { alpha: 1, antialias: true } );
+		renderer.setPixelRatio( window.devicePixelRatio );
+		renderer.setSize( window.innerWidth, window.innerHeight );
+		document.body.appendChild( renderer.domElement );
+
+		camera = new THREE.PerspectiveCamera( 40, window.innerWidth / window.innerHeight, 1, 10000 );
+		camera.position.set( 10, -200, 60 );
+		camera.up.set( 0, 0, 1 );
+
+		controls = new THREE.TrackballControls( camera, renderer.domElement );
+		controls.rotateSpeed = 1.5;
+		controls.zoomSpeed = 1.2;
+		controls.panSpeed = 0.5;
+		controls.noZoom = false;
+		controls.noPan = false;
+		//controls.staticMoving = true;
+		//controls.dynamicDampingFactor = 0.3;
+
+
+		scene = new THREE.Scene();
+
+		window.addEventListener( 'resize', onWindowResize, false );
+
+		window.addEventListener( 'orientationchange', onWindowResize, false );
+
+		var dragControls = new THREE.DragControls( objects, camera, renderer.domElement );
+		dragControls.addEventListener( 'dragstart', function ( event ) {
+			controls.enabled = false;
+			//console.log( 'event', event );
+			setEdit( event.object.userData );
+
+		} );
+		dragControls.addEventListener( 'dragend', function ( event ) { controls.enabled = true; } );
+
+		axesHelper = new THREE.AxesHelper( 100 );
+		scene.add( axesHelper );
+
+		let url = '../../data/mindmap-3d.json';
+
+		requestFile(url);
+
+	}
+
+
+
+	function setEdit(data) {
+
+		console.log('data', data);
+
+		divLog.innerHTML =
+
+		`
+		<h3>Vendor</h3>
+		<input id=inpVendor onchange=setData(this); name="vendor" value = "${data.vendor}" >
+
+		<h3>Product</h3>
+		<input onchange=setData(this); name=product value = "${data.product}" >
+
+		<h3>Website</h3>
+		<input onchange=setData(this); name=website value = ${data.website} >
+
+		<h3>Notes</h3>
+		<textarea id=txt onchange=setData(this); name=notes value=${data.notes} cols="30" rows="10" >${data.notes}</textarea>
+
+		<h3>Position</h3>
+		x: <input onchange=setData(${this}); name=positionX value = ${data.positionX} style=width:2rem; >
+		y: <input onchange=setData(${this}); name=positionZ value = ${data.positionZ} style=width:2rem; >
+
+		<p><button onclick=saveFile(); >Save File</button></p>
+
+		`;
+
+	}
+
+
+
+	function requestFile(url) {
+
+		const xhr = new XMLHttpRequest();
+		xhr.crossOrigin = 'anonymous';
+		xhr.open('GET', url, true);
+		xhr.onerror = function(xhr) {
+			console.log('error:', xhr);
+		};
+		xhr.onprogress = function(xhr) {
+			console.log('bytes loaded:', xhr.loaded);
+		}; /// or something
+		xhr.onload = callback;
+		xhr.send(null);
+
+			function callback(xhr) {
+
+				const response = xhr.target.response;
+				//console.log( 'response', response );
+
+				//divContents.innerHTML = response;
+
+				json = JSON.parse(response);
+				console.log('json', json);
+
+				getVoxel(json);
+
+			}
+
+	}
+
+
+
+	function getVoxel(json) {
+
+		animals = ['bear.svg', 'boar.svg', 'buzzard.svg', 'donkey.svg','fox.svg', 'goat.svg', 'hare.svg', 'moose.svg', 'rooster.svg', 'wolf.svg']
+		for (obj in json) {
+
+			const item = json[obj];
+			url = item.svg ? item.svg : animals[ Math.floor( Math.random() * animals.length ) ];
+			loadSvg( '../../svg/' + url, item );
+
+		}
+
+	}
+
+
+
+
+	function loadSvg( url, item ) {
+
+		var loader = new THREE.SVGLoader();
+		animal = loader.load( url , function ( paths ) {
+
+			group = new THREE.Group();
+			group.scale.multiplyScalar( 0.1 );
+			group.scale.y *= -1;
+				var material = new THREE.MeshNormalMaterial( { side: 2 } );
+
+			for ( var i = 0; i < paths.length; i ++ ) {
+
+				var path = paths[ i ];
+
+
+				var shapes = path.toShapes( true );
+
+				for ( var j = 0; j < shapes.length; j ++ ) {
+
+					var shape = shapes[ j ];
+
+					geometry = new THREE.ExtrudeGeometry( shape, { bevelEnabled: false, depth: 15 } );
+					geometry.applyMatrix( new THREE.Matrix4().makeRotationX( -0.5 * Math.PI ) );
+					geometry.center();
+					var mesh = new THREE.Mesh( geometry, material );
+
+					group.add( mesh );
+					mesh.userData = item;
+					objects.push(mesh);
+				}
+
+			}
+
+
+			x = item.positionX ? item.positionX : 1000 * Math.random() - 500;
+			y = 25;
+			z = item.positionZ ? item.positionZ : 800 * Math.random();
+
+			group.position.set( 0.2 * x, 0.1 * z,  0 );
+
+
+			placard = drawPlacard([item.vendor, item.product], 0.3, 120, 0, 0, 100 );
+
+			group.add(placard);
+
+			scene.add(group);
+
+			//objects.push(group);
+
+			//return group;
+
+		} );
+
+
+	}
+
+
+
+	function drawPlacard(text, scale, color, x, y, z) {
+
+		// 2016-02-27 ~ https://github.com/jaanga/jaanga.github.io/tree/master/cookbook-threejs/examples/placards
+
+		var placard = new THREE.Object3D();
+		var v = function(x, y, z) {
+			return new THREE.Vector3( x, y, z );
+		};
+
+		var texture = canvasMultilineText(text, {
+			backgroundColor: color
+		});
+		var spriteMaterial = new THREE.SpriteMaterial({
+			map: texture,
+			opacity: 0.9,
+			transparent: true
+		});
+		var sprite = new THREE.Sprite(spriteMaterial);
+		sprite.position.set(x, y, z);
+		sprite.scale.set(scale * texture.image.width, scale * texture.image.height);
+
+		var geometry = new THREE.Geometry();
+		geometry.vertices = [v(0, 0, 0), v(x, y, z)];
+		var material = new THREE.LineBasicMaterial({
+			color: 0xaaaaaa
+		});
+		var line = new THREE.Line(geometry, material);
+
+		placard.add(sprite, line);
+
+		return placard;
+
+
+		function canvasMultilineText(textArray, parameters) {
+
+			var parameters = parameters || {};
+
+			var canvas = document.createElement('canvas');
+			var context = canvas.getContext('2d');
+			var width = parameters.width ? parameters.width : 0;
+			var font = parameters.font ? parameters.font : '48px monospace';
+			var color = parameters.backgroundColor ? parameters.backgroundColor : 120;
+
+			if (typeof textArray === 'string') textArray = [textArray];
+
+			context.font = font;
+
+			for (var i = 0; i < textArray.length; i++) {
+				width = context.measureText(textArray[i]).width > width ? context.measureText(textArray[i]).width : width;
+			}
+
+			canvas.width = width + 20;
+			canvas.height = parameters.height ? parameters.height : textArray.length * 60;
+
+			context.fillStyle = 'hsl( ' + color + ', 80%, 50% )';
+			context.fillRect(0, 0, canvas.width, canvas.height);
+
+			context.lineWidth = 1;
+			context.strokeStyle = '#000';
+			context.strokeRect(0, 0, canvas.width, canvas.height);
+
+			context.fillStyle = '#000';
+			context.font = font;
+
+			for (i = 0; i < textArray.length; i++) {
+
+				context.fillText(textArray[i], 10, 48 + i * 60);
+
+			}
+
+			var texture = new THREE.Texture(canvas);
+			texture.minFilter = texture.magFilter = THREE.NearestFilter;
+			texture.needsUpdate = true;
+
+			return texture;
+		}
+
+	}
+
+
+	function onWindowResize() {
+
+		camera.aspect = window.innerWidth / window.innerHeight;
+		camera.updateProjectionMatrix();
+
+		renderer.setSize( window.innerWidth, window.innerHeight );
+
+		//console.log( 'onWindowResize  window.innerWidth', window.innerWidth );
+
+	}
+
+
+
+	function animate() {
+
+		requestAnimationFrame( animate );
+		renderer.render( scene, camera );
+		controls.update();
+
+	}
+
+</script>
+</body>
+</html>

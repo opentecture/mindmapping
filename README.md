@@ -10,6 +10,18 @@
 
 <span style="display: none" >Iframes are not viewable in GitHub source code view</span>
 
+
+## [Mindmap 3D R4]( https://rawgit.com/opentecture/mindmapping/master/mindmap-3d/r4/mindmap-3d.html )
+
+
+* Very different approach from R3
+* Items can be anywhere in 3D space
+	* Item positions are editable (albeit with a number of deficiecies )
+* Cubes have been replaced with sample SVG files
+	* Issue: each SVG is loaded from file each time it's used
+	* Animals to be replaced with logos of other similar symbology
+* Switch over to trackball controller allows more flexible 3D rotations
+
 ## [Mindmap 3D R3]( https://rawgit.com/opentecture/mindmapping/master/mindmap-3d/r3/mindmap-3d.html )
 
 * Add placards with vendor name and product.
@@ -57,6 +69,9 @@
 
 Data used in mindmaps sourced from
 * http://gbxml.org/Software_Tools_that_Support_GreenBuildingXML_gbXML
+
+https://stackoverflow.com/questions/45419929/three-js-drag-and-drop-on-touch-devices-not-working-three-dragcontrols
+
 ## Change Log
 
 ### 2018-06-02 ~ Theo
