@@ -16,7 +16,7 @@
 
 * Very different approach from R3
 * Items can be anywhere in 3D space
-	* Item positions are editable (albeit with a number of deficiecies )
+	* Item positions are editable (albeit with a number of deficiencies )
 * Cubes have been replaced with sample SVG files
 	* Issue: each SVG is loaded from file each time it's used
 	* Animals to be replaced with logos of other similar symbology
