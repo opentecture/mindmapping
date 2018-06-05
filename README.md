@@ -71,6 +71,18 @@
 An introduction to Wardley (Value Chain) Mapping
 * https://blog.gardeviance.org/2015/02/an-introduction-to-wardley-value-chain.html
 
+MindMads that are geared up to display Wardley Maps
+* Editable by a casual user
+* Nodes that look and feel like real things
+	* Easy to import and add SVG files
+* A multitude of ways of showing the many links and connections between nodes
+* Nodes have links to user editable Markdown files
+* Noveds can be moved anywhere in 3D space and grouped in a variety of ways
+* Nodes can be of different types: people, apps, formats
+
+
+
+
 Data used in mindmaps sourced from
 * http://gbxml.org/Software_Tools_that_Support_GreenBuildingXML_gbXML
 
