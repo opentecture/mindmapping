@@ -67,6 +67,10 @@
 
 ## Links of Interest
 
+
+An introduction to Wardley (Value Chain) Mapping
+* https://blog.gardeviance.org/2015/02/an-introduction-to-wardley-value-chain.html
+
 Data used in mindmaps sourced from
 * http://gbxml.org/Software_Tools_that_Support_GreenBuildingXML_gbXML
 
