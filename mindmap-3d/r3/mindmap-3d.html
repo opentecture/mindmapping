@@ -204,33 +204,33 @@
 			}
 
 
-			function setEdit(data) {
+		function setEdit(data) {
 
-				console.log('data', data);
-				divLog.innerHTML =
+			console.log('data', data);
+			divLog.innerHTML =
 
-					`
-			<h3>Vendor</h3>
-			<input id=inpVendor onchange=setData(this); name="vendor" value = "${data.vendor}" >
+				`
+				<h3>Vendor</h3>
+				<input id=inpVendor onchange=setData(this); name="vendor" value = "${data.vendor}" >
 
-			<h3>Product</h3>
-			<input onchange=setData(this); name=product value = "${data.product}" >
+				<h3>Product</h3>
+				<input onchange=setData(this); name=product value = "${data.product}" >
 
-			<h3>Website</h3>
-			<input onchange=setData(this); name=website value = ${data.website} >
+				<h3>Website</h3>
+				<input onchange=setData(this); name=website value = ${data.website} >
 
-			<h3>Notes</h3>
-			<textarea id=txt onchange=setData(this); name=notes value=${data.notes} cols="30" rows="10" >${data.notes}</textarea>
+				<h3>Notes</h3>
+				<textarea id=txt onchange=setData(this); name=notes value=${data.notes} cols="30" rows="10" >${data.notes}</textarea>
 
-			<h3>Position</h3>
-			x: <input onchange=setData(${this}); name=positionX value = ${data.positionX} style=width:2rem; >
-			y: <input onchange=setData(${this}); name=positionZ value = ${data.positionZ} style=width:2rem; >
+				<h3>Position</h3>
+				x: <input onchange=setData(${this}); name=positionX value = ${data.positionX} style=width:2rem; >
+				y: <input onchange=setData(${this}); name=positionZ value = ${data.positionZ} style=width:2rem; >
 
-			<p><button onclick=saveFile(); >Save File</button></p>
+				<p><button onclick=saveFile(); >Save File</button></p>
 
-		`;
+			`;
 
-			}
+		}
 
 
 			function setData(inp) {

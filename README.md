@@ -10,6 +10,12 @@
 
 <span style="display: none" >Iframes are not viewable in GitHub source code view</span>
 
+## [Mindmap 3D R5]( https://rawgit.com/opentecture/mindmapping/master/mindmap-3d/r5/mindmap-3d.html )
+
+* Better positiong
+* Open. edit and save data
+* Add new elements
+
 
 ## [Mindmap 3D R4]( https://rawgit.com/opentecture/mindmapping/master/mindmap-3d/r4/mindmap-3d.html )
 
@@ -89,6 +95,10 @@ Data used in mindmaps sourced from
 https://stackoverflow.com/questions/45419929/three-js-drag-and-drop-on-touch-devices-not-working-three-dragcontrols
 
 ## Change Log
+
+### 2018-06-11 ~ Theo
+
+MindMap3D R5
 
 ### 2018-06-02 ~ Theo
 

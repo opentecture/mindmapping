@@ -24,7 +24,7 @@
 <script src = "https://cdn.rawgit.com/mrdoob/three.js/r93/build/three.min.js" ></script>
 <script src = "https://cdn.rawgit.com/mrdoob/three.js/r93/examples/js/controls/DragControls.js"></script>
 <script src = "https://cdn.rawgit.com/mrdoob/three.js/r93/examples/js/controls/TrackballControls.js"></script>
-<script src = "https://cdn.rawgit.com/mrdoob/three.js/r92/examples/js/loaders/SVGLoader.js"></script>
+<script src = "../../assets/SVGLoader.js"></script>
 
 	<div id = "divMenu" >
 
@@ -178,9 +178,10 @@
 	function getVoxel(json) {
 
 		animals = ['bear.svg', 'boar.svg', 'buzzard.svg', 'donkey.svg','fox.svg', 'goat.svg', 'hare.svg', 'moose.svg', 'rooster.svg', 'wolf.svg']
-		for (obj in json) {
 
-			const item = json[obj];
+		for ( obj in json) {
+
+			const item = json[ obj ];
 			url = item.svg ? item.svg : animals[ Math.floor( Math.random() * animals.length ) ];
 			loadSvg( '../../svg/' + url, item );
 
@@ -204,7 +205,6 @@
 			for ( var i = 0; i < paths.length; i ++ ) {
 
 				var path = paths[ i ];
-
 
 				var shapes = path.toShapes( true );
 
@@ -347,6 +347,7 @@
 		requestAnimationFrame( animate );
 		renderer.render( scene, camera );
 		controls.update();
+
 
 	}
 
