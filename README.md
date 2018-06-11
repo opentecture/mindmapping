@@ -6,11 +6,11 @@
 # [Mindmapping Read Me]( https://rawgit.com/opentecture/mindmapping/master/#README.md )
 
 
-<iframe src=https://rawgit.com/opentecture/mindmapping/master/mindmap-3d/r5/mindmap-3d.html width=100% height=500px ></iframe>
+<iframe src=https://rawgit.com/opentecture/mindmapping/master/mindmap-3d/r5/mindmap3d.htmll width=100% height=500px ></iframe>
 
 <span style="display: none" >Iframes are not viewable in GitHub source code view</span>
 
-## [Mindmap 3D R5]( https://rawgit.com/opentecture/mindmapping/master/mindmap-3d/r5/mindmap-3d.html )
+## [Mindmap 3D R5]( https://rawgit.com/opentecture/mindmapping/master/mindmap-3d/r5/mindmap3d.html )
 
 * Better positiong
 * Open. edit and save data
