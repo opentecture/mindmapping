@@ -6,7 +6,7 @@
 <meta name=description content="Real-time 3D Mindmaps in your browser using the Three.js JavaScript library with menu sliding" >
 <meta name=keywords content="Three.js,WebGL,JavaScript,GitHub,FOSS,3D,STEM" >
 <meta name = "date" content = "2018-06-10" >
-<title>MindMap 3D R5</title>
+<title>MindMap 3D R5.1</title>
 <style>
 /* Copyright 2018 opentecture authors. MIT License */
 
@@ -37,6 +37,8 @@
 
 	#divMenu { background-color: var( --mnu-back-color ); box-sizing: border-box; margin: 20px; height: 90%;
 		overflow-x: auto; padding: 25px 10px 30px 10px; position: fixed; top: 0; width: var( --mnu-width ); z-index: 1; transition: left 0.5s; }
+
+	#divMenu h3 { margin-bottom: 0; }
 
 	#hamburger { background-color: pink; box-sizing: border-box; cursor: pointer; font-size: 30px; left: calc( var( --mnu-width ) - 100px );
 		line-height: 30px; margin: 0; padding: 5px 15px 8px 10px; position: fixed; top: 0; transition: left 0.5s; z-index: 10; }
@@ -85,6 +87,7 @@
 
 <script>
 
+	var json = { "tt": 123 };
 	var group;
 	var things = [];
 
@@ -98,6 +101,7 @@
 		animate();
 	} );
 
+	const v = function( x, y, z ){ return new THREE.Vector3( x, y, z ); };
 
 	function init( font ) {
 
@@ -153,11 +157,13 @@
 		} );
 
 		dragControls.addEventListener( 'dragend', event => {
+
 			controls.enabled = true;
-			console.log( 'event', event );
+			//console.log( 'event', event );
+
 			currentItem = event.object.userData;
 			inpPosX.value = event.object.position.x;
-			setData(inpPosX);
+			setData( inpPosX );
 			inpPosY.value = event.object.position.y;
 			setData(inpPosY);
 			inpPosZ.value = event.object.position.z;
@@ -180,10 +186,11 @@
 
 		fetchLinks();
 
-		let url = '../../data/mindmap-3d-2.json';
+		let url = '../../data/mindmap-3d-3.json';
 
-		requestFile(url);
+		requestFile( url );
 
+		toggleBackgroundGradient();
 	}
 
 
@@ -197,7 +204,7 @@
 			console.log('error:', xhr);
 		};
 		xhr.onprogress = function(xhr) {
-			console.log('bytes loaded:', xhr.loaded);
+			//console.log('bytes loaded:', xhr.loaded);
 		}; /// or something
 		xhr.onload = callback;
 		xhr.send(null);
@@ -209,32 +216,78 @@
 
 				//divContents.innerHTML = response;
 
-				json = JSON.parse(response);
+				const newJson = JSON.parse(response);
 				//console.log('json', json);
 
-				getVoxel(json);
+				//json.cad = newJson.cad;
 
-				setEdit(json[ 1 ])
+				if ( newJson.cad ) {
+
+					//json.cad = newJson.cad;
+					//json.energyAnalysis = newJson.energyAnalysis;
+
+					getVoxel( newJson, 'cad');
+
+				}
+
+				if ( newJson.energyAnalysis ) {
+
+					//json.cad = newJson.cad;
+					//json.energyAnalysis = newJson.energyAnalysis;
+
+					getVoxel( newJson, 'energyAnalysis' );
+
+				}
+
+				if ( newJson.fileFormat ) {
+
+					getFileFormats( newJson );
+
+				}
+
 
 			}
 
 	}
 
 
-	function getVoxel(json) {
+
+	function getVoxel( newJson, type ) {
 
 		animals = ['bear.svg', 'boar.svg', 'buzzard.svg', 'donkey.svg','fox.svg', 'goat.svg', 'hare.svg', 'moose.svg', 'rooster.svg', 'wolf.svg']
 
-		for ( obj in json) {
+		for ( obj in newJson[ type] ) {
+			const item = newJson[ type ][ obj ];
 
-			const item = json[ obj ];
 			url = item.svg ? item.svg : animals[ Math.floor( Math.random() * animals.length ) ];
-			loaderSvg( url, item );
+			loaderSvg( url, item, type );
+
+		}
+
+		json[ type ] = newJson[ type ];
+
+		if ( json.cad ) {
+
+			setEdit( json.cad[ 1 ] );
 
 		}
 
 	}
 
+
+
+	function getFileFormats( newJson ) {
+
+		for ( obj in newJson.fileFormat ) {
+
+			const item = newJson.fileFormat[ obj ];
+			addFileFormat( item );
+
+		}
+
+		json.fileFormat = newJson.fileFormat;
+
+	}
 
 	function fetchLinks() {
 
@@ -250,7 +303,7 @@
 
 
 
-	function callbackLoadAllSvg ( files ) {
+	function xxxcallbackLoadAllSvg ( files ) {
 
 			for ( let file of files) {
 
@@ -258,7 +311,7 @@
 
 				const fileName = encodeURI( file.name );
 
-				loaderSvg(fileName);
+				loaderSvg( fileName );
 
 			}
 
@@ -268,7 +321,7 @@
 
 
 
-	function loaderSvg( url, item ) {
+	function loaderSvg( url, item, type ) {
 
 		//console.log( 'url', url );
 		const urlGitHubPage = 'https://rawgit.com/opentecture/mindmapping/master/svg/';
@@ -278,9 +331,10 @@
 		loader.load( urlGitHubPage + url , function ( paths ) {
 
 			if ( !item ) {
-				item = {vendor: 'new', product: 'new', positionX : 0, positionY: 50, positionZ: 0, svg: url };
-				json.push( item );
+				item = {name: 'new', product: 'new', positionX : 0, positionY: 50, positionZ: 0, svg: url };
+				json[ type ].push( item );
 			}
+
 			const path = paths[ 0 ];
 			const shapes = path.toShapes( true );
 			const shape = shapes[ 0 ];
@@ -293,21 +347,21 @@
 
 			const mesh = new THREE.Mesh( geometry, material );
 			//mesh.position.set( 100 * Math.random() - 50, 100 * Math.random() - 50, 100 * Math.random() - 50);
+
+			x = item.positionX = item.positionX || 100 * Math.random() - 50;
+			y = item.positionY = item.positionY || 50 + 100 * Math.random();
+			z = item.positionZ = item.positionZ || 80 * Math.random();
+
 			mesh.userData = item;
-
-			x = item.positionX ? item.positionX : 100 * Math.random() - 50;
-			y = item.positionY ? item.positionY : 50 + 100 * Math.random()
-			z = item.positionZ ? item.positionZ : 80 * Math.random();
-
 			mesh.position.set( x, y, z );
 			mesh.rotation.z = item.positionX ? 0 : Math.PI;
 
 			scene.add( mesh );
 			things.push( mesh );
 
-			//placard = drawPlacard([item.vendor, item.product], 0.3, 120, 0, 0, 100 );
+			//placard = drawPlacard([item.name, item.product], 0.3, 120, 0, 0, 100 );
 
-			addLabel( mesh, item.vendor, new THREE.Vector3( 0, -1, 14 ), Math.random() * 0xffffff );
+			addLabel( mesh, item.name, new THREE.Vector3( 0, -1, 14 ), Math.random() * 0xffffff );
 
 			addLabel( mesh, item.product, new THREE.Vector3( 0, 1, 11 ), Math.random() * 0xffffff);
 
@@ -373,22 +427,60 @@
 	}
 
 
+
+
+	function addFileFormat( item, location, color = Math.random() * 0xffffff ) {
+
+		const textGeo = new THREE.TextBufferGeometry( item.name, {
+			font: ffont,
+			size: 15,
+			height: 3,
+			curveSegments: 1
+		});
+
+		//textGeo.applyMatrix( new THREE.Matrix4().makeRotationX( 0.5 * Math.PI ) );
+		//textGeo.applyMatrix( new THREE.Matrix4().makeRotationZ( Math.PI ) );
+		textGeo.applyMatrix( new THREE.Matrix4().makeRotationZ( Math.PI ) );
+		textGeo.center();
+
+		const textMaterial = new THREE.MeshBasicMaterial( { color: color } );
+		const textMesh = new THREE.Mesh( textGeo, textMaterial );
+		//location = location ? location : v( Math.random() * 200 - 50, 20. -2 );
+		//x = item.positionX ? item.positionX : 100 * Math.random() - 50;
+		//y = item.positionY ? item.positionY : 50 + 100 * Math.random()
+		//z = item.positionZ ? item.positionZ : 80 * Math.random();
+
+		x = item.positionX = item.positionX || 100 * Math.random() - 50;
+		y = item.positionY = item.positionY || 50 + 100 * Math.random()
+		z = item.positionZ = item.positionZ || 80 * Math.random();
+
+		textMesh.position.set( x, y, z );
+		textMesh.userData = item;
+
+		things.push( textMesh );
+
+		scene.add( textMesh );
+
+	}
+
+
 	function setEdit(data) {
 
 		//console.log('data', data);
 		divLog.innerHTML =
 
 			`
-			<h3>Vendor</h3>
-			<input id=inpVendor onchange=setData(this); name="vendor" value = "${data.vendor}" >
+			<h3>name</h3>
+			<input id=inpVendor onchange=setData(this); name="name" value = "${data.name}" >
 
 			<h3>Product</h3>
 			<input onchange=setData(this); name=product value = "${data.product}" >
 
 			<h3>Website</h3>
+			<a href="${data.website}" target="_blank">${data.website}</a>
 			<input onchange=setData(this); name=website value = ${data.website} >
 
-			<h3>Notes</h3>
+			<h3>Notes / Needs</h3>
 			<textarea id=txt onchange=setData(this); name=notes value=${data.notes} cols="30" rows="10" >${data.notes}</textarea>
 
 			<h3>Position</h3>
@@ -399,23 +491,38 @@
 			<h3>SVG</h3>
 			<input onchange=setData(this); name=svg value = ${data.svg} >
 
+			<hr>
+
 		`;
 
 	}
 
 
 
-	function setData(inp) {
+	function setData( inp ) {
 
-		console.log('inp', inp);
+		//console.log('inp', inp);
 
-		thing = json.find(item => item.product === currentItem.product);
-		thing[inp.name] = inp.value;
+		thing = json.cad.find(item => item.product === currentItem.product );
 
-		console.log('thing', thing);
+		if ( !thing ) {
+
+			thing = json.fileFormat.find(item => item.name === currentItem.name );
+
+		}
+
+		if ( !thing ) {
+
+			thing = json.energyAnalysis.find(item => item.name === currentItem.name );
+
+		}
+		thing[ inp.name ] = inp.value;
+
+		//console.log('thing', thing);
 		//console.log( 'item[ productName]', json[ productName ] );
 
 	}
+
 
 
 	function openFile(files) {
@@ -457,6 +564,21 @@
 		a.click();
 		//		delete a;
 		a = null;
+
+	}
+
+
+
+	function toggleBackgroundGradient() {
+
+// 2016-07-18
+
+		var col = function() { return ( 0.5 + 0.5 * Math.random() ).toString( 16 ).slice( 2, 8 ); };
+		var pt = function() { return ( Math.random() * window.innerWidth ).toFixed( 0 ); }
+		var image = document.body.style.backgroundImage;
+
+		document.body.style.backgroundImage = image ? '' : 'radial-gradient( circle farthest-corner at ' +
+			pt() + 'px ' + pt() + 'px, #' + col() + ' 0%, #' + col() + ' 50%, #' + col() + ' 100% ) ';
 
 	}
 

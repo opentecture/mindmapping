@@ -1,0 +1,165 @@
+{ "cad": [
+ {
+  "name": "Artifice",
+  "product": "Design Workshop",
+  "positionX": "-23.577411260343148",
+  "positionY": "-4.966912326173041",
+  "positionZ": "15.678222359694225",
+  "website": "http://www.artifice.com/",
+  "notes": "A complete software power tool for creating 3D models, walkthroughs, and renderings, from initial sketches to polished presentations",
+  "svg": "bear.svg"
+ },
+ {
+  "name": "Autodesk",
+  "product": "AutoCAD Architecture",
+  "positionX": "-71.27742994759186",
+  "positionY": "-19.19763216294482",
+  "positionZ": "8.244351425334102",
+  "website": "https://www.autodesk.com/products/autocad/included-toolsets/autocad-architecture",
+  "notes": "Designed for architects and built on AutoCAD software, AutoCAD Architecture offers the productivity of automated documentation, the efficiency of intelligent architectural objects, and the flexibility of file-based collaboration. ",
+  "svg": "buzzard.svg"
+ },
+ {
+  "name": "Autodesk",
+  "product": "AutoCAD MEP",
+  "positionX": "-81.66514018301146",
+  "positionY": "-6.359592167230051",
+  "positionZ": "-8.201515244918342",
+  "notes": "The building engineering software application that connects the design, documentation, and analysis of complex building mechanical, electrical, plumbing, and fire protection systems.",
+  "website": "https://www.autodesk.com/products/autocad/included-toolsets/autocad-mep",
+  "svg": "buzzard.svg"
+ },
+ {
+  "name": "Autodesk",
+  "product": "AutoCAD Revit Architecture & Autodesk Revit MEP",
+  "positionX": "-69.99440538577164",
+  "positionY": "-25.88306281132894",
+  "positionZ": "30.34564338510636",
+  "notes": "Gain instant competitive advantage with the Autodesk Revit building design and documentation system, purpose-built for building information modeling (BIM). Change anything, anytime, anywhere, and Revit coordinates the change everywhere.",
+  "website": "https://www.autodesk.com/products/revit/overview",
+  "svg": "buzzard.svg"
+ },
+ {
+  "name": "Bentley",
+  "product": "Bentley AECOsim Building Designer",
+  "positionX": "-7.120854858692137",
+  "positionY": "-6.598611950237363",
+  "positionZ": "46.666871429005546",
+  "svg": "boar.svg"
+ },
+ {
+  "name": "Bentley",
+  "product": "Bentley Architecture",
+  "positionX": "-31.36708947713251",
+  "positionY": "-9.702891746138924",
+  "positionZ": "40.144554373697154",
+  "svg": "boar.svg"
+ },
+ {
+  "name": "Bentley",
+  "product": "Bentley Building Mechanical Systems",
+  "positionX": "-55.03821461454907",
+  "positionY": "8.123556388673883",
+  "positionZ": "51.2927637829159",
+  "svg": "boar.svg"
+ },
+ {
+  "name": "Bentley",
+  "product": "Bentley Speedikon Architectural",
+  "positionX": "-0.17535964757742661",
+  "positionY": "-37.421463816921715",
+  "positionZ": "42.213627488703274",
+  "svg": "boar.svg"
+ },
+ {
+  "name": "Cadsoft",
+  "product": "Envisioneer",
+  "positionX": "32.23342215940597",
+  "positionY": "-18.440885887764686",
+  "positionZ": "-13.30900160587641",
+  "svg": "donkey.svg",
+  "website": "https://www.cadsoft.com/"
+ },
+ {
+  "name": "Data Design System",
+  "product": "DDS-CAD",
+  "positionX": "-53.40630139107477",
+  "positionY": "-2.5761280308712173",
+  "positionZ": "47.396413378145766",
+  "svg": "fox.svg"
+ },
+ {
+  "name": "Digital Alchemy",
+  "product": "Simergy / Building Model Creator",
+  "positionX": "-18.262219013955566",
+  "positionY": "-32.92266923308195",
+  "positionZ": "-13.804312579610198",
+  "svg": "goat.svg"
+ },
+ {
+  "name": "Graphisoft",
+  "product": "ArchiCAD",
+  "positionX": "22.126278074676883",
+  "positionY": "-35.60198689732918",
+  "positionZ": "16.49769077185589",
+  "svg": "hare.svg"
+ },
+ {
+  "name": "Nemetschek Vectorworks",
+  "product": "Vectorworks Architect 2013",
+  "positionX": "39.9201869259599",
+  "positionY": "-3.3682847435672194",
+  "positionZ": "28.30388660747289",
+  "svg": "moose.svg"
+ },
+ {
+  "name": "Onuma",
+  "product": " Onuma BIMStorm",
+  "positionX": "-9.914360920934348",
+  "positionY": "-15.109824965345265",
+  "positionZ": "12.809017915245333",
+  "svg": "rooster.svg"
+ },
+ {
+  "name": "Rhinoceros 3D",
+  "product": "Rhino 3D and Grasshopper",
+  "positionX": "45.39752207919789",
+  "positionY": "-30.160370110010568",
+  "positionZ": "34.048005459050145",
+  "svg": "wolf.svg"
+ },
+ {
+  "name": "Trimble",
+  "product": "SketchUp",
+  "positionX": "55.71361481144908",
+  "positionY": "-24.43757232539728",
+  "positionZ": "6.372232968868127",
+  "svg": "bear.svg",
+  "website": "https://www.sketchup.com/",
+  "notes": "SketchUp is 3D modeling software that's easy to learn and incredibly fun to use. Download SketchUp today for free and get started drawing in 3D."
+ }
+],
+"fileFormat": [
+{ "name": "gmXML",
+	"positionX": "-70",
+	"positionY": "20",
+	"positionZ": "-2"
+},
+{ "name": "IFC",
+	"positionX": "-20",
+	"positionY": "15",
+	"positionZ": "-2"
+ },
+{ "name": "IDF",
+	"positionX": "0",
+	"positionY": "30",
+	"positionZ": "-7"
+ },
+{ "name": "OSM",
+	"positionX": "40",
+	"positionY": "20",
+	"positionZ": "-2"
+ }
+]
+
+}
