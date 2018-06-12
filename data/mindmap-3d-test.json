@@ -2,9 +2,9 @@
  {
   "vendor": "Artifice",
   "product": "Design Workshop",
-  "positionX": -475,
-  "positionY": 25,
-  "positionZ": -425,
+  "positionX": "-23.577411260343148",
+  "positionY": "-4.966912326173041",
+  "positionZ": "15.678222359694225",
   "website": "http://www.artifice.com/",
   "notes": "A complete software power tool for creating 3D models, walkthroughs, and renderings, from initial sketches to polished presentations",
   "svg": "bear.svg"
@@ -12,9 +12,9 @@
  {
   "vendor": "Autodesk",
   "product": "AutoCAD Architecture",
-  "positionX": -375,
-  "positionY": 25,
-  "positionZ": -325,
+  "positionX": "-71.27742994759186",
+  "positionY": "-19.19763216294482",
+  "positionZ": "8.244351425334102",
   "website": "https://www.autodesk.com/products/autocad/included-toolsets/autocad-architecture",
   "notes": "Designed for architects and built on AutoCAD software, AutoCAD Architecture offers the productivity of automated documentation, the efficiency of intelligent architectural objects, and the flexibility of file-based collaboration. ",
   "svg": "buzzard.svg"
@@ -22,9 +22,9 @@
  {
   "vendor": "Autodesk",
   "product": "AutoCAD MEP",
-  "positionX": -275,
-  "positionY": 25,
-  "positionZ": -325,
+  "positionX": "-81.66514018301146",
+  "positionY": "-6.359592167230051",
+  "positionZ": "-8.201515244918342",
   "notes": "The building engineering software application that connects the design, documentation, and analysis of complex building mechanical, electrical, plumbing, and fire protection systems.",
   "website": "https://www.autodesk.com/products/autocad/included-toolsets/autocad-mep",
   "svg": "buzzard.svg"
@@ -32,9 +32,9 @@
  {
   "vendor": "Autodesk",
   "product": "AutoCAD Revit Architecture & Autodesk Revit MEP",
-  "positionX": -175,
-  "positionY": 25,
-  "positionZ": -325,
+  "positionX": "-69.99440538577164",
+  "positionY": "-25.88306281132894",
+  "positionZ": "30.34564338510636",
   "notes": "Gain instant competitive advantage with the Autodesk Revit building design and documentation system, purpose-built for building information modeling (BIM). Change anything, anytime, anywhere, and Revit coordinates the change everywhere.",
   "website": "https://www.autodesk.com/products/revit/overview",
   "svg": "buzzard.svg"
@@ -42,97 +42,101 @@
  {
   "vendor": "Bentley",
   "product": "Bentley AECOsim Building Designer",
-  "positionX": -75,
-  "positionY": 25,
-  "positionZ": -425,
+  "positionX": "-7.120854858692137",
+  "positionY": "-6.598611950237363",
+  "positionZ": "46.666871429005546",
   "svg": "boar.svg"
  },
  {
   "vendor": "Bentley",
   "product": "Bentley Architecture",
-  "positionX": 25,
-  "positionY": 25,
-  "positionZ": -425,
+  "positionX": "-31.36708947713251",
+  "positionY": "-9.702891746138924",
+  "positionZ": "40.144554373697154",
   "svg": "boar.svg"
  },
  {
   "vendor": "Bentley",
   "product": "Bentley Building Mechanical Systems",
-  "positionX": 125,
-  "positionY": 25,
-  "positionZ": -425,
+  "positionX": "-55.03821461454907",
+  "positionY": "8.123556388673883",
+  "positionZ": "51.2927637829159",
   "svg": "boar.svg"
  },
  {
   "vendor": "Bentley",
   "product": "Bentley Speedikon Architectural",
-  "positionX": 225,
-  "positionY": 25,
-  "positionZ": -425,
+  "positionX": "-0.17535964757742661",
+  "positionY": "-37.421463816921715",
+  "positionZ": "42.213627488703274",
   "svg": "boar.svg"
  },
  {
   "vendor": "Cadsoft",
   "product": "Envisioneer",
-  "positionX": "-12.490936846635293",
-  "positionY": "37.03503797924656",
-  "positionZ": "-12.044101132611203",
-  "svg": "donkey.svg"
+  "positionX": "13.859125069885781",
+  "positionY": "-5.4116819419479825",
+  "positionZ": "-22.122495749917938",
+  "svg": "donkey.svg",
+  "website": "https://www.cadsoft.com/",
+  "notes": "new text"
  },
  {
   "vendor": "Data Design System",
   "product": "DDS-CAD",
-  "positionX": -25,
-  "positionY": 25,
-  "positionZ": -225,
+  "positionX": "-53.40630139107477",
+  "positionY": "-2.5761280308712173",
+  "positionZ": "47.396413378145766",
   "svg": "fox.svg"
  },
  {
   "vendor": "Digital Alchemy",
   "product": "Simergy / Building Model Creator",
-  "positionX": 75,
-  "positionY": 25,
-  "positionZ": -225,
+  "positionX": "-18.262219013955566",
+  "positionY": "-32.92266923308195",
+  "positionZ": "-13.804312579610198",
   "svg": "goat.svg"
  },
  {
   "vendor": "Graphisoft",
   "product": "ArchiCAD",
-  "positionX": -175,
-  "positionY": 25,
-  "positionZ": -225,
+  "positionX": "22.126278074676883",
+  "positionY": "-35.60198689732918",
+  "positionZ": "16.49769077185589",
   "svg": "hare.svg"
  },
  {
   "vendor": "Nemetschek Vectorworks",
   "product": "Vectorworks Architect 2013",
-  "positionX": 275,
-  "positionY": 25,
-  "positionZ": -225,
+  "positionX": "39.9201869259599",
+  "positionY": "-3.3682847435672194",
+  "positionZ": "28.30388660747289",
   "svg": "moose.svg"
  },
  {
   "vendor": "Onuma",
   "product": " Onuma BIMStorm",
-  "positionX": 375,
-  "positionY": 25,
-  "positionZ": -225,
+  "positionX": "-9.914360920934348",
+  "positionY": "-15.109824965345265",
+  "positionZ": "12.809017915245333",
   "svg": "rooster.svg"
  },
  {
   "vendor": "Rhinoceros 3D",
   "product": "Rhino 3D and Grasshopper",
-  "positionX": 425,
-  "positionY": 25,
-  "positionZ": -375,
+  "positionX": "45.39752207919789",
+  "positionY": "-30.160370110010568",
+  "positionZ": "34.048005459050145",
   "svg": "wolf.svg"
  },
  {
   "vendor": "Trimble",
   "product": "SketchUp",
-  "positionX": 325,
-  "positionY": 25,
-  "positionZ": -375,
-  "svg": "bear.svg"
+  "positionX": "55.71361481144908",
+  "positionY": "-24.43757232539728",
+  "positionZ": "6.372232968868127",
+  "svg": "bear.svg",
+  "website": "https://www.sketchup.com/",
+  "notes": "SketchUp is 3D modeling software that's easy to learn and incredibly fun to use. Download SketchUp today for free and get started drawing in 3D."
  }
 ]
