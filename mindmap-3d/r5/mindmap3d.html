@@ -470,7 +470,7 @@
 		divLog.innerHTML =
 
 			`
-			<h3>name</h3>
+			<h3>Name</h3>
 			<input id=inpVendor onchange=setData(this); name="name" value = "${data.name}" >
 
 			<h3>Product</h3>
@@ -479,6 +479,10 @@
 			<h3>Website</h3>
 			<a href="${data.website}" target="_blank">${data.website}</a>
 			<input onchange=setData(this); name=website value = ${data.website} >
+			<a href="${data.website}" target="_blank">${data.website}</a>
+
+
+			<h3>Page</h3>
 
 			<h3>Notes / Needs</h3>
 			<textarea id=txt onchange=setData(this); name=notes value=${data.notes} cols="30" rows="10" >${data.notes}</textarea>
