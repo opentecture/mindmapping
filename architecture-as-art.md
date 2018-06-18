@@ -2,6 +2,56 @@
 
 Theo: notes from 2011 / mildly edited
 
+See also
+* [Making Buildings, Cars and Planes From Materials Based on Plant Fibres - Slashdot](https://science.slashdot.org/story/18/06/15/2020209/making-buildings-cars-and-planes-from-materials-based-on-plant-fibres)
+
+## 2011-11-19
+
+Imagine building a real house with Logo-like bricks
+
+Either there is a robot that can travel around and melt the filament anywhere. The robot has an arm that can be moved anywhereand put into any position in order to melt the ABS plastic or whenever material.
+
+Alternatively there is a stationary 3-D printer that can print out moderately sized parts. Robots then take these parts and move them to the site where they are then put into place.
+
+Specification for the "goop" - otherwise known as 3-D Ink or filament.
+
+* It can be melted and reused many times.
+* It is UV resistant
+* the melting point is somewhat above the boiling point of water.
+* It is water resistant and resistant to most other solvents and liquids occurring normally.
+* It can be used to form insulated walls
+
+Special goop can be used because it has special properties
+* the ability to transport hot and cold water without deforming
+* the ability to conduct electricity
+* the ability to be an insulator around group that can conduct electricity
+* the ability to be transparent
+* the ability to be opaque and have a color
+* the ability to be reinforced or to act as a floor span of some limited distance
+* The ability to act as a wall and support a roof
+
+
+Imagine a number of people are living together in the country. There are old people middle-aged people and children. Some are brothers and sisters. Others are just met each other. They lived together in a collection of buildings. There's a large communal kitchen and several smaller kitchens. It's all a rambling one-story structure with courtyards, a treehouse, and even a chicken coop. Everybody has at least one room that they can call their very own.
+
+When guests come to stay, the bots get busy and a suite is added to the complex to suit just their needs depending on if it's just one person or a family. Perhaps it is a just a young cousin visiting and so two children's bedrooms are combined and more is added on to make a big room just for the weekend.
+
+Every window in the complex has something nice to look at. But if there is a time when sunlight comes in that window and shines too hard on a painting than the window is moved to another position during this period.
+
+If somebody has hurt their foot, then the floors are adjusted so that there are no steps. When there is a big football game and the young people want to make a big hullabaloo then the walls of the media room are enlarged and make thicker.
+
+The colors of the house are adjusted according to the seasons and the traditional colors of upcoming holidays. There also adjusted if there is a birth, marriage or death and if there are any other significant events in the community. During the summer the walls are a little bit higher, the openings of little bit larger and the walls are more porous to allow breezes to pass through. In the winter when it's cold, the ceilings are a bit lower and there are fewer Windows.
+
+When a lot of the children are studying China at school, a house becomes much more like one of the garden houses in Sujou. When the region is celebrating some historical event in the American West, then the complex has more of a feeling of a frontier town.
+
+With each of these changes, things like shutters work like shutters. Screen door slam like screen door should slam because they are in fact screen doors.
+
+Does something being made out of goop not make it the thing it is? Yes and no. Architecture is but a stage set. Architecture is but a stage where people act out their lives.
+
+There is nothing stopping a house made out of timber with walls constructed of wattle and daub and Window pains made of spun glass. There is nothing stopping the whole complex being made out of tent material. After all, with free electricity and plenty of robots you can have anything you want. But those things take more planning and thinking and caring. It all depends on your particular priorities at the moment. If your particular focus is on parenting – that is to say looking after both your children and your father and mother at the same time then your priority may not be on historically authentic architecture. If on the other hand you are double income no kids then an exquisite dedication to historical accuracy may be of the essence.
+
+
+
+
 # Architecture as Art
 
 It can as show itself as it was - either by what it displays on its wall publicly or what it provides as a view in your augmented reality.
@@ -10,7 +60,7 @@ It can as show itself as it was - either by what it displays on its wall publicl
 * View its references and other similar buildings
 * colors and shapes will change
 
-## Architecture as 3D printed by a reusable goop'
+## Architecture as 3D printed by a reusable 'goop'
 
 You will go to a national park and choose an empty site. The next day your house or whatever house you want has been built - and will be there for the duration of your stay. Soon after you leave the site will return to the near primeval state it was in before your arrival.
 
@@ -58,3 +108,4 @@ Architecture as:
 The building will breathe and undulate - filtering air, generate electricity, store power, clean water, nurture useful bacteria, store data, provide entertainment
 
 It will be easier to live anywhere because the building will take care of the utilities
+
