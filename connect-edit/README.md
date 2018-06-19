@@ -10,14 +10,18 @@ value='You are now in a GitHub web page view - Click this button to view this re
 
 ## Concept
 
+Given multiple nodes - objects of information - in 3D space, we need ways of creating, editing and displaying their logical but intangible connections
+
+
+
 ### [Connect Edit R1]( https://rawgit.com/opentecture/mindmapping/master/connect-edit/r1/connect-edit.html )
 
 * Creates
-	* two objects
+	* Two objects
 	* Two control points
 	* Three types of connecting spline
 	* An object that may be moved but has no connections
-* Mouseover display name and position of currently selected object
+* Mouseover displays name and position of currently selected object
 * All objects may be moved in 3D space
 
 ## Links of Interest
