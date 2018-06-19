@@ -6,11 +6,7 @@ value='You are now in a GitHub web page view - Click this button to view this re
 # [Connect Edit Read Me]( #README.md )
 
 
-<iframe src=https://rawgit.com/opentecture/mindmapping/master/connect-edit/r1/connect-edit.html  width=100% height=500px >Iframes are not viewable in GitHub source code view<</iframe>\\
-
-
-<span style="display: none" >/span>
-
+<iframe src=https://rawgit.com/opentecture/mindmapping/master/connect-edit/r1/connect-edit.html  width=100% height=500px >Iframes are not viewable in GitHub source code view<</iframe>
 
 ## Concept
 
