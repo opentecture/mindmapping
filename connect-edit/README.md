@@ -15,6 +15,7 @@ value='You are now in a GitHub web page view - Click this button to view this re
 ## Concept
 
 ### [Connect Edit R1]( https://rawgit.com/opentecture/mindmapping/master/connect-edit/r1/connect-edit.html )
+
 * Creates
 	* two objects
 	* Two control points
