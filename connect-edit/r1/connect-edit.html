@@ -145,7 +145,7 @@
 
 		controls.addEventListener( 'start', function() {
 
-			cancelHideTransorm();
+			cancelHideTransform();
 
 		} );
 
@@ -156,19 +156,20 @@
 		} );
 
 		transformControl = new THREE.TransformControls( camera, renderer.domElement );
+
 		transformControl.addEventListener( 'change', render );
 		scene.add( transformControl );
 
 		// Hiding transform situation is a little in a mess :()
 		transformControl.addEventListener( 'change', function( e ) {
 
-			cancelHideTransorm();
+			cancelHideTransform();
 
 		} );
 
 		transformControl.addEventListener( 'mouseDown', function( e ) {
 
-			cancelHideTransorm();
+			cancelHideTransform();
 
 		} );
 
@@ -189,7 +190,7 @@
 		dragcontrols.addEventListener( 'hoveron', function ( event ) {
 
 			transformControl.attach( event.object );
-			cancelHideTransorm();
+			cancelHideTransform();
 
 			divLog.innerHTML =
 
@@ -211,7 +212,7 @@
 
 		function delayHideTransform() {
 
-			cancelHideTransorm();
+			cancelHideTransform();
 			hideTransform();
 
 		}
@@ -226,7 +227,7 @@
 
 		}
 
-		function cancelHideTransorm() {
+		function cancelHideTransform() {
 
 			if ( hiding ) clearTimeout( hiding );
 
