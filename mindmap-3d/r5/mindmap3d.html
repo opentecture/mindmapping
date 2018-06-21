@@ -5,8 +5,8 @@
 <meta name="viewport" content = "width=device-width,user-scalable=no,minimum-scale=1.0,maximum-scale=1.0" >
 <meta name=description content="Real-time 3D Mindmaps in your browser using the Three.js JavaScript library with menu sliding" >
 <meta name=keywords content="Three.js,WebGL,JavaScript,GitHub,FOSS,3D,STEM" >
-<meta name = "date" content = "2018-06-10" >
-<title>MindMap 3D R5.1</title>
+<meta name = "date" content = "2018-06-20" >
+<title>MindMap 3D R5.2</title>
 <style>
 /* Copyright 2018 opentecture authors. MIT License */
 
@@ -28,12 +28,6 @@
 	input[ type = range ] { -webkit-appearance: none; -moz-appearance: none; background-color: #ddd; width: 100%; }
 	input[ type = range ]::-moz-range-thumb { background-color: #888; border-radius: 0; width: 10px; }
 	input[ type = range ]::-webkit-slider-thumb { -webkit-appearance: none; background-color: #888; height: 20px; width: 10px; }
-
-/*
-
-	#divContainer { height: 100%; margin: 0 0 0 var( --mnu-width ); transition: margin-left .5s; position: relative; }
-	#divContents { height: 100%; left: 0; margin: 0 auto; max-width: 800px; right: 0;}
-*/
 
 	#divMenu { background-color: var( --mnu-back-color ); box-sizing: border-box; margin: 20px; height: 90%;
 		overflow-x: auto; padding: 25px 10px 30px 10px; position: fixed; top: 0; width: var( --mnu-width ); z-index: 1; transition: left 0.5s; }
@@ -58,9 +52,10 @@
 <script src = "https://cdn.rawgit.com/mrdoob/three.js/r93/examples/js/controls/OrbitControls.js" ></script>
 <script src = "../../assets/SVGLoader.js"></script>
 <script src = "https://cdn.rawgit.com/mrdoob/three.js/r93/examples/js/effects/OutlineEffect.js" ></script>
+<script src="../../app/helpers.js" ></script>
+<script src="../../app/io.js" ></script>
 
 	<div id = "divMenu" >
-
 		<div>
 			<a href="http://www.opentecture.com/" target="_top" >Opentecture</a> &raquo;
 			<a href="https://rawgit.com/opentecture/mindmapping/master/" target="_top" >mindmapping</a> &raquo;
@@ -193,65 +188,6 @@
 		toggleBackgroundGradient();
 	}
 
-
-
-	function requestFile(url) {
-
-		const xhr = new XMLHttpRequest();
-		xhr.crossOrigin = 'anonymous';
-		xhr.open('GET', url, true);
-		xhr.onerror = function(xhr) {
-			console.log('error:', xhr);
-		};
-		xhr.onprogress = function(xhr) {
-			//console.log('bytes loaded:', xhr.loaded);
-		}; /// or something
-		xhr.onload = callback;
-		xhr.send(null);
-
-			function callback(xhr) {
-
-				const response = xhr.target.response;
-				//console.log( 'response', response );
-
-				//divContents.innerHTML = response;
-
-				const newJson = JSON.parse(response);
-				//console.log('json', json);
-
-				//json.cad = newJson.cad;
-
-				if ( newJson.cad ) {
-
-					//json.cad = newJson.cad;
-					//json.energyAnalysis = newJson.energyAnalysis;
-
-					getVoxel( newJson, 'cad');
-
-				}
-
-				if ( newJson.energyAnalysis ) {
-
-					//json.cad = newJson.cad;
-					//json.energyAnalysis = newJson.energyAnalysis;
-
-					getVoxel( newJson, 'energyAnalysis' );
-
-				}
-
-				if ( newJson.fileFormat ) {
-
-					getFileFormats( newJson );
-
-				}
-
-
-			}
-
-	}
-
-
-
 	function getVoxel( newJson, type ) {
 
 		animals = ['bear.svg', 'boar.svg', 'buzzard.svg', 'donkey.svg','fox.svg', 'goat.svg', 'hare.svg', 'moose.svg', 'rooster.svg', 'wolf.svg']
@@ -298,28 +234,7 @@
 		fetch( request )
 			.then( response => response.json() )
 			.then( json => callbackSvg( json ) );
-
 	}
-
-
-
-	function xxxcallbackLoadAllSvg ( files ) {
-
-			for ( let file of files) {
-
-				if ( !file.name.endsWith( '.svg' ) ) { continue; }
-
-				const fileName = encodeURI( file.name );
-
-				loaderSvg( fileName );
-
-			}
-
-		callbackSvg( files );
-
-	}
-
-
 
 	function loaderSvg( url, item, type ) {
 
@@ -366,12 +281,8 @@
 			addLabel( mesh, item.product, new THREE.Vector3( 0, 1, 11 ), Math.random() * 0xffffff);
 
 			//mesh.add(placard);
-
-		} );
-
+		});
 	}
-
-
 
 	function callbackSvg ( files ) {
 
@@ -381,19 +292,13 @@
 		let txt = '';
 
 		for ( let file of files) {
-
 			if ( !file.name.endsWith( '.svg' ) ) { continue; }
 
 			const fileName = encodeURI( file.name );
-
 			txt +=
-
 			`<div style=margin:10px; >
-
 				<button onclick=loaderSvg('${ fileName }') title="${ file.size.toLocaleString() } bytes" >${ file.name }</button>
-
 			</div>`;
-
 		}
 
 		divFilesSvg.innerHTML =
@@ -402,8 +307,6 @@
 				${ txt }
 			</details>`;
 	}
-
-
 
 	function addLabel( mesh, name, location, color = 'blue' ) {
 
@@ -425,9 +328,6 @@
 		mesh.add( textMesh );
 
 	}
-
-
-
 
 	function addFileFormat( item, location, color = Math.random() * 0xffffff ) {
 
@@ -460,15 +360,11 @@
 		things.push( textMesh );
 
 		scene.add( textMesh );
-
 	}
 
-
 	function setEdit(data) {
-
 		//console.log('data', data);
 		divLog.innerHTML =
-
 			`
 			<h3>Name</h3>
 			<input id=inpVendor onchange=setData(this); name="name" value = "${data.name}" >
@@ -498,13 +394,9 @@
 			<hr>
 
 		`;
-
 	}
 
-
-
 	function setData( inp ) {
-
 		//console.log('inp', inp);
 
 		thing = json.cad.find(item => item.product === currentItem.product );
@@ -527,56 +419,7 @@
 
 	}
 
-
-
-	function openFile(files) {
-
-		const reader = new FileReader();
-		reader.onload = function(event) {
-
-			json = JSON.parse(reader.result);
-			console.log('json', json);
-
-			getVoxel(json);
-
-			divLog.innerHTML =
-				'name: ' + files.files[0].name + '<br>' +
-				'size: ' + files.files[0].size.toLocaleString() + ' bytes<br>' +
-				'type: ' + files.files[0].type + '<br>' +
-				'modified: ' + files.files[0].lastModifiedDate.toLocaleDateString() +
-				'';
-
-			console.log('', files);
-
-		}
-
-		reader.readAsText(files.files[0]);
-
-	}
-
-
-
-	function saveFile() {
-
-		js = JSON.stringify(json, null, ' ');
-
-		console.log('js', js);
-		var blob = new Blob([js]);
-		var a = document.body.appendChild(document.createElement('a'));
-		a.href = window.URL.createObjectURL(blob);
-		a.download = 'mindmap-3d.json';
-		a.click();
-		//		delete a;
-		a = null;
-
-	}
-
-
-
 	function toggleBackgroundGradient() {
-
-// 2016-07-18
-
 		var col = function() { return ( 0.5 + 0.5 * Math.random() ).toString( 16 ).slice( 2, 8 ); };
 		var pt = function() { return ( Math.random() * window.innerWidth ).toFixed( 0 ); }
 		var image = document.body.style.backgroundImage;
@@ -587,7 +430,6 @@
 	}
 
 	function toggleNav() {
-
 		const left = 'calc( var( --mnu-width ) - 100px )';
 
 		if ( hamburger.style.left === '' || hamburger.style.left === left ) {
@@ -601,32 +443,7 @@
 			hamburger.style.left = left;
 
 		}
-
 	}
-
-
-
-	function onWindowResize() {
-
-		camera.aspect = window.innerWidth / window.innerHeight;
-		camera.updateProjectionMatrix();
-
-		renderer.setSize( window.innerWidth, window.innerHeight );
-
-		//console.log( 'onWindowResize  window.innerWidth', window.innerWidth );
-
-	}
-
-
-
-	function animate() {
-
-		requestAnimationFrame( animate );
-		//renderer.render( scene, camera );
-		controls.update();
-		effect.render( scene, camera );
-	}
-
 </script>
 </body>
 </html>
