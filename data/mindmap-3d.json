@@ -17,7 +17,7 @@
   "positionZ": -325,
   "website": "https://www.autodesk.com/products/autocad/included-toolsets/autocad-architecture",
   "notes": "Designed for architects and built on AutoCAD software, AutoCAD Architecture offers the productivity of automated documentation, the efficiency of intelligent architectural objects, and the flexibility of file-based collaboration. ",
-  "svg": "buzzard.svg"
+  "svg": "bear.svg"
 },
  {
   "vendor": "Autodesk",
@@ -27,7 +27,7 @@
   "positionZ": -325,
   "notes": "The building engineering software application that connects the design, documentation, and analysis of complex building mechanical, electrical, plumbing, and fire protection systems.",
   "website": "https://www.autodesk.com/products/autocad/included-toolsets/autocad-mep",
-  "svg": "buzzard.svg"
+  "svg": "bear.svg"
  },
  {
   "vendor": "Autodesk",
@@ -37,7 +37,7 @@
   "positionZ": -325,
   "notes": "Gain instant competitive advantage with the Autodesk Revit building design and documentation system, purpose-built for building information modeling (BIM). Change anything, anytime, anywhere, and Revit coordinates the change everywhere.",
   "website": "https://www.autodesk.com/products/revit/overview",
-  "svg": "buzzard.svg"
+  "svg": "bear.svg"
  },
  {
   "vendor": "Bentley",
@@ -45,7 +45,7 @@
   "positionX": -75,
   "positionY": 25,
   "positionZ": -425,
-  "svg": "boar.svg"
+  "svg": "bear.svg"
  },
  {
   "vendor": "Bentley",
@@ -53,7 +53,7 @@
   "positionX": 25,
   "positionY": 25,
   "positionZ": -425,
-  "svg": "boar.svg"
+  "svg": "bear.svg"
  },
  {
   "vendor": "Bentley",
@@ -61,7 +61,7 @@
   "positionX": 125,
   "positionY": 25,
   "positionZ": -425,
-  "svg": "boar.svg"
+  "svg": "bear.svg"
  },
  {
   "vendor": "Bentley",
@@ -69,7 +69,7 @@
   "positionX": 225,
   "positionY": 25,
   "positionZ": -425,
-  "svg": "boar.svg"
+  "svg": "bear.svg"
  },
  {
   "vendor": "Cadsoft",
@@ -77,7 +77,7 @@
   "positionX": 175,
   "positionY": 25,
   "positionZ": -225,
-  "svg": "donkey.svg"
+  "svg": "bear.svg"
  },
  {
   "vendor": "Data Design System",
@@ -85,7 +85,7 @@
   "positionX": -25,
   "positionY": 25,
   "positionZ": -225,
-  "svg": "fox.svg"
+  "svg": "bear.svg"
  },
  {
   "vendor": "Digital Alchemy",
@@ -93,7 +93,7 @@
   "positionX": 75,
   "positionY": 25,
   "positionZ": -225,
-  "svg": "goat.svg"
+  "svg": "bear.svg"
  },
  {
   "vendor": "Graphisoft",
@@ -101,7 +101,7 @@
   "positionX": -175,
   "positionY": 25,
   "positionZ": -225,
-  "svg": "hare.svg"
+  "svg": "bear.svg"
  },
  {
   "vendor": "Nemetschek Vectorworks",
@@ -109,7 +109,7 @@
   "positionX": 275,
   "positionY": 25,
   "positionZ": -225,
-  "svg": "moose.svg"
+  "svg": "bear.svg"
  },
  {
   "vendor": "Onuma",
@@ -117,7 +117,7 @@
   "positionX": 375,
   "positionY": 25,
   "positionZ": -225,
-  "svg": "rooster.svg"
+  "svg": "bear.svg"
  },
  {
   "vendor": "Rhinoceros 3D",
@@ -125,7 +125,7 @@
   "positionX": 425,
   "positionY": 25,
   "positionZ": -375,
-  "svg": "wolf.svg"
+  "svg": "bear.svg"
  },
  {
   "vendor": "Trimble",
