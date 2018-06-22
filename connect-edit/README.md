@@ -12,7 +12,16 @@ value='You are now in a GitHub web page view - Click this button to view this re
 
 Given multiple nodes - objects of information - in 3D space, we need ways of creating, editing and displaying their logical but intangible connections
 
-### [Multiple Movable Objects]( https://rawgit.com/opentecture/mindmapping/master/connect-edit/multiple-movable-objects/multiple-movable-objects.html )
+### [Multiple Movable Objects]( https://opentecture.github.io/mindmapping/master/connect-edit/multiple-movable-objects/multiple-movable-objects.html )
+
+Can we have multiple random movable objects using the Three.js TransformControls. And, if so, is the complexity of the workflow at a low enough level to be usable.
+
+This example indicates a positive response
+
+* Draws 50 Three.js primitives
+* Each primitive display the transform controls upon mouseover
+* Textual data attached to the object is accessible upon mouseover and displayed in the left menu
+* A button causes one-off not-smart arrows to be drawn from the objects to a rarget
 
 
 ### [Connect Edit R2]( https://rawgit.com/opentecture/mindmapping/master/connect-edit/r2/connect-edit.html )
