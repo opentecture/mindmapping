@@ -19,7 +19,7 @@
   "page": "autodesk-autocad-architecture.md",
   "website": "https://www.autodesk.com/products/autocad/included-toolsets/autocad-architecture",
   "notes": "Designed for architects and built on AutoCAD software, AutoCAD Architecture offers the productivity of automated documentation, the efficiency of intelligent architectural objects, and the flexibility of file-based collaboration. ",
-  "svg": "buzzard.svg"
+  "svg": "bear.svg"
  },
  {
   "name": "Autodesk",
@@ -30,7 +30,7 @@
   "notes": "The building engineering software application that connects the design, documentation, and analysis of complex building mechanical, electrical, plumbing, and fire protection systems.",
   "page": "autodesk-autocad-mep.md",
   "website": "https://www.autodesk.com/products/autocad/included-toolsets/autocad-mep",
-  "svg": "buzzard.svg"
+  "svg": "bear.svg"
  },
  {
   "name": "Autodesk",
@@ -41,7 +41,7 @@
   "notes": "Gain instant competitive advantage with the Autodesk Revit building design and documentation system, purpose-built for building information modeling (BIM). Change anything, anytime, anywhere, and Revit coordinates the change everywhere.",
   "page": "autodesk-revit.md",
   "website": "https://www.autodesk.com/products/revit/overview",
-  "svg": "buzzard.svg"
+  "svg": "bear.svg"
  },
  {
   "name": "Bentley",
@@ -51,7 +51,7 @@
   "positionZ": "46.666871429005546",
   "page": "bentley-aecosim.md",
   "website": "https://www.bentley.com/en/products/brands/aecosim",
-  "svg": "boar.svg"
+  "svg": "bear.svg"
  },
  {
   "name": "Bentley",
@@ -61,7 +61,7 @@
   "positionZ": "40.144554373697154",
   "page": "bentley-architecture.md",
   "website": "https://www.bentley.com/en/solutions/project-delivery/architecture-and-engineering",
-  "svg": "boar.svg"
+  "svg": "bear.svg"
  },
  {
   "name": "Bentley",
@@ -71,7 +71,7 @@
   "positionZ": "51.2927637829159",
   "page": "bentley-building-mechanical-systems.md",
   "website": "https://www.bentley.com/en/products/product-line/building-design-software",
-  "svg": "boar.svg"
+  "svg": "bear.svg"
  },
  {
   "name": "Bentley",
@@ -81,7 +81,7 @@
   "positionZ": "42.213627488703274",
   "page": "bentley-speedikon-architectural.md",
   "website": "http://www.bentley.com/en-US/Products/Bentley+speedikon+Architectural/",
-  "svg": "boar.svg"
+  "svg": "bear.svg"
  },
  {
   "name": "Cadsoft",
@@ -91,7 +91,7 @@
   "positionZ": "-13.30900160587641",
   "page": "envisioneer.md",
   "website": "http://www.cadsoft.com/products/",
-  "svg": "donkey.svg"
+  "svg": "bear.svg"
  },
  {
   "name": "Data Design System",
@@ -101,7 +101,7 @@
   "positionZ": "47.396413378145766",
   "page": "data-design-system.md",
   "website": "http://www.dds-cad.net/",
-  "svg": "fox.svg"
+  "svg": "bear.svg"
  },
  {
   "name": "Digital Alchemy",
@@ -111,7 +111,7 @@
   "positionZ": "-13.804312579610198",
   "page": "digital-alchemy.md",
   "website": "http://www.digitalalchemypro.com/html/products/DAProducts_Simergy.html",
-  "svg": "goat.svg"
+  "svg": "bear.svg"
  },
  {
   "name": "Graphisoft",
@@ -121,7 +121,7 @@
   "positionZ": "16.49769077185589",
   "page": "graphisoft.md",
   "website": "http://www.graphisoft.com/archicad/",
-  "svg": "hare.svg"
+  "svg": "bear.svg"
  },
  {
   "name": "Nemetschek Vectorworks",
@@ -131,7 +131,7 @@
   "positionZ": "28.30388660747289",
   "page": "nemetschek.md",
   "website": "http://www.vectorworks.net/architect/",
-  "svg": "moose.svg"
+  "svg": "bear.svg"
  },
  {
   "name": "Onuma",
@@ -141,7 +141,7 @@
   "positionZ": "12.809017915245333",
   "page": "onuma.md",
   "website": "http://www.onuma.com/services/BimStorm.php",
-  "svg": "rooster.svg"
+  "svg": "bear.svg"
  },
  {
   "name": "Rhinoceros 3D",
@@ -151,7 +151,7 @@
   "positionZ": "34.048005459050145",
   "page": "rhino.md",
   "website": "https://www.rhino3d.com/",
-  "svg": "wolf.svg"
+  "svg": "bear.svg"
  },
  {
   "name": "Trimble",
@@ -161,7 +161,7 @@
   "positionZ": "6.372232968868127",
   "page": "trimble.md",
   "website": "https://www.sketchup.com/",
-  "svg": "bear.svg",
+  "svg": "bear.svg"
   "notes": "SketchUp is 3D modeling software that's easy to learn and incredibly fun to use. Download SketchUp today for free and get started drawing in 3D."
  }
 ],
