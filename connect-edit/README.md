@@ -12,6 +12,8 @@ value='You are now in a GitHub web page view - Click this button to view this re
 
 Given multiple nodes - objects of information - in 3D space, we need ways of creating, editing and displaying their logical but intangible connections
 
+### [Multiple Movable Objects]( https://rawgit.com/opentecture/mindmapping/master/connect-edit/multiple-movable-objects/multiple-movable-objects.html )
+
 
 ### [Connect Edit R2]( https://rawgit.com/opentecture/mindmapping/master/connect-edit/r2/connect-edit.html )
 

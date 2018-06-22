@@ -1,0 +1,262 @@
+<!doctype html>
+<html lang="en" >
+<head>
+<meta charset="utf-8" >
+<meta name="viewport" content = "width=device-width,user-scalable=no,minimum-scale=1.0,maximum-scale=1.0" >
+<meta name=description content="Real-time 3D in your browser using the Three.js JavaScript library" >
+<meta name=keywords content="Three.js,WebGL,JavaScript,GitHub,FOSS,3D,STEM" >
+<meta name = "date" content = "2018-05-06" >
+<title></title>
+<style>
+
+	body { font: 11pt monospace; margin: 0; overflow: hidden; }
+	a { color: crimson; text-decoration: none; }
+	a:hover, a:focus { background-color: yellow; color: #aaa; text-decoration: underline }
+
+	button { background-color: #ddd; border: none; color: #322; cursor: pointer; padding: 3px 5px; }
+	button:hover { background: #ccc; color: #fff }
+
+	#divMenu { margin: 0 20px; position: absolute; }
+
+</style>
+</head>
+<body>
+<script src = "https://cdn.rawgit.com/mrdoob/three.js/r93/build/three.min.js" ></script>
+<script src = "https://cdn.rawgit.com/mrdoob/three.js/r93/examples/js/controls/OrbitControls.js" ></script>
+<script src = "https://cdn.rawgit.com/mrdoob/three.js/r93/examples/js/controls/DragControls.js"></script>
+<script src = "https://cdn.rawgit.com/mrdoob/three.js/r93/examples/js/controls/TransformControls.js"></script>
+
+	<div id = "divMenu" >
+
+		<div id = "divTitle" ></div>
+
+		<p>
+			<button onclick=controls.autoRotate=!controls.autoRotate; >rotation</button>
+		</p>
+
+		<p>
+				<button onclick=drawConnections(); >draw connections</button>
+		</p>
+
+		<div id = "divLog" ></div>
+
+	</div>
+
+<script>
+
+	let helperObjects = [];
+	let target;
+
+	let transformControl;
+	let text = 'lorem ipsum, quia dolor sit, amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt, ut labore et dolore magnam aliquam quaerat voluptatem. ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? quis autem vel eum iure reprehenderit, qui in ea voluptate velit esse, quam nihil molestiae consequatur, vel illum, qui dolorem eum fugiat, quo voluptas nulla pariatur?'
+	let arr = text.replace( /[,.?]/g, '' ).split( ' ' );
+	console.log( '', arr );
+	let renderer, camera, controls, scene, axesHelper;
+
+	init();
+	animate();
+
+	function init() {
+
+		const title = location.href.split( '/' ).pop().slice( 0, -5 ).replace( /-/g, ' ' );
+		//const title = document.title;
+
+		divTitle.innerHTML =
+		`<h1>
+			<a href="" >${title}</a>
+		</h1>`;
+
+
+
+		scene = new THREE.Scene();
+		scene.background = new THREE.Color( 0xf0f0f0 );
+
+		camera = new THREE.PerspectiveCamera( 70, window.innerWidth / window.innerHeight, 1, 10000 );
+		camera.position.set( 0, 250, 1000 );
+		scene.add( camera );
+
+		scene.add( new THREE.AmbientLight( 0xf0f0f0 ) );
+		var light = new THREE.SpotLight( 0xffffff, 1.5 );
+		light.position.set( 0, 1500, 200 );
+		light.castShadow = true;
+		light.shadow = new THREE.LightShadow( new THREE.PerspectiveCamera( 70, 1, 200, 2000 ) );
+		light.shadow.bias = -0.000222;
+		light.shadow.mapSize.width = 1024;
+		light.shadow.mapSize.height = 1024;
+		scene.add( light );
+		spotlight = light;
+
+		var planeGeometry = new THREE.PlaneBufferGeometry( 2000, 2000 );
+		planeGeometry.rotateX( - Math.PI / 2 );
+		var planeMaterial = new THREE.ShadowMaterial( { opacity: 0.2 } );
+
+		var plane = new THREE.Mesh( planeGeometry, planeMaterial );
+		plane.position.y = -200;
+		plane.receiveShadow = true;
+		scene.add( plane );
+
+		var helper = new THREE.GridHelper( 2000, 100 );
+		helper.position.y = - 199;
+		helper.material.opacity = 0.25;
+		helper.material.transparent = true;
+		scene.add( helper );
+
+		var axes = new THREE.AxesHelper( 2000 );
+		axes.position.set( - 1000, -200, -1000 );
+		scene.add( axes );
+
+		renderer = new THREE.WebGLRenderer( { antialias: true } );
+		renderer.setPixelRatio( window.devicePixelRatio );
+		renderer.setSize( window.innerWidth, window.innerHeight );
+		renderer.shadowMap.enabled = true;
+		document.body.appendChild( renderer.domElement );
+
+		// Controls
+		controls = new THREE.OrbitControls( camera, renderer.domElement );
+		controls.damping = 0.2;
+		//controls.addEventListener( 'change', render );
+
+		controls.addEventListener( 'start', function() { cancelHideTransform(); } );
+
+		controls.addEventListener( 'end', function() { delayHideTransform(); } );
+
+		transformControl = new THREE.TransformControls( camera, renderer.domElement );
+
+		scene.add( transformControl );
+
+		// Hiding transform situation is a little in a mess :()
+		transformControl.addEventListener( 'change', function( e ) { cancelHideTransform(); } );
+
+		transformControl.addEventListener( 'mouseDown', function( e ) { cancelHideTransform(); } );
+
+		transformControl.addEventListener( 'mouseUp', function( e ) { delayHideTransform(); } );
+
+		//transformControl.addEventListener( 'objectChange', function( e ) { updateSplineOutline(); } );
+
+		const dragcontrols = new THREE.DragControls( helperObjects, camera, renderer.domElement ); //
+		dragcontrols.enabled = false;
+		dragcontrols.addEventListener( 'hoveron', function ( event ) {
+
+			transformControl.attach( event.object );
+			cancelHideTransform();
+
+			divLog.innerHTML =
+
+				`<h3>Name: ${event.object.name}</h3>
+					x: ${ event.object.position.x}<br>
+					y: ${ event.object.position.y}<br>
+					z: ${ event.object.position.z}<br>
+				`;
+
+		} );
+
+		dragcontrols.addEventListener( 'hoveroff', function ( event ) { delayHideTransform(); } );
+
+		let hiding;
+
+		function delayHideTransform() {
+
+			cancelHideTransform();
+			hideTransform();
+
+		}
+
+		function hideTransform() {
+
+			hiding = setTimeout( function() { transformControl.detach( transformControl.object ); }, 2500 );
+
+		}
+
+		function cancelHideTransform() { if ( hiding ) clearTimeout( hiding ); }
+
+		drawObjects();
+
+		geometry = new THREE.TorusKnotGeometry( 50, 15 );
+		material = new THREE.MeshNormalMaterial();
+		target = new THREE.Mesh( geometry, material );
+		target.position.set( 0, 20, 500, )
+		target.castShadow = true;
+		target.receiveShadow = true;
+		target.name = 'Lady Bracknell';
+		scene.add( target );
+	}
+
+
+
+	function drawObjects( count = 50 ) {
+
+		geo = [
+			new THREE.TorusKnotBufferGeometry( 30, 12 ),
+			new THREE.BoxBufferGeometry( 50, 30, 40 ),
+			new THREE.CylinderBufferGeometry( 50, 40, 50, 20 ),
+			new THREE.ConeBufferGeometry( 50, 80 ),
+			new THREE.DodecahedronBufferGeometry( 50 ),
+			new THREE.IcosahedronBufferGeometry( 50 ),
+			new THREE.OctahedronBufferGeometry( 50 ),
+			new THREE.SphereBufferGeometry( 50 ),
+			new THREE.TetrahedronBufferGeometry( 50 ),
+			new THREE.TorusBufferGeometry( 50, 10, 8, 30 ),
+
+		];
+
+		for ( let i = 0; i< count; i++ ) {
+
+			const geometry = geo[ Math.floor( Math.random() * geo.length ) ].clone();
+			const material = new THREE.MeshNormalMaterial();
+			mesh = new THREE.Mesh( geometry, material );
+			mesh.castShadow = true;
+			mesh.receiveShadow = true;
+			mesh.position.x = Math.random() * 1000 - 500;
+			mesh.position.y = Math.random() * 600;
+			mesh.position.z = Math.random() * 800 - 400;
+			mesh.name = arr[ Math.floor( Math.random() * arr.length ) ] + ' ' + arr[ Math.floor( Math.random() * arr.length ) ];
+
+			scene.add( mesh );
+			helperObjects.push( mesh );
+
+		}
+
+	}
+
+
+
+	function drawConnections() {
+
+		for ( let obj of helperObjects ) {
+
+
+			const dir = target.position.clone().sub( obj.position ).normalize();
+			const arrowHelper = new THREE.ArrowHelper( dir, obj.position, 0.8 * obj.position.distanceTo( target.position ), 0xffffff * Math.random(), 50 );
+
+			scene.add( arrowHelper );
+
+		}
+
+	}
+
+
+
+	function onWindowResize() {
+
+		camera.aspect = window.innerWidth / window.innerHeight;
+		camera.updateProjectionMatrix();
+
+		renderer.setSize( window.innerWidth, window.innerHeight );
+
+		//console.log( 'onWindowResize  window.innerWidth', window.innerWidth );
+
+	}
+
+
+
+	function animate() {
+
+		requestAnimationFrame( animate );
+		renderer.render( scene, camera );
+		controls.update();
+
+	}
+
+</script>
+</body>
+</html>
