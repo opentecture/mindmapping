@@ -63,10 +63,11 @@
 			init();
 
 			function init() {
-				//urlGitHubPage = location.href.includes( repo ) ? '' : 'https://rawgit.com/' + user + repo + branch;
 
-				urlGitHubPage = 'https://rawgit.com/' + user + repo + branch;
-				//console.log( 'urlGitHubPage', urlGitHubPage );
+				urlGitHubPage = location.href.includes( repo ) ? '' : 'https://rawgit.com/' + user + repo + branch;
+
+				//urlGitHubPage = 'https://rawgit.com/' + user + repo + branch;
+				console.log( 'urlGitHubPage', urlGitHubPage );
 
 				urlInfo.href = urlGitHubSource;
 				urlInfo.innerHTML = iconInfo;
