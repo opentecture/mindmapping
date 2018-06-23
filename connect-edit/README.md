@@ -1,4 +1,4 @@
-<span style=display:none; >[You are now in a GitHub source code view - click this link to view Read Me file as a web page]( https://rawgit.com/opentecture/mindmapping/master/#https://rawgit.com/opentecture/mindmapping/master/connect-edit/README.md "View file as a web page." ) </span>
+<span style=display:none; >[You are now in a GitHub source code view - click this link to view Read Me file as a web page]( https://opentecture.github.io/mindmapping//#https://opentecture.github.io/mindmapping//connect-edit/README.md "View file as a web page." ) </span>
 
 <div><input type=button onclick="window.location.href='https://github.com/opentecture/mindmapping/blob/master/connect-edit/README.md'";
 value='You are now in a GitHub web page view - Click this button to view this read me file as source code' ></div>
@@ -6,7 +6,7 @@ value='You are now in a GitHub web page view - Click this button to view this re
 # [Connect Edit Read Me]( #README.md )
 
 
-<iframe src=https://rawgit.com/opentecture/mindmapping/master/connect-edit/r1/connect-edit.html  width=100% height=500px >Iframes are not viewable in GitHub source code view<</iframe>
+<iframe src=https://opentecture.github.io/mindmapping//connect-edit/r1/connect-edit.html  width=100% height=500px >Iframes are not viewable in GitHub source code view<</iframe>
 
 ## Concept
 
@@ -24,7 +24,7 @@ This example indicates a positive response
 * A button causes one-off not-smart arrows to be drawn from the objects to a rarget
 
 
-### [Connect Edit R2]( https://rawgit.com/opentecture/mindmapping/master/connect-edit/r2/connect-edit.html )
+### [Connect Edit R2]( https://opentecture.github.io/mindmapping//connect-edit/r2/connect-edit.html )
 
 * Almost no  connection with R1. Solving different issues.
 
@@ -42,7 +42,7 @@ The boxes are not editable and contain no text data. The dem is only about speed
 
 
 
-### [Connect Edit R1]( https://rawgit.com/opentecture/mindmapping/master/connect-edit/r1/connect-edit.html )
+### [Connect Edit R1]( https://opentecture.github.io/mindmapping//connect-edit/r1/connect-edit.html )
 
 * Creates
 	* Two objects
