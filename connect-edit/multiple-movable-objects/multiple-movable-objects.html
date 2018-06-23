@@ -48,9 +48,11 @@
 	let target;
 
 	let transformControl;
+
 	let text = 'lorem ipsum, quia dolor sit, amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt, ut labore et dolore magnam aliquam quaerat voluptatem. ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? quis autem vel eum iure reprehenderit, qui in ea voluptate velit esse, quam nihil molestiae consequatur, vel illum, qui dolorem eum fugiat, quo voluptas nulla pariatur?'
 	let arr = text.replace( /[,.?]/g, '' ).split( ' ' );
 	console.log( '', arr );
+
 	let renderer, camera, controls, scene, axesHelper;
 
 	init();
@@ -65,8 +67,6 @@
 		`<h1>
 			<a href="" >${title}</a>
 		</h1>`;
-
-
 
 		scene = new THREE.Scene();
 		scene.background = new THREE.Color( 0xf0f0f0 );
@@ -169,6 +169,7 @@
 
 		function cancelHideTransform() { if ( hiding ) clearTimeout( hiding ); }
 
+
 		drawObjects();
 
 		geometry = new THREE.TorusKnotGeometry( 50, 15 );
@@ -179,6 +180,7 @@
 		target.receiveShadow = true;
 		target.name = 'Lady Bracknell';
 		scene.add( target );
+
 	}
 
 

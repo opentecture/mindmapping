@@ -54,6 +54,8 @@
 <script src = "https://cdn.rawgit.com/mrdoob/three.js/r93/build/three.min.js" ></script>
 <script src = "https://cdn.rawgit.com/mrdoob/three.js/r93/examples/js/controls/OrbitControls.js" ></script>
 <script src = "https://cdn.rawgit.com/mrdoob/three.js/r93/examples/js/loaders/STLLoader.js" ></script>
+<script src = "https://cdn.rawgit.com/mrdoob/three.js/r93/examples/js/controls/DragControls.js"></script>
+<script src = "https://cdn.rawgit.com/mrdoob/three.js/r93/examples/js/controls/TransformControls.js"></script>
 
 	<div id = "divMenu" >
 
@@ -72,12 +74,14 @@
 	</div>
 
 
-
 	<div id = "hamburger" onclick=toggleNav(); > slide &#9776; </div>
 
 <script>
 
 	const urlDefault = 'https://rawgit.com/opentecture/build/master/components/Door%20Handle.stl';
+
+	let helperObjects = [];
+	let transformControl;
 
 	var renderer, camera, controls, scene;
 	var geometry, material, mesh, axesHelper;
@@ -125,6 +129,7 @@
 		material = new THREE.MeshNormalMaterial();
 		mesh = new THREE.Mesh( geometry, material );
 		//scene.add( mesh );
+		setMovable();
 
 		fetchGitHubFolderContents();
 
@@ -137,6 +142,66 @@
 
 
 
+	function setMovable() {
+
+			controls.addEventListener( 'start', function() { cancelHideTransform(); } );
+
+			controls.addEventListener( 'end', function() { delayHideTransform(); } );
+
+			transformControl = new THREE.TransformControls( camera, renderer.domElement );
+
+			scene.add( transformControl );
+
+			// Hiding transform situation is a little in a mess :()
+			transformControl.addEventListener( 'change', function( e ) { cancelHideTransform(); } );
+
+			transformControl.addEventListener( 'mouseDown', function( e ) { cancelHideTransform(); } );
+
+			transformControl.addEventListener( 'mouseUp', function( e ) { delayHideTransform(); } );
+
+			//transformControl.addEventListener( 'objectChange', function( e ) { updateSplineOutline(); } );
+
+			const dragcontrols = new THREE.DragControls( helperObjects, camera, renderer.domElement ); //
+			dragcontrols.enabled = false;
+			dragcontrols.addEventListener( 'hoveron', function ( event ) {
+
+				transformControl.attach( event.object );
+				cancelHideTransform();
+				/*
+				divLog.innerHTML =
+
+					`<h3>Name: ${event.object.name}</h3>
+						x: ${ event.object.position.x}<br>
+						y: ${ event.object.position.y}<br>
+						z: ${ event.object.position.z}<br>
+					`;
+				*/
+
+			} );
+
+			dragcontrols.addEventListener( 'hoveroff', function ( event ) { delayHideTransform(); } );
+
+			let hiding;
+
+			function delayHideTransform() {
+
+				cancelHideTransform();
+				hideTransform();
+
+			}
+
+			function hideTransform() {
+
+				hiding = setTimeout( function() { transformControl.detach( transformControl.object ); }, 2500 );
+
+			}
+
+			function cancelHideTransform() { if ( hiding ) clearTimeout( hiding ); }
+
+	}
+
+
+
 	function loadSTLFileByURL() {
 
 		fileName = location.hash ? location.hash.slice( 1 ) : urlDefault;
@@ -144,6 +209,7 @@
 		let loader = new THREE.STLLoader();
 		loader.crossOrigin = 'anonymous';
 		loader.load( fileName, function ( geometry ) {
+
 			console.log( 'geo', geometry );
 			addMesh( geometry );
 
@@ -167,6 +233,7 @@
 		mesh = new THREE.Mesh( geometry, material );
 		//mesh.scale.set( 1000, 1000, 1000 );
 		scene.add( mesh );
+		helperObjects.push( mesh );
 
 		zoomExtents( mesh );
 
