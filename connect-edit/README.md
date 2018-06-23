@@ -12,6 +12,14 @@ value='You are now in a GitHub web page view - Click this button to view this re
 
 Given multiple nodes - objects of information - in 3D space, we need ways of creating, editing and displaying their logical but intangible connections
 
+### [load stl r1]( https://opentecture.github.io/mindmapping/connect-edit/load-stl/load-stl-r1.html )
+
+* Real-time 3D STL files in your browser
+* Obtains list of files via GitHub API
+	* Displays list of filenames in menu
+* Click menu to load and view selected file
+
+
 ### [Multiple Movable Objects]( https://opentecture.github.io/mindmapping/master/connect-edit/multiple-movable-objects/multiple-movable-objects.html )
 
 Can we have multiple random movable objects using the Three.js TransformControls. And, if so, is the complexity of the workflow at a low enough level to be usable.
