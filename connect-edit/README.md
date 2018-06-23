@@ -12,6 +12,11 @@ value='You are now in a GitHub web page view - Click this button to view this re
 
 Given multiple nodes - objects of information - in 3D space, we need ways of creating, editing and displaying their logical but intangible connections
 
+### [load stl r4]( https://opentecture.github.io/mindmapping/connect-edit/load-stl/load-stl-r4.html )
+
+* Loads and positions all available models at load time
+* Two buttons update positions of all objects to arbitrary locations
+
 ### [load stl r3]( https://opentecture.github.io/mindmapping/connect-edit/load-stl/load-stl-r3.html )
 
 * Load random file at start

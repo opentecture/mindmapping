@@ -61,13 +61,18 @@
 
 		<div>
 				<a href="http://opentecture.github.io/" target="_top">opentecture</a> &raquo;
-				<a href="http://opentecture.github.io/connect-edit/" target="_top">connect edit</a> &raquo;
+				<a href="http://opentecture.github.io//connect-edit/" target="_top">connect edit</a> &raquo;
 		</div>
 
 		<div id=divTitle ></div>
 
 		<div id = "divContents" >
-			<button onclick=controls.autoRotate=!controls.autoRotate; >rotation</button>
+			<p><button onclick=controls.autoRotate=!controls.autoRotate; >rotation</button></p>
+			<p>
+				<button onclick=moveToStart(); >move to start</button>
+				<button onclick=moveToFinish(); >move to finish</button>
+			</p>
+			<i>positions are diagrammatic only and not meaningful</i>
 		</div>
 
 		<div id = "divMenuItems" ></div>
@@ -81,6 +86,7 @@
 
 <script>
 
+	let count = 0;
 	const urlDefault = 'https://rawgit.com/opentecture/build/master/components/Door%20Handle.stl';
 	let urls;
 
@@ -113,7 +119,7 @@
 		renderer.setSize( window.innerWidth, window.innerHeight );
 		document.body.appendChild( renderer.domElement );
 
-		camera = new THREE.PerspectiveCamera( 40, window.innerWidth / window.innerHeight, 0.1, 1000 );
+		camera = new THREE.PerspectiveCamera( 40, window.innerWidth / window.innerHeight, 0.1, 10000 );
 		camera.position.set( 100, 100, 100 );
 		camera.up.set( 0, 0, 1 );
 
@@ -219,7 +225,7 @@
 		loader.crossOrigin = 'anonymous';
 		loader.load( path + fileName, function ( geometry ) {
 
-			console.log( 'geo', geometry );
+			//console.log( 'geo', geometry );
 			addMesh( geometry, fileName );
 
 			//contents.innerHTML = 'File name: ' + fileName.split('/').pop() + '<br>' + '';
@@ -231,24 +237,60 @@
 
 	function addMesh( geometry, fileName ) {
 
-		console.log( 'geo', geometry );
+		//console.log( 'geo', geometry );
 		geometry.center();
 		geometry.computeFaceNormals();
 		geometry.computeVertexNormals();
 
 		let material = new THREE.MeshNormalMaterial( { side: 2 } );
 
-		scene.remove( mesh );
+		//scene.remove( mesh );
 		mesh = new THREE.Mesh( geometry, material );
 		mesh.name = fileName;
-		//mesh.scale.set( 1000, 1000, 1000 );
+		mesh.scale.set( 20, 20, 20 );
+		mesh.position.x = 20 * count - 100;
+		count++;
 		scene.add( mesh );
 		helperObjects.push( mesh );
 
-		zoomExtents( mesh );
+		//zoomExtents( mesh );
 
 	}
 
+
+
+	function moveToStart() {
+
+		for ( obj of helperObjects ) {
+
+			obj.position.set( 30 * Math.random() - 15, 30 * Math.random() + 15, 10 );
+
+		}
+
+	}
+
+
+
+	function moveToFinish() {
+
+		let col = 0;
+		let row = 0;
+
+		for ( obj of helperObjects ) {
+
+			obj.position.set( 30 * col - 40, -30, 50 - 20 * row );
+			col++;
+
+			if ( col % 3 === 0 ){
+
+				row++;
+				col = 0;
+
+			}
+
+		}
+
+	}
 
 
 	function zoomExtents( mesh ) {
@@ -329,7 +371,13 @@
 
 		divGallery.innerHTML = txt;
 		urls = files;
-		onHashChange();
+
+		for ( file of files ) {
+
+			loadSTLFileByURL( urlGitHubPage, file.name );
+
+		}
+
 	}
 
 
