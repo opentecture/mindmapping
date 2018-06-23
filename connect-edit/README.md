@@ -6,11 +6,16 @@ value='You are now in a GitHub web page view - Click this button to view this re
 # [Connect Edit Read Me]( #README.md )
 
 
-<iframe src=https://opentecture.github.io/mindmapping/connect-edit/load-stl/load-stl-r2.html  width=100% height=500px >Iframes are not viewable in GitHub source code view<</iframe>
+<iframe src=https://opentecture.github.io/mindmapping/connect-edit/load-stl/load-stl-r3.html  width=100% height=500px >Iframes are not viewable in GitHub source code view<</iframe>
 
 ## Concept
 
 Given multiple nodes - objects of information - in 3D space, we need ways of creating, editing and displaying their logical but intangible connections
+
+### [load stl r3]( https://opentecture.github.io/mindmapping/connect-edit/load-stl/load-stl-r3.html )
+
+* Load random file at start
+* Display object data on click
 
 ### [load stl r2]( https://opentecture.github.io/mindmapping/connect-edit/load-stl/load-stl-r2.html )
 

@@ -61,6 +61,7 @@
 
 		<div>
 				<a href="http://opentecture.github.io/" target="_top">opentecture</a> &raquo;
+				<a href="http://opentecture.github.io//connect-edit/" target="_top">connect edit</a> &raquo;
 		</div>
 
 		<div id=divTitle ></div>
@@ -71,6 +72,8 @@
 
 		<div id = "divMenuItems" ></div>
 
+		<div id = "divLog" ></div>
+
 	</div>
 
 
@@ -79,6 +82,7 @@
 <script>
 
 	const urlDefault = 'https://rawgit.com/opentecture/build/master/components/Door%20Handle.stl';
+	let urls;
 
 	let helperObjects = [];
 	let transformControl;
@@ -133,14 +137,19 @@
 
 		fetchGitHubFolderContents();
 
-		window.addEventListener('hashchange', loadSTLFileByURL, false);
+		window.addEventListener('hashchange', onHashChange, false);
 
-		loadSTLFileByURL();
+
 
 	}
 
+	function onHashChange() {
+		console.log( 'urls', urls );
+		const path = 'https://rawgit.com/opentecture/build/master/';
+		const fileName = location.hash ? location.hash.slice( 1 ) : urls[ Math.floor( Math.random() * urls.length ) ].path;
+		loadSTLFileByURL( path, fileName );
 
-
+	}
 
 	function setMovable() {
 
@@ -167,7 +176,7 @@
 
 				transformControl.attach( event.object );
 				cancelHideTransform();
-				/*
+
 				divLog.innerHTML =
 
 					`<h3>Name: ${event.object.name}</h3>
@@ -175,7 +184,7 @@
 						y: ${ event.object.position.y}<br>
 						z: ${ event.object.position.z}<br>
 					`;
-				*/
+
 
 			} );
 
@@ -202,16 +211,16 @@
 
 
 
-	function loadSTLFileByURL() {
+	function loadSTLFileByURL( path, fileName ) {
 
-		fileName = location.hash ? location.hash.slice( 1 ) : urlDefault;
-		console.log( 'fn', fileName );
+
+		//console.log( 'fn', fileName );
 		let loader = new THREE.STLLoader();
 		loader.crossOrigin = 'anonymous';
-		loader.load( fileName, function ( geometry ) {
+		loader.load( path + fileName, function ( geometry ) {
 
 			console.log( 'geo', geometry );
-			addMesh( geometry );
+			addMesh( geometry, fileName );
 
 			//contents.innerHTML = 'File name: ' + fileName.split('/').pop() + '<br>' + '';
 
@@ -220,7 +229,7 @@
 		}
 
 
-	function addMesh( geometry ) {
+	function addMesh( geometry, fileName ) {
 
 		console.log( 'geo', geometry );
 		geometry.center();
@@ -231,6 +240,7 @@
 
 		scene.remove( mesh );
 		mesh = new THREE.Mesh( geometry, material );
+		mesh.name = fileName;
 		//mesh.scale.set( 1000, 1000, 1000 );
 		scene.add( mesh );
 		helperObjects.push( mesh );
@@ -255,7 +265,7 @@
 
 		axisHelper.scale.set( bs.radius, bs.radius, bs.radius );
 
-		}
+	}
 
 
 
@@ -291,7 +301,7 @@
 
 	function callbackGitHubMenu ( files ) {
 
-		const urlGitHubSource = 'https://github.com/opentecture/tree/master/components/blob/master/build/';
+		const urlGitHubSource = 'https://github.com/opentecture/build/tree/master/components/';
 		const urlGitHubPage = 'https://rawgit.com/opentecture/build/master/components/';
 		const iconGitHubMark = '<img src="https://rawgit.com/ladybug-tools/spider/master/images/github-mark.png" height=14 style=vertical-align:middle>';
 
@@ -318,8 +328,10 @@
 		}
 
 		divGallery.innerHTML = txt;
-
+		urls = files;
+		onHashChange();
 	}
+
 
 
 	function toggleNav() {
