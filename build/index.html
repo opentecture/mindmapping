@@ -7,7 +7,7 @@
 		<style>
 			body {
 				margin: 0px;
-				background-color: #000000;
+				background-color: #E5E5E5;
 				color: #fff;
 				font-family:Monospace;
 				text-align: center;
@@ -23,7 +23,9 @@
 			}
 		</style>
     <script src = "https://cdn.rawgit.com/mrdoob/three.js/r93/build/three.min.js" ></script>
-    <script src = "https://cdn.rawgit.com/mrdoob/three.js/r93/examples/js/controls/TransformControls.js"></script>
+		<script src = "https://cdn.rawgit.com/mrdoob/three.js/r93/examples/js/controls/OrbitControls.js" ></script>
+		<script src = "https://cdn.rawgit.com/mrdoob/three.js/r93/examples/js/controls/DragControls.js"></script>
+		<script src = "https://cdn.rawgit.com/mrdoob/three.js/r93/examples/js/controls/TransformControls.js"></script>
     <script src = "https://code.jquery.com/jquery-3.3.1.js" ></script>
 	</head>
 	<body>
@@ -39,6 +41,7 @@
     <button id="new-box-button" type="button" name="button">Add a Node</button>
     <button id="demo-mode-button" type="button" name="button">Demo Mode</button>
 		<script>
+			var nodes = [];
 			var camera, scene, renderer, control;
 			init();
 			render();
@@ -121,20 +124,36 @@
 				control.attach( mesh );
 				scene.add( control );
 
+				nodes.push(mesh);
+
 				return mesh;
       }
 
+			function drawConnections(target) {
+				for ( let obj of nodes ) {
+					const dir = target.position.clone().sub( obj.position ).normalize();
+					const arrowHelper = new THREE.ArrowHelper( dir, obj.position, 0.8 * obj.position.distanceTo( target.position ), 0xffffff * Math.random(), 50 );
+					scene.add( arrowHelper );
+				}
+			}
+
 			// DemoMode is for exercising the sample features of the Mindmap.
 			function demoMode() {
-				// Create 4 nodes
+				// Create 5 nodes
 				var box = addNode()
+				box.position.setY(800);
 				box.position.setZ(0);
 				var box2 = addNode();
-				box2.position.setZ(300);
+				box2.position.setZ(600);
 				var box3 = addNode();
-				box3.position.setZ(600);
+				box3.position.setX(600);
 				var box4 = addNode();
-				box4.position.setZ(-300);
+				box4.position.setZ(-600);
+				var box5 = addNode();
+				box5.position.setX(-600);
+
+				// And draw lines from each to the first box
+				drawConnections(box);
 			}
 
       $(function() {
