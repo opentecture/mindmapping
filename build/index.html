@@ -40,11 +40,14 @@
     <br>
     <button id="new-box-button" type="button" name="button">Add a Node</button>
     <button id="demo-mode-button" type="button" name="button">Demo Mode</button>
+		<button onclick="toggleRotation()">rotation</button>
+		<div id="divLog">DivLog</div>
 		<script>
 			var nodes = [];
 			var camera, scene, renderer, control;
+			var orbitControls;
 			init();
-			render();
+			animate(); // render();
 			function init() {
 				renderer = new THREE.WebGLRenderer();
 				renderer.setPixelRatio( window.devicePixelRatio );
@@ -59,6 +62,9 @@
 				var light = new THREE.DirectionalLight( 0xffffff, 2 );
 				light.position.set( 1, 1, 1 );
 				scene.add( light );
+
+				orbitControls = new THREE.OrbitControls( camera, renderer.domElement );
+				orbitControls.damping = 0.2;
 
 				addNode();
 
@@ -108,7 +114,15 @@
 			}
 			function render() {
 				control.update();
+				orbitControls.update();
 				renderer.render( scene, camera );
+			}
+
+			function animate() {
+				requestAnimationFrame( animate );
+				renderer.render( scene, camera );
+				control.update();
+				orbitControls.update();
 			}
 
       function addNode() {
@@ -124,11 +138,30 @@
 				control.attach( mesh );
 				scene.add( control );
 
-				nodes.push(mesh);
+				// Display Node Information
+				const dragcontrols = new THREE.DragControls( nodes, camera, renderer.domElement ); //
+					dragcontrols.enabled = false;
+					dragcontrols.addEventListener( 'hoveron', function ( event ) {
+						control.attach( event.object );
+						updateDivLog( event );
+					} );
+
+				// Push Mesh into Global Array
+				nodes.push( mesh );
 
 				return mesh;
       }
 
+			function updateDivLog(event) {
+				divLog.innerHTML =
+					`<h3>Name: ${event.object.name}</h3>
+						x: ${ event.object.position.x}<br>
+						y: ${ event.object.position.y}<br>
+						z: ${ event.object.position.z}<br>
+					`;
+			}
+
+			// For the Demo
 			function drawConnections(target) {
 				for ( let obj of nodes ) {
 					const dir = target.position.clone().sub( obj.position ).normalize();
@@ -154,6 +187,12 @@
 
 				// And draw lines from each to the first box
 				drawConnections(box);
+
+				toggleRotation()
+			}
+
+			function toggleRotation() {
+				orbitControls.autoRotate = !orbitControls.autoRotate;
 			}
 
       $(function() {
