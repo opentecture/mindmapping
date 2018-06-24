@@ -6,7 +6,7 @@
 <meta name=description content="Real-time 3D STL files in your browser using the Three.js JavaScript library with menu sliding" >
 <meta name=keywords content="Three.js,WebGL,JavaScript,GitHub,FOSS,3D,STEM" >
 <meta name = "date" content = "2018-05-19" >
-<title></title>
+<title>load stl r4</title>
 <style>
 /* Copyright 2018 pushMe pullYou authors. MIT License */
 
@@ -60,8 +60,8 @@
 	<div id = "divMenu" >
 
 		<div>
-				<a href="http://opentecture.github.io/" target="_top">opentecture</a> &raquo;
-				<a href="http://opentecture.github.io//connect-edit/" target="_top">connect edit</a> &raquo;
+				<a href="http://opentecture.github.io/mindmapping/" target="_top">opentecture</a> &raquo;
+				<a href="https://opentecture.github.io/mindmapping/#connect-edit/README.md" target="_top">connect edit</a> &raquo;
 		</div>
 
 		<div id=divTitle ></div>
@@ -102,8 +102,8 @@
 	function init() {
 
 		const source = "https://github.com/opentecture/mindmapping/tree/master/connect-edit/";
-		const title = location.href.split( '/' ).pop().slice( 0, -5 ).replace( /-/g, ' ' );
-		//const title = document.title;
+		//const title = location.href.split( '/' ).pop().slice( 0, -5 ).replace( /-/g, ' ' );
+		const title = document.title;
 
 		divTitle.innerHTML =
 			`<h2>
