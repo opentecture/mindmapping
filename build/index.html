@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 	<head>
-		<title>three.js webgl - transform controls</title>
+		<title>3d Mindmapping</title>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
 		<style>
@@ -22,11 +22,12 @@
 				z-index:100;
 			}
 		</style>
-    <script src = "https://cdn.rawgit.com/mrdoob/three.js/r93/build/three.min.js" ></script>
-		<script src = "https://cdn.rawgit.com/mrdoob/three.js/r93/examples/js/controls/OrbitControls.js" ></script>
-		<script src = "https://cdn.rawgit.com/mrdoob/three.js/r93/examples/js/controls/DragControls.js"></script>
-		<script src = "https://cdn.rawgit.com/mrdoob/three.js/r93/examples/js/controls/TransformControls.js"></script>
-    <script src = "https://code.jquery.com/jquery-3.3.1.js" ></script>
+    <script src="https://cdn.rawgit.com/mrdoob/three.js/r93/build/three.min.js"></script>
+		<script src="https://cdn.rawgit.com/mrdoob/three.js/r93/examples/js/controls/OrbitControls.js"></script>
+		<script src="https://cdn.rawgit.com/mrdoob/three.js/r93/examples/js/controls/DragControls.js"></script>
+		<script src="https://cdn.rawgit.com/mrdoob/three.js/r93/examples/js/controls/TransformControls.js"></script>
+		<script src="https://cdn.rawgit.com/mrdoob/three.js/r93/examples/js/loaders/STLLoader.js"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
 	</head>
 	<body>
 
@@ -38,16 +39,97 @@
     <br>
     <br>
     <br>
-    <button id="new-box-button" type="button" name="button">Add a Node</button>
-    <button id="demo-mode-button" type="button" name="button">Demo Mode</button>
-		<button onclick="toggleRotation()">rotation</button>
-		<div id="divLog">DivLog</div>
+		<div style="float: left; position: absolute; top: 50px; left: 30px; background-color: #E5FFFF;">
+			<h3>
+				Menu
+			</h3>
+			<button id="new-box-button" type="button" name="button">Add a Node</button>
+			<hr>
+			<div class="view features">
+				<button onclick="toggleRotation()">Toggle Rotation</button>
+				<hr>
+				<button onclick="topDownView()">Top Down View</button>
+				<button onclick="sideView()">Side View</button>
+				<button onclick="isomorphicView()">Isomorphic View</button>
+			</div>
+			<hr>
+			<div class="demo features">
+				<button onclick="loadSTL()">Load STL</button>
+		    <button id="demo-mode-button" type="button" name="button">Demo Mode</button>
+			</div>
+			<hr>
+			<div id="divLog">DivLog</div>
+		</div>
 		<script>
 			var nodes = [];
 			var camera, scene, renderer, control;
+			var mesh;
+			var axesHelper;
 			var orbitControls;
 			init();
 			animate(); // render();
+
+			function topDownView() {
+				camera.position.set( 0, 2000, 0 );
+			}
+
+			function isomorphicView() {
+				camera.position.set( 1000, 1000, 1000 );
+			}
+
+			function sideView() {
+				camera.position.set( 1000, 0, 0 );
+			}
+
+			function loadSTL() {
+				const urlDefault = 'https://rawgit.com/opentecture/build/master/components/Door%20Handle.stl';
+				loadSTLFileByURL(urlDefault, 'door handle');
+			}
+
+			function loadSTLFileByURL(path, fileName ) {
+				let loader = new THREE.STLLoader();
+
+				loader.load( path, function ( geometry ) {
+					console.log( 'geo2', geometry );
+					addMesh( geometry, fileName );
+				} );
+
+			}
+
+			function addMesh( geometry, name) {
+
+				console.log( 'geo3', geometry );
+				geometry.center();
+				geometry.computeFaceNormals();
+				geometry.computeVertexNormals();
+
+				let material = new THREE.MeshNormalMaterial( { side: 2 } );
+
+				scene.remove( mesh );
+				mesh = new THREE.Mesh( geometry, material );
+				mesh.name = name;
+				addTransformControls( mesh );
+				scene.add( mesh );
+				zoomExtents( mesh );
+
+			}
+
+			function zoomExtents( mesh ) {
+
+				mesh.geometry.computeBoundingSphere();
+
+				let bs = mesh.geometry.boundingSphere;
+
+				orbitControls.target = bs.center;
+
+				camera.position.set( bs.center.x + bs.radius, bs.center.y + bs.radius, bs.center.z + bs.radius );
+				camera.far = 3 * camera.position.length();
+				camera.updateProjectionMatrix();
+
+				// axesHelper.scale.set( bs.radius, bs.radius, bs.radius );
+
+			}
+
 			function init() {
 				renderer = new THREE.WebGLRenderer();
 				renderer.setPixelRatio( window.devicePixelRatio );
@@ -65,6 +147,9 @@
 
 				orbitControls = new THREE.OrbitControls( camera, renderer.domElement );
 				orbitControls.damping = 0.2;
+
+				axesHelper = new THREE.AxesHelper( 50 );
+				scene.add( axesHelper );
 
 				addNode();
 
@@ -112,17 +197,25 @@
 				renderer.setSize( window.innerWidth, window.innerHeight );
 				render();
 			}
+
 			function render() {
 				control.update();
 				orbitControls.update();
 				renderer.render( scene, camera );
 			}
-
+			// Or
 			function animate() {
 				requestAnimationFrame( animate );
-				renderer.render( scene, camera );
 				control.update();
 				orbitControls.update();
+				renderer.render( scene, camera );
+			}
+
+			function addTransformControls(mesh) {
+				control = new THREE.TransformControls( camera, renderer.domElement );
+				control.addEventListener( 'change', render );
+				control.attach( mesh );
+				scene.add( control );
 			}
 
       function addNode() {
@@ -131,18 +224,17 @@
 				texture.anisotropy = renderer.capabilities.getMaxAnisotropy();
 				var geometry = new THREE.BoxBufferGeometry( 200, 200, 200 );
 				var material = new THREE.MeshLambertMaterial( { map: texture } );
-				control = new THREE.TransformControls( camera, renderer.domElement );
-				control.addEventListener( 'change', render );
+
 				var mesh = new THREE.Mesh( geometry, material );
+				addTransformControls(mesh)
 				scene.add( mesh );
-				control.attach( mesh );
-				scene.add( control );
 
 				// Display Node Information
 				const dragcontrols = new THREE.DragControls( nodes, camera, renderer.domElement ); //
 					dragcontrols.enabled = false;
 					dragcontrols.addEventListener( 'hoveron', function ( event ) {
 						control.attach( event.object );
+						// How to register one then another for a link?
 						updateDivLog( event );
 					} );
 

@@ -1,4 +1,4 @@
-## [Demo ]( https://opentecture.github.io/mindmapping/build/index.html )
+## [Demo](https://opentecture.github.io/mindmapping/build/index.html)
 
 # Features
 
@@ -8,6 +8,6 @@
 * Zoom in and out using Orbit Controls
 * Toggle the 360 Rotation of the full scene
 
-## Currently: Demo only
+## Currently: in Demo-mode only
 
 * Draw lines between objects
