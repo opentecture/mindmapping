@@ -10,13 +10,35 @@ Completed Features are documented here, for context.
 
 ---
 
-### Basic  Features
+## Basic  Features
 
 * Load a default file that renders a 3d `map` with many `nodes`
 * Edit `node` attributes like Name and Product
 * Save object data to a `.json` file
 
-### Updating the Map
+### Nodes
+
+* Nodes are like people - they almost instantly identifiable
+	* Nodes have shape and material that are editable and programmable
+	* Shapes have position, scale, rotation, memory of different shapes
+	* Materials have color, reflectivity, emissivity, textures and all the Three.js material qualities
+	* Nodes may have children that are nodes
+	* Nodes may have attributes. Attributes might include
+		* Text, images, links and functions
+
+### Relations
+
+* Relations are a special kind of node
+* Relations have pointers to one or more nodes
+* Relations may indicate
+	* Belonging: one node belongs to another node
+	* Sharing: two nodes have something in common
+	* Positioning and Timing: a node may be either here or there and even nowhere for a while
+* Relations can help one node pull and move other nodes
+* Relations can group nodes
+
+
+## Updating the Map
 
 * Load several nodes from .svg files
 
@@ -93,7 +115,17 @@ If our effort is to be useful then it should be able to display existing data se
 
 The following are links to possible test case ideas
 
+
+### gbXML Product List
+
+In the beginning we should probably be kicking this one around
+
+* http://gbxml.org/Software_Tools_that_Support_GreenBuildingXML_gbXML
+* https://github.com/opentecture/mindmapping/blob/master/data/mindmap-3d-3.json
+
 ### Wardley Maps
+
+Is there data for Wardley map in reproducible digital format
 
 * http://wardleypedia.org/mediawiki/index.php/Wardleypedia
 * https://medium.com/wardleymaps/on-being-lost-2ef5f05eb1ec
@@ -103,6 +135,8 @@ The following are links to possible test case ideas
 
 ### A Pattern Language
 
+The book includes 253 patterns along with their links to each other, diagrams and more
+
 * https://en.wikipedia.org/wiki/A_Pattern_Language
 * https://www.amazon.com/Pattern-Language-Buildings-Construction-Environmental/dp/0195019199
 * http://library.uniteddiversity.coop/Ecological_Building/A_Pattern_Language.pdf
@@ -110,6 +144,8 @@ The following are links to possible test case ideas
 * http://caper.ws/patterns/
 
 ### Periodic Table
+
+Might be a good place to start
 
 * https://en.wikipedia.org/wiki/Periodic_table
 	* A variety of versions available apart from Mendelev's version
