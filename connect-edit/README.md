@@ -12,6 +12,12 @@ value='You are now in a GitHub web page view - Click this button to view this re
 
 Given multiple nodes - objects of information - in 3D space, we need ways of creating, editing and displaying their logical but intangible connections
 
+
+### [load stl nasa]( https://opentecture.github.io/mindmapping/connect-edit/load-stl/load-stl-nasa.html )
+
+* STL files from NASA on GitHub
+
+
 ### [load stl r4]( https://opentecture.github.io/mindmapping/connect-edit/load-stl/load-stl-r4.html )
 
 * Loads and positions all available models at load time
