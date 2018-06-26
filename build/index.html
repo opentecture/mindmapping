@@ -79,7 +79,7 @@
 			var camera;
 			var scene;
 			var renderer;
-			var control;
+			var transformControl;
 			var mesh;
 			var axesHelper;
 			var orbitControls;
@@ -180,36 +180,36 @@
 				window.addEventListener( 'keydown', function ( event ) {
 					switch ( event.keyCode ) {
 						case 81: // Q
-							control.setSpace( control.space === "local" ? "world" : "local" );
+							transformControl.setSpace( transformControl.space === "local" ? "world" : "local" );
 							break;
 						case 17: // Ctrl
-							control.setTranslationSnap( 100 );
-							control.setRotationSnap( THREE.Math.degToRad( 15 ) );
+							transformControl.setTranslationSnap( 100 );
+							transformControl.setRotationSnap( THREE.Math.degToRad( 15 ) );
 							break;
 						case 87: // W
-							control.setMode( "translate" );
+							transformControl.setMode( "translate" );
 							break;
 						case 69: // E
-							control.setMode( "rotate" );
+							transformControl.setMode( "rotate" );
 							break;
 						case 82: // R
-							control.setMode( "scale" );
+							transformControl.setMode( "scale" );
 							break;
 						case 187:
 						case 107: // +, =, num+
-							control.setSize( control.size + 0.1 );
+							transformControl.setSize( transformControl.size + 0.1 );
 							break;
 						case 189:
 						case 109: // -, _, num-
-							control.setSize( Math.max( control.size - 0.1, 0.1 ) );
+							transformControl.setSize( Math.max( transformControl.size - 0.1, 0.1 ) );
 							break;
 					}
 				});
 				window.addEventListener( 'keyup', function ( event ) {
 					switch ( event.keyCode ) {
 						case 17: // Ctrl
-							control.setTranslationSnap( null );
-							control.setRotationSnap( null );
+							transformControl.setTranslationSnap( null );
+							transformControl.setRotationSnap( null );
 							break;
 					}
 				});
@@ -223,26 +223,26 @@
 			}
 
 			function render() {
-				control.update();
+				transformControl.update();
 				orbitControls.update();
 				renderer.render( scene, camera );
 			}
 			// Or
 			function animate() {
 				requestAnimationFrame( animate );
-				control.update();
+				transformControl.update();
 				orbitControls.update();
 				renderer.render( scene, camera );
 			}
 
 			function addTransformControls(mesh) {
-				control = new THREE.TransformControls( camera, renderer.domElement );
-				control.addEventListener( 'change', render );
-				control.attach( mesh );
-				scene.add( control );
+				transformControl = new THREE.TransformControls( camera, renderer.domElement );
+				transformControl.addEventListener( 'change', render );
+				transformControl.attach( mesh );
+				scene.add( transformControl );
 			}
 
-      function addNode(options = { style: "cargo box" }) {
+      function addNode(options = { style: "plane" }) {
 				if (options.style == "plane") {
 					var geometry = new THREE.PlaneGeometry( 200, 200, 4 );
 					var material = new THREE.MeshBasicMaterial( { color: 0xffff00, side: THREE.DoubleSide } );
@@ -262,7 +262,7 @@
 				const dragcontrols = new THREE.DragControls( nodes, camera, renderer.domElement ); //
 					dragcontrols.enabled = false;
 					dragcontrols.addEventListener( 'hoveron', function ( event ) {
-						control.attach( event.object );
+						transformControl.attach( event.object );
 						// How to register one then another for a link?
 						updateDivLog( event );
 					} );
@@ -305,7 +305,7 @@
 			// DemoMode is for exercising the sample features of the Mindmap.
 			function demoMode() {
 				// Create 5 nodes
-				var box = addNode()
+				var box = addNode({ style: "cargo box" })
 				box.position.setY(800);
 				box.position.setZ(0);
 				var box2 = addNode();
@@ -316,10 +316,6 @@
 				box4.position.setZ(-600);
 				var box5 = addNode();
 				box5.position.setX(-600);
-				var box6 = addNode({ style: "plane" })
-				box6.position.setX(300);
-				var box7 = addNode({ style: "plane" })
-				box7.position.setX(-300);
 
 				// And draw lines from each to the first box
 				drawConnections(box);
