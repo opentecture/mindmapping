@@ -144,7 +144,6 @@
 				var light = new THREE.DirectionalLight( 0xffffff, 2 );
 				light.position.set( 1, 1, 1 );
 				scene.add( light );
-
 				orbitControls = new THREE.OrbitControls( camera, renderer.domElement );
 				orbitControls.damping = 0.2;
 
@@ -153,7 +152,12 @@
 
 				addNode();
 
+				// Handle Resizing
 				window.addEventListener( 'resize', onWindowResize, false );
+				window.addEventListener( 'orientationchange', onWindowResize, false );
+alert('hi')
+
+				// Key Controls
 				window.addEventListener( 'keydown', function ( event ) {
 					switch ( event.keyCode ) {
 						case 81: // Q
@@ -191,11 +195,12 @@
 					}
 				});
 			}
-			function onWindowResize() {
+
+
 				camera.aspect = window.innerWidth / window.innerHeight;
 				camera.updateProjectionMatrix();
 				renderer.setSize( window.innerWidth, window.innerHeight );
-				render();
+				animate();
 			}
 
 			function render() {
