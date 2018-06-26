@@ -280,6 +280,17 @@
 				}
 			}
 
+			function drawLineConnection( box1, box2 ) {
+
+				const material = new THREE.LineBasicMaterial( { color: 0xffffff * Math.random() } );
+
+				geometry = new THREE.Geometry();
+				geometry.vertices = [ box1.position, box2.position ];
+				const line = new THREE.Line( geometry, material );
+				scene.add( line );
+
+			}
+
 			// DemoMode is for exercising the sample features of the Mindmap.
 			function demoMode() {
 				// Create 5 nodes
@@ -297,6 +308,10 @@
 
 				// And draw lines from each to the first box
 				drawConnections(box);
+				drawLineConnection(box2, box3);
+				drawLineConnection(box2, box5);
+				drawLineConnection(box3, box4);
+				drawLineConnection(box5, box4);
 
 				toggleRotation()
 			}
