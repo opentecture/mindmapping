@@ -43,13 +43,15 @@
 			<h3>
 				Menu
 			</h3>
-			<button id="new-box-button" type="button" name="button">Add a Node</button>
+			<button id="new-node-button" type="button" name="button">Add a Node</button>
+			<button id="new-plane-button" type="button" name="button">Add a Plane</button>
 			<hr>
 			<div class="view features">
 				<button onclick="toggleRotation()">Toggle Rotation</button>
 				<hr>
 				<button onclick="topDownView()">Top Down View</button>
 				<button onclick="sideView()">Side View</button>
+				<button onclick="otherSideView()">Other Side View</button>
 				<button onclick="isomorphicView()">Isomorphic View</button>
 			</div>
 			<hr>
@@ -94,6 +96,10 @@
 
 			function sideView() {
 				camera.position.set( 1000, 0, 0 );
+			}
+
+			function otherSideView() {
+				camera.position.set( 0, 0, 1000 );
 			}
 
 			function loadSTL() {
@@ -236,12 +242,17 @@
 				scene.add( control );
 			}
 
-      function addNode() {
-        var texture = new THREE.TextureLoader().load( 'textures/crate.gif', render );
-				texture.mapping = THREE.UVMapping;
-				texture.anisotropy = renderer.capabilities.getMaxAnisotropy();
-				var geometry = new THREE.BoxBufferGeometry( 200, 200, 200 );
-				var material = new THREE.MeshLambertMaterial( { map: texture } );
+      function addNode(options = { style: "cargo box" }) {
+				if (options.style == "plane") {
+					var geometry = new THREE.PlaneGeometry( 200, 200, 4 );
+					var material = new THREE.MeshBasicMaterial( { color: 0xffff00, side: THREE.DoubleSide } );
+				} else if (options.style == "cargo box") {
+	        var texture = new THREE.TextureLoader().load( 'textures/crate.gif', render );
+					texture.mapping = THREE.UVMapping;
+					texture.anisotropy = renderer.capabilities.getMaxAnisotropy();
+					var geometry = new THREE.BoxBufferGeometry( 200, 200, 200 );
+					var material = new THREE.MeshLambertMaterial( { map: texture } );
+				}
 
 				var mesh = new THREE.Mesh( geometry, material );
 				addTransformControls(mesh)
@@ -305,6 +316,10 @@
 				box4.position.setZ(-600);
 				var box5 = addNode();
 				box5.position.setX(-600);
+				var box6 = addNode({ style: "plane" })
+				box6.position.setX(300);
+				var box7 = addNode({ style: "plane" })
+				box7.position.setX(-300);
 
 				// And draw lines from each to the first box
 				drawConnections(box);
@@ -373,8 +388,12 @@
 			}
 
       $(function() {
-        $("#new-box-button").on("click", function() {
+        $("#new-node-button").on("click", function() {
           addNode();
+        });
+
+				$("#new-plane-button").on("click", function() {
+          addNode( { style: "plane" } )
         });
 
         $("#demo-mode-button").on("click", function() {
