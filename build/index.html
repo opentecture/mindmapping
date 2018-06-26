@@ -292,6 +292,15 @@
 
 				defaultNode = addNode();
 
+				// The Vertical Value Chain Axis of the Wardley Map
+				var dir = new THREE.Vector3( 0, 100, 0 );
+				var origin = new THREE.Vector3( 0, 0, 0 );
+				var dir2 = new THREE.Vector3( 0, -100, 0 );
+				const arrowHelper = new THREE.ArrowHelper( dir, origin, 700, 0xffffff , 25 );
+				const arrowHelper2 = new THREE.ArrowHelper( dir2, origin, 700, 0xffffff , 25 );
+				scene.add( arrowHelper );
+				scene.add( arrowHelper2 );
+
 				// Handle Resizing
 				window.addEventListener( 'resize', onWindowResize, false );
 				window.addEventListener( 'orientationchange', onWindowResize, false );
