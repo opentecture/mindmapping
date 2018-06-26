@@ -26,8 +26,9 @@
 		<script src="https://cdn.rawgit.com/mrdoob/three.js/r93/examples/js/controls/OrbitControls.js"></script>
 		<script src="https://cdn.rawgit.com/mrdoob/three.js/r93/examples/js/controls/DragControls.js"></script>
 		<script src="https://cdn.rawgit.com/mrdoob/three.js/r93/examples/js/controls/TransformControls.js"></script>
+		<script src="https://cdn.rawgit.com/mrdoob/three.js/r93/examples/js/controls/TrackballControls.js"></script>
 		<script src="https://cdn.rawgit.com/mrdoob/three.js/r93/examples/js/loaders/STLLoader.js"></script>
-		<script src = "../../assets/SVGLoader.js"></script>
+		<script src="../../assets/SVGLoader.js"></script>
     <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
 	</head>
 	<body>
@@ -63,6 +64,7 @@
 			<div class="demo features">
 				<button onclick="loadSTL();">Load STL</button>
 				<button onclick="loadSVG();">Load SVG</button>
+				<button onclick="resetScene();">Reset Scene</button>
 		    <button id="demo-mode-button" type="button" name="button">Demo Mode</button>
 			</div>
 			<hr>
@@ -91,6 +93,11 @@
 			var defaultNode;
 			init();
 			animate(); // render();
+
+			function resetScene() {
+				scene.remove.apply(scene, scene.children);
+				addTools();
+			}
 
 			function openFile(files) {
 			  const reader = new FileReader();
@@ -236,12 +243,7 @@
 
 			}
 
-			function init() {
-				renderer = new THREE.WebGLRenderer();
-				renderer.setPixelRatio( window.devicePixelRatio );
-				renderer.setSize( window.innerWidth, window.innerHeight );
-				document.body.appendChild( renderer.domElement );
-
+			function addTools() {
 				camera = new THREE.PerspectiveCamera( 70, window.innerWidth / window.innerHeight, 1, 3000 );
 				camera.position.set( 1000, 500, 1000 );
 				camera.lookAt( new THREE.Vector3( 0, 200, 0 ) );
@@ -252,6 +254,24 @@
 				scene.add( light );
 				orbitControls = new THREE.OrbitControls( camera, renderer.domElement );
 				orbitControls.damping = 0.2;
+			}
+
+			function init() {
+				renderer = new THREE.WebGLRenderer();
+				renderer.setPixelRatio( window.devicePixelRatio );
+				renderer.setSize( window.innerWidth, window.innerHeight );
+				document.body.appendChild( renderer.domElement );
+
+				addTools();
+
+				trackballControls = new THREE.TrackballControls( camera, renderer.domElement );
+				trackballControls.rotateSpeed = 1.5;
+				trackballControls.zoomSpeed = 1.2;
+				trackballControls.panSpeed = 0.5;
+				trackballControls.noZoom = false;
+				trackballControls.noPan = false;
+				//trackballControls.staticMoving = true;
+				//trackballControls.dynamicDampingFactor = 0.3;
 
 				axesHelper = new THREE.AxesHelper( 50 );
 				scene.add( axesHelper );
@@ -318,6 +338,7 @@
 				requestAnimationFrame( animate );
 				transformControl.update();
 				orbitControls.update();
+				trackballControls.update();
 				renderer.render( scene, camera );
 			}
 
@@ -346,12 +367,20 @@
 
 				// Display Node Information
 				const dragcontrols = new THREE.DragControls( nodes, camera, renderer.domElement ); //
-					dragcontrols.enabled = false;
-					dragcontrols.addEventListener( 'hoveron', function ( event ) {
-						transformControl.attach( event.object );
-						// How to register one then another for a link?
-						updateDivLog( event );
-					} );
+				dragcontrols.enabled = false;
+				dragcontrols.addEventListener( 'hoveron', function ( event ) {
+					transformControl.attach( event.object );
+					updateDivLog( event );
+				} );
+
+				dragcontrols.addEventListener( 'dragstart', function ( event ) {
+					trackballControls.enabled = false;
+					//console.log( 'event', event );
+					// setEdit( event.object.userData );
+
+				} );
+				dragcontrols.addEventListener( 'dragend', function ( event ) { trackballControls.enabled = true; } );
+
 
 				// Push Mesh into Global Array
 				nodes.push( mesh );
