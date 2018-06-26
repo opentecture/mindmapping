@@ -27,6 +27,7 @@
 		<script src="https://cdn.rawgit.com/mrdoob/three.js/r93/examples/js/controls/DragControls.js"></script>
 		<script src="https://cdn.rawgit.com/mrdoob/three.js/r93/examples/js/controls/TransformControls.js"></script>
 		<script src="https://cdn.rawgit.com/mrdoob/three.js/r93/examples/js/loaders/STLLoader.js"></script>
+		<script src = "../../assets/SVGLoader.js"></script>
     <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
 	</head>
 	<body>
@@ -45,7 +46,6 @@
 			</h3>
 			<div class="">
 				<input type=file id="inpFile" onchange=openFile(this);>
-				<button onclick=saveFile(); >Save File</button>
 			</div>
 				<hr>
 			<button id="new-node-button" type="button" name="button">Add a Node</button>
@@ -61,8 +61,8 @@
 			</div>
 			<hr>
 			<div class="demo features">
-				<button onclick="loadSTL()">Load STL</button>
-
+				<button onclick="loadSTL();">Load STL</button>
+				<button onclick="loadSVG();">Load SVG</button>
 		    <button id="demo-mode-button" type="button" name="button">Demo Mode</button>
 			</div>
 			<hr>
@@ -88,6 +88,7 @@
 			var mesh;
 			var axesHelper;
 			var orbitControls;
+			var defaultNode;
 			init();
 			animate(); // render();
 
@@ -151,6 +152,57 @@
 
 			}
 
+
+			function loadSVG( url, item ) {
+				url = '../../svg/' + "bear.svg"
+				item = defaultNode;
+
+				var loader = new THREE.SVGLoader();
+				animal = loader.load( url , function ( paths ) {
+
+					var group = new THREE.Group();
+					group.scale.multiplyScalar( 0.1 );
+					group.scale.y *= -1;
+					var material = new THREE.MeshNormalMaterial( { side: 2 } );
+
+					for ( var i = 0; i < paths.length; i ++ ) {
+
+						var path = paths[ i ];
+
+						var shapes = path.toShapes( true );
+
+						for ( var j = 0; j < shapes.length; j ++ ) {
+
+							var shape = shapes[ j ];
+
+							geometry = new THREE.ExtrudeGeometry( shape, { bevelEnabled: false, depth: 15 } );
+							geometry.applyMatrix( new THREE.Matrix4().makeRotationX( -0.5 * Math.PI ) );
+							geometry.center();
+							var mesh = new THREE.Mesh( geometry, material );
+
+							group.add( mesh );
+							mesh.userData = item;
+							nodes.push(mesh);
+						}
+
+					}
+
+
+					x = item.positionX ? item.positionX : 1000 * Math.random() - 500;
+					y = 25;
+					z = item.positionZ ? item.positionZ : 800 * Math.random();
+
+					group.position.set( 1, 1, 0 );
+
+					scene.add(group);
+
+					nodes.push(group);
+
+					return group;
+
+				} );
+			}
+
 			function addMesh( geometry, name) {
 				console.log( 'geo3', geometry );
 				geometry.center();
@@ -204,7 +256,7 @@
 				axesHelper = new THREE.AxesHelper( 50 );
 				scene.add( axesHelper );
 
-				addNode();
+				defaultNode = addNode();
 
 				// Handle Resizing
 				window.addEventListener( 'resize', onWindowResize, false );
