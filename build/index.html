@@ -43,6 +43,11 @@
 			<h3>
 				Menu
 			</h3>
+			<div class="">
+				<input type=file id="inpFile" onchange=openFile(this);>
+				<button onclick=saveFile(); >Save File</button>
+			</div>
+				<hr>
 			<button id="new-node-button" type="button" name="button">Add a Node</button>
 			<button id="new-plane-button" type="button" name="button">Add a Plane</button>
 			<hr>
@@ -85,6 +90,35 @@
 			var orbitControls;
 			init();
 			animate(); // render();
+
+			function openFile(files) {
+			  const reader = new FileReader();
+				let json = {};
+			  reader.onload = function(event) {
+
+			    json = JSON.parse(reader.result);
+
+			    divLog.innerHTML =
+			      'name: ' + files.files[0].name + '<br>' +
+			      'size: ' + files.files[0].size.toLocaleString() + ' bytes<br>' +
+			      'type: ' + files.files[0].type + '<br>' +
+			      'modified: ' + files.files[0].lastModifiedDate.toLocaleDateString() +
+			      '';
+
+					$.each(json.cad, function(i, product) {
+						var mesh = addNode();
+						mesh.position.setX(product.positionX * 10);
+						mesh.position.setY(product.positionY * 20);
+						mesh.position.setZ(product.positionZ);
+					})
+
+			  }
+
+			  reader.readAsText(files.files[0]);
+
+				return json;
+
+			}
 
 			function topDownView() {
 				camera.position.set( 0, 2000, 0 );
@@ -245,7 +279,7 @@
       function addNode(options = { style: "plane" }) {
 				if (options.style == "plane") {
 					var geometry = new THREE.PlaneGeometry( 200, 200, 4 );
-					var material = new THREE.MeshBasicMaterial( { color: 0xffff00, side: THREE.DoubleSide } );
+					var material = new THREE.MeshBasicMaterial( { color: 0xF9FF1B, side: THREE.DoubleSide } );
 				} else if (options.style == "cargo box") {
 	        var texture = new THREE.TextureLoader().load( 'textures/crate.gif', render );
 					texture.mapping = THREE.UVMapping;
