@@ -39,7 +39,7 @@
     <br>
     <br>
     <br>
-		<div style="float: left; position: absolute; top: 50px; left: 30px; background-color: #E5FFFF;">
+		<div style="float: left; position: absolute; top: 50px; left: 30px; background-color: #E5FFFF; color: #030303;">
 			<h3>
 				Menu
 			</h3>
@@ -55,14 +55,29 @@
 			<hr>
 			<div class="demo features">
 				<button onclick="loadSTL()">Load STL</button>
+
 		    <button id="demo-mode-button" type="button" name="button">Demo Mode</button>
 			</div>
 			<hr>
 			<div id="divLog">DivLog</div>
+			<div id="divMenuItems">
+				<details id=detGallery open >
+					<summary>
+						<a href="https://github.com/opentecture/build/tree/master/components" target="_blank">Build</a> Components
+					</summary>
+					<button onclick="fetchGitHubFolderContents()">Load STLs from GitHub</button>
+					<div id=divGallery></div>
+					<hr>
+				</details>
+			</div>
+
 		</div>
 		<script>
 			var nodes = [];
-			var camera, scene, renderer, control;
+			var camera;
+			var scene;
+			var renderer;
+			var control;
 			var mesh;
 			var axesHelper;
 			var orbitControls;
@@ -97,7 +112,6 @@
 			}
 
 			function addMesh( geometry, name) {
-
 				console.log( 'geo3', geometry );
 				geometry.center();
 				geometry.computeFaceNormals();
@@ -155,7 +169,6 @@
 				// Handle Resizing
 				window.addEventListener( 'resize', onWindowResize, false );
 				window.addEventListener( 'orientationchange', onWindowResize, false );
-alert('hi')
 
 				// Key Controls
 				window.addEventListener( 'keydown', function ( event ) {
@@ -196,7 +209,7 @@ alert('hi')
 				});
 			}
 
-
+			function onWindowResize() {
 				camera.aspect = window.innerWidth / window.innerHeight;
 				camera.updateProjectionMatrix();
 				renderer.setSize( window.innerWidth, window.innerHeight );
@@ -292,6 +305,58 @@ alert('hi')
 				orbitControls.autoRotate = !orbitControls.autoRotate;
 			}
 
+			function onHashChange() {
+
+				const path = 'https://rawgit.com/opentecture/build/master/';
+				const fileName = location.hash ? location.hash.slice( 1 ) : urls[ Math.floor( Math.random() * urls.length ) ].path;
+				console.log( 'path', path );
+				console.log( 'fileName', fileName );
+				loadSTLFileByURL( path + fileName, fileName );
+
+			}
+
+			window.addEventListener('hashchange', onHashChange, false);
+			function fetchGitHubFolderContents() {
+				const url = 'https://api.github.com/repos/opentecture/build/git/trees/master?recursive=1';
+
+				const request = new Request( url );
+
+				fetch( request )
+					.then( response => response.json() )
+					.then( json => callbackGitHubMenu( json.tree ) );
+
+			}
+
+			function callbackGitHubMenu ( files ) {
+
+				const urlGitHubSource = 'https://github.com/opentecture/build/tree/master/';
+				const urlGitHubPage = 'https://rawgit.com/opentecture/build/master/';
+				const iconGitHubMark = '<img src="https://rawgit.com/ladybug-tools/spider/master/images/github-mark.png" height=14 style=vertical-align:middle>';
+
+				let txt = '';
+				urls = [];
+				for ( let file of files) {
+					if ( !file.path.endsWith( '.stl' ) ) { continue; }
+					urls.push( file )
+					const fileName = encodeURI( file.path );
+
+					txt +=
+
+					`<div style=margin:10px; >
+
+						<a href=${ urlGitHubSource + fileName } title="Edit me" >${ iconGitHubMark }</a>
+
+						<a href=#${ urlGitHubPage + fileName } title="${ file.size.toLocaleString() } bytes" >${ file.path.slice( 10 ) }</a>
+
+						<a href=${ urlGitHubPage + fileName } title="Link to just this file" >&#x2750;</a>
+
+					</div>`;
+
+				}
+
+				divGallery.innerHTML = txt;
+			}
+
       $(function() {
         $("#new-box-button").on("click", function() {
           addNode();
@@ -300,7 +365,7 @@ alert('hi')
         $("#demo-mode-button").on("click", function() {
           demoMode();
         });
-      })
+      });
 		</script>
 	</body>
 </html>
