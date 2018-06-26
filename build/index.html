@@ -15,11 +15,14 @@
 				line-height: 30px;
 				overflow: hidden;
 			}
-			#info {
+			#help {
 				position: absolute;
-				top: 0px; width: 100%;
+				top: 0px;
+				width: 100%;
 				padding: 15px;
 				z-index:100;
+				display: none;
+				margin: 0 auto;
 			}
 		</style>
     <script src="https://cdn.rawgit.com/mrdoob/three.js/r93/build/three.min.js"></script>
@@ -33,7 +36,7 @@
 	</head>
 	<body>
 
-		<div id="info">
+		<div id="help" style="">
 		"W" translate | "E" rotate | "R" scale | "+" increase size | "-" decrease size<br />
 		Press "Q" to toggle world/local space, keep "Ctrl" down to snap to grid
 		</div>
@@ -45,6 +48,7 @@
 			<h3>
 				Menu
 			</h3>
+			<button onclick="toggleHelp();" type="button" name="button">Toggle Help</button>
 			<div class="">
 				<input type=file id="inpFile" onchange=openFile(this);>
 			</div>
@@ -92,11 +96,20 @@
 			var orbitControls;
 			var defaultNode;
 			init();
+			$("#help").hide();
 			animate(); // render();
 
 			function resetScene() {
 				scene.remove.apply(scene, scene.children);
 				addTools();
+			}
+
+			function toggleHelp() {
+				if ($("#help").attr("style") == "display: none;") {
+					$("#help").show();
+				} else {
+					$("#help").hide();
+				}
 			}
 
 			function openFile(files) {
@@ -260,6 +273,7 @@
 				renderer = new THREE.WebGLRenderer();
 				renderer.setPixelRatio( window.devicePixelRatio );
 				renderer.setSize( window.innerWidth, window.innerHeight );
+				renderer.setClearColor (0x060906, 1);
 				document.body.appendChild( renderer.domElement );
 
 				addTools();
