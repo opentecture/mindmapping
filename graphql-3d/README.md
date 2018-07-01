@@ -82,6 +82,7 @@ AEC CAD / Current graphQL series
 * Add tweening capability
 * Add icons for data formats with links to products
 * Add display mouse over text data for all nodes
+* Learn to use the GitHub API
 
 Other grapQL 3D prototypes
 * Build 3D Periodic Table
@@ -243,8 +244,8 @@ Data used in demos sourced from
 ### 2018-07-01 ~ Theo
 
 R5
-* Add data to existing from here
-	* https://en.wikipedia.org/wiki/Comparison_of_computer-aided_design_editors
+* Acquire, parse and display data from Wikipedia entry [Comparison of computer-aided design editors]( https://en.wikipedia.org/wiki/Comparison_of_computer-aided_design_editors )
+* Display and share Wikipedia data alongside [gbXML.org]( http://gbxml.org ) data
 * Update Read Me
 
 
