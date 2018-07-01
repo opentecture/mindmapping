@@ -18,14 +18,17 @@ value='You are now in a GitHub web page view - Click this button to view this re
 
 You want to
 
-* Acquire, query and remix multiple remote static data sets on the web and interact with the data in realtime 3D
+* Acquire, query and remix multiple remote static data sets on the web and interact with the data in real-time 3D
+* Data sets may be text, images and 3D. 3D data may be any web-based format
 * 'Tween' the data into various before and after positions
 	* Example: products by vendor to products by category
 * View associated text data and be able to click on any available links in that data
 * Add, edit and save overrides and/or additional data alongside the given data
 * Refresh remote data with a page reload. Data is always based on latest revision of remote page
-* 'Polluted' source data is handled and fixed on the fly
+* 'Polluted' source data is handled and 'fixed' on the fly
 	Polluted data may include fields with varying numbers of links, fields with varying HTML tag inclusions
+* Works on computer, tablet or mobile. Supports VR output
+* Highlights differences between between versions
 
 Application of these techniques might be useful to the following applications
 
@@ -84,7 +87,7 @@ AEC CAD / Current graphQL series
 * Add display mouse over text data for all nodes
 * Learn to use the GitHub API
 
-Other grapQL 3D prototypes
+Other graphQL 3D prototypes
 * Build 3D Periodic Table
 * Build tools to create JSON files so you can add masses of data in a single pass
 
@@ -97,6 +100,10 @@ Possible fixes here:
 * https://discourse.threejs.org/t/drag-and-drop-on-touch-devices-not-working-three-dragcontrols/671/5
 * https://github.com/PiusNyakoojo/SwipeControls/blob/master/SwipeControls.js
 
+Wikipedia API
+
+* https://www.mediawiki.org/wiki/API:Main_page
+* https://stackoverflow.com/questions/14680005/wikipedia-api-parse-a-table-as-json
 
 ## Links of Interest / Graphing Knowledge
 
