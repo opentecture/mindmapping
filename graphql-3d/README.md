@@ -10,7 +10,7 @@ value='You are now in a GitHub web page view - Click this button to view this re
 
 <iframe src=https://opentecture.github.io/mindmapping/graphql-3d/graphql-3d-r5.html width=100% height=500px >Iframes are not viewable in GitHub source code view<</iframe>
 
-## Full Screen: [graphQL 3D R4]( https://opentecture.github.io/mindmapping/graphql-3d/graphql-3d-r5.html )
+## Full Screen: [graphQL 3D R5]( https://opentecture.github.io/mindmapping/graphql-3d/graphql-3d-r5.html )
 
 
 
@@ -18,13 +18,13 @@ value='You are now in a GitHub web page view - Click this button to view this re
 
 You want to
 
-* Visualize and query multiple remote static data sets on the web in 3D
+* Acquire, query and remix multiple remote static data sets on the web and interact with the data in realtime 3D
 * 'Tween' the data into various before and after positions
 	* Example: products by vendor to products by category
 * View associated text data and be able to click on any available links in that data
 * Add, edit and save overrides and/or additional data alongside the given data
 * Refresh remote data with a page reload. Data is always based on latest revision of remote page
-* 'Polluted' data is handled and fixed
+* 'Polluted' source data is handled and fixed on the fly
 	Polluted data may include fields with varying numbers of links, fields with varying HTML tag inclusions
 
 Application of these techniques might be useful to the following applications
@@ -64,20 +64,26 @@ Data may be comprised of small data sets from a variety of sources. Massaging th
 ## Features R5
 
 * Reads and parses for data two static remote HTML page full of data
-	* [Gbxml.org]( http://www.gbxml.org/Software_Tools_that_Support_GreenBuildingXML_gbXML' )
-
-const urlWikipediaCadEditors = 'https://en.wikipedia.org/wiki/Comparison_of_computer-aided_design_editors';
-
+	* [gbXML.org]( http://www.gbxml.org/Software_Tools_that_Support_GreenBuildingXML_gbXML )0
+	* [Comparison of computer-aided design editors]( https://en.wikipedia.org/wiki/Comparison_of_computer-aided_design_editors
 * Scrapes data for data and links to use as nodes
-* Sources favicons for each node to use as visual node identifier
+* Sources favicons for each node (gbXML only in R5) to use as visual node identifier
 * Displays nodes in alphabetic 3D order using a sparse matrix
 * Supplies textual data for each node upon a mouseover
 	* text may contain clickable links
 
-## Road Map
+## To Do / Road Map
 
-* Add data to existing from here
-	* https://en.wikipedia.org/wiki/Comparison_of_computer-aided_design_editors
+AEC CAD / Current graphQL series
+* Split off into own naming series. 'graphQL 3D AEC' ??
+* Display source of each data point and other relevant titling
+* Spin out each set specific data source into its one JavaScriptfile and name space
+* See if favicons can be shared among disparate data sets
+* Add tweening capability
+* Add icons for data formats with links to products
+* Add display mouse over text data for all nodes
+
+Other grapQL 3D prototypes
 * Build 3D Periodic Table
 * Build tools to create JSON files so you can add masses of data in a single pass
 
@@ -89,6 +95,7 @@ Possible fixes here:
 
 * https://discourse.threejs.org/t/drag-and-drop-on-touch-devices-not-working-three-dragcontrols/671/5
 * https://github.com/PiusNyakoojo/SwipeControls/blob/master/SwipeControls.js
+
 
 ## Links of Interest / Graphing Knowledge
 
@@ -172,6 +179,7 @@ In the beginning we should probably be kicking this one around
 * http://gbxml.org/Software_Tools_that_Support_GreenBuildingXML_gbXML
 * https://github.com/opentecture/mindmapping/blob/master/data/mindmap-3d-3.json
 
+
 ### Wardley Maps
 
 Is there data for Wardley map in reproducible digital format
@@ -231,6 +239,13 @@ Data used in demos sourced from
 
 
 ## Change Log
+
+### 2018-07-01 ~ Theo
+
+R5
+* Add data to existing from here
+	* https://en.wikipedia.org/wiki/Comparison_of_computer-aided_design_editors
+* Update Read Me
 
 
 ### 2018-06-28 ~ Theo
