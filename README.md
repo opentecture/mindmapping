@@ -1,11 +1,11 @@
 <span style=display:none; >[You are now in a GitHub source code view - click this link to view Read Me file as a web page]( https://opentecture.github.io/mindmapping/ "View file as a web page." ) </span>
 
-<div><input type="button" onclick=window.location.href="https://github.com/opentecture/mindmapping/blob/README.md"
+<div><input type="button" onclick=window.location.href="https://github.com/opentecture/mindmapping/blob/master/README.md"
  value="You are now in a GitHub web page view - Click this button to view this read me file as source code" /></div>
 
 # [MindMapping Read Me]( https://opentecture.github.io/mindmapping/#README.md )
 
-A work-in-progress. An investigation
+A work-in-progress. An investigation.
 
 
 ## [GraphQL 3D Read Me ]( https://opentecture.github.io/mindmapping/#graphql-3d/README.md )
@@ -23,7 +23,8 @@ A work-in-progress. An investigation
 Given multiple nodes - objects of information - in 3D space, we need ways of creating, editing and displaying their logical but intangible connections
 
 
-## [Mindmap 3D]( https://opentecture.github.io/mindmapping/#mindmap-3d/README.md )
+
+## [Mindmap 3D Read Me ]( https://opentecture.github.io/mindmapping/#mindmap-3d/README.md )
 
 An introduction to Wardley (Value Chain) Mapping
 * https://blog.gardeviance.org/2015/02/an-introduction-to-wardley-value-chain.html

@@ -5,7 +5,7 @@
 value='You are now in a GitHub web page view - Click this button to view this read me file as source code' ></div>
 
 
-# [GraphQL 3D Read Me]( #README.md )
+# [GraphQL 3D Read Me]( #graphql-3d/README.md )
 
 
 <iframe src=https://opentecture.github.io/mindmapping/graphql-3d/graphql-3d-r4.html width=100% height=500px >Iframes are not viewable in GitHub source code view<</iframe>
@@ -56,11 +56,21 @@ The 'traditional' approach is to grab all the data and suck it into a database. 
 
 Data may be comprised of small data sets from a variety of sources. Massaging the data so that it all mixes nicly may be more trouble than it's worth.
 
+## Features
+
+* Reads and parses for data a static remote HTML page full of data
+* Scrapes data for data and links to use as nodes
+* Sources favicons for each node to use as visual node identifier
+* Displays nodes in alphabetic 3D order using a sparse matrix
+* Supplies textual data for each node upon a mouseover
+	* text may contain clickable links
+
 ## Road Map
 
 * Add data to existing from here
 	* https://en.wikipedia.org/wiki/Comparison_of_computer-aided_design_editors
 * Build 3D Periodic Table
+* Build tools to create JSON files so you can add masses of data in a single pass
 
 ## Issues
 
