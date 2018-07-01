@@ -1,51 +1,68 @@
-# Features
-
-The purpose of this file is to document the Features of
-and serve as a Roadmap for this Mindmapping tool.
-
-Ideas for new Features are created as
-[GitHub Issues](https://github.com/opentecture/mindmapping/issues).
-
-Completed Features are documented here, for context.
-
----
-
-## Basic Features
-
-* Load a default file that renders a 3d `map` with many `nodes`
-* Edit `node` attributes like Name and Product
-* Save object data to a `.json` file
-
-### Nodes
-
-* Nodes are like people - they almost instantly identifiable
-	* Nodes have shape and material that are editable and programmable
-	* Shapes have position, scale, rotation, memory of different shapes
-	* Materials have color, reflectivity, emissivity, textures and all the Three.js material qualities
-	* Nodes may have children that are nodes
-	* Nodes may have attributes. Attributes might include
-		* Text, images, links and functions
-
-### Relations
-
-* Relations are a special kind of node
-* Relations have pointers to one or more nodes
-* Relations may indicate
-	* Belonging: one node belongs to another node
-	* Sharing: two nodes have something in common
-	* Positioning and Timing: a node may be either here or there and even nowhere for a while
-* Relations can help one node pull and move other nodes
-* Relations can group nodes
+<span style=display:none; >[You are now in a GitHub source code view - click this link to view Read Me file as a web page]( https://jaanga.github.io/#cookbook-html/examples/graphql-3d/README.md "View file as a web page." ) </span>
 
 
-## Updating the Map
+<div><input type=button onclick="window.location.href='https://github.com/jaanga/jaanga.github.io/tree/master/cookbook-threejs/examples/graphql-3d/README.md'";
+value='You are now in a GitHub web page view - Click this button to view this read me file as source code' ></div>
 
-* Load several nodes from .svg files
+
+# [GraphQL 3D Read Me]( #README.md )
+
+<!--
+<iframe src=https://pushme-pullyou.github.io/tootoo-templates/basic-html.html width=100% height=500px ></iframe>
+_basic-html.html_
+<span style="display: none" >Iframes are not viewable in GitHub source code view</span>
+
+## Full Screen: []( .html )
+-->
 
 
-## Graphing Knowledge
+## Concept
+
+You want to
+
+* Visualize and query various remote static data sets on the web in 3D
+* 'Tween' the data into various before and after positions
+* View associated text data and be able to click on any available links in that data
+* Add, edit and save overrides and/or additional data alongside the given data
+* Any remote data is refreshed at with a page reload
+
+### Augmented Reality and Augmented 3D
+
+* You want to be able to look at any component in a building or its model and visualize many its aspects such as
+	* Building codes
+	* Warrantees for the photovoltaic
+	* Catalog numbers of the windows
+	* Design intents
+	* CAD parameters
+	* Repair records
+	* Kilowatt hours require in December
+	* The music currently be streamed to adjacent space
+
+You want to be able to see the output by pointing your mobile device at the building and/or clicking on a 3D model of the building.
+
+
+### Textual data represented in 3D
+
+There's a multitude of static text data on the web - goodly portions of which offer greats insights when graphed in 2D or 3D
+
+
+### Assemblies and components
+
+The assembly and disassembly of a number of components into a finished assembly as visualized in 3D is a relatively unexplored territory
+
+The traditional methods - large sheets of paper with numerous numbered drawings - requires expert drawing capabilities and extensive project management in order to produce
+
+### Problems associated traditional methods
+
+The 'traditional' approach is to grab all the data and suck it into a database. This very often requires a person knowledgeable in setting up databases. This may also require setting up a server and initiating processes that cost money and are not open source.
+
+Data may be comprised of small data sets from a variety of sources. Massaging the data so that it all mixes nicly may be more trouble than it's worth.
+
+
+## Links of Interest / Graphing Knowledge
 
 What's out there that we want to meet or exceed?
+
 
 ### Mind Maps
 * https://en.wikipedia.org/wiki/Mind_map
@@ -60,6 +77,7 @@ What's out there that we want to meet or exceed?
 * https://www.google.com/search?q=mind+map+features&rlz=1C1GCEA_enUS752US752&tbm=isch&tbo=u
 
 Note: Examples mostly always show a single central node. Can we have fun with multiple node groups?
+
 
 ### GraphQL
 
@@ -175,3 +193,22 @@ Might be a good place to start
 ### Opentecture Projects
 
 * Coming soon
+
+
+Data used in demos sourced from
+* http://gbxml.org/Software_Tools_that_Support_GreenBuildingXML_gbXML
+
+
+## Change Log
+
+
+### 2018-06-28 ~ Theo
+
+R2
+
+### 2018-06-27 ~ Theo
+
+* First commit
+
+***
+# <center title="hello!" ><a href=javascript:window.scrollTo(0,0); style=text-decoration:none; > ❦ </a></center>
