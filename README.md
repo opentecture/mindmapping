@@ -7,6 +7,7 @@
 
 A work-in-progress. An investigation
 
+
 ## [GraphQL 3D Read Me ]( https://opentecture.github.io/mindmapping/#graphql-3d/README.md )
 
 * Visualize and query various remote static data sets on the web in 3D
