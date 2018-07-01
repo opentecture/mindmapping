@@ -56,6 +56,20 @@ The 'traditional' approach is to grab all the data and suck it into a database. 
 
 Data may be comprised of small data sets from a variety of sources. Massaging the data so that it all mixes nicly may be more trouble than it's worth.
 
+## Road Map
+
+* Add data to existing from here
+	* https://en.wikipedia.org/wiki/Comparison_of_computer-aided_design_editors
+* Build 3D Periodic Table
+
+## Issues
+
+Not working on mobile devices
+
+Possible fixes here:
+
+* https://discourse.threejs.org/t/drag-and-drop-on-touch-devices-not-working-three-dragcontrols/671/5
+* https://github.com/PiusNyakoojo/SwipeControls/blob/master/SwipeControls.js
 
 ## Links of Interest / Graphing Knowledge
 
