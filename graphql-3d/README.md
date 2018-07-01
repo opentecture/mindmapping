@@ -8,9 +8,9 @@ value='You are now in a GitHub web page view - Click this button to view this re
 # [GraphQL 3D Read Me]( #graphql-3d/README.md )
 
 
-<iframe src=https://opentecture.github.io/mindmapping/graphql-3d/graphql-3d-r4.html width=100% height=500px >Iframes are not viewable in GitHub source code view<</iframe>
+<iframe src=https://opentecture.github.io/mindmapping/graphql-3d/graphql-3d-r5.html width=100% height=500px >Iframes are not viewable in GitHub source code view<</iframe>
 
-## Full Screen: [graphQL 3D R4]( https://opentecture.github.io/mindmapping/graphql-3d/graphql-3d-r4.html )
+## Full Screen: [graphQL 3D R4]( https://opentecture.github.io/mindmapping/graphql-3d/graphql-3d-r5.html )
 
 
 
@@ -18,11 +18,16 @@ value='You are now in a GitHub web page view - Click this button to view this re
 
 You want to
 
-* Visualize and query various remote static data sets on the web in 3D
+* Visualize and query multiple remote static data sets on the web in 3D
 * 'Tween' the data into various before and after positions
+	* Example: products by vendor to products by category
 * View associated text data and be able to click on any available links in that data
 * Add, edit and save overrides and/or additional data alongside the given data
-* Any remote data is refreshed at with a page reload
+* Refresh remote data with a page reload. Data is always based on latest revision of remote page
+* 'Polluted' data is handled and fixed
+	Polluted data may include fields with varying numbers of links, fields with varying HTML tag inclusions
+
+Application of these techniques might be useful to the following applications
 
 ### Augmented Reality and Augmented 3D
 
@@ -56,9 +61,13 @@ The 'traditional' approach is to grab all the data and suck it into a database. 
 
 Data may be comprised of small data sets from a variety of sources. Massaging the data so that it all mixes nicly may be more trouble than it's worth.
 
-## Features
+## Features R5
 
-* Reads and parses for data a static remote HTML page full of data
+* Reads and parses for data two static remote HTML page full of data
+	* [Gbxml.org]( http://www.gbxml.org/Software_Tools_that_Support_GreenBuildingXML_gbXML' )
+
+const urlWikipediaCadEditors = 'https://en.wikipedia.org/wiki/Comparison_of_computer-aided_design_editors';
+
 * Scrapes data for data and links to use as nodes
 * Sources favicons for each node to use as visual node identifier
 * Displays nodes in alphabetic 3D order using a sparse matrix
