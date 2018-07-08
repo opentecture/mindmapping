@@ -91,6 +91,12 @@ Data used in mindmaps sourced from
 
 https://stackoverflow.com/questions/45419929/three-js-drag-and-drop-on-touch-devices-not-working-three-dragcontrols
 
+### Code Style References
+
+* https://github.com/mrdoob/three.js/wiki/Mr.doob%27s-Code-Style%E2%84%A2
+* https://validator.w3.org/#validate_by_input
+* http://jshint.com/
+* https://zz85.github.io/mrdoobapproves/
 
 
 ## Change Log
@@ -126,9 +132,3 @@ Mindmap 3D R3
 # <center title="hello!" ><a href=javascript:window.scrollTo(0,0); style=text-decoration:none; > ❦ </a></center>
 
 
-### Code Style References
-
-* https://github.com/mrdoob/three.js/wiki/Mr.doob%27s-Code-Style%E2%84%A2
-* https://validator.w3.org/#validate_by_input
-* http://jshint.com/
-* https://zz85.github.io/mrdoobapproves/
