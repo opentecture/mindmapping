@@ -198,6 +198,21 @@ Is there data for Wardley map in reproducible digital format
 * https://github.com/LeadingEdgeForum/atlas2
 	* https://atlas2.wardleymaps.com/
 
+
+![image](https://user-images.githubusercontent.com/547626/40950303-13631802-6827-11e8-95b9-fae2457a17e8.png)
+
+From the above into something interactive and 3D
+
+#### MindMads that are geared up to display Wardley Maps
+* Editable by a casual user
+* Nodes that look and feel like real things
+	* Easy to import and add SVG files
+* A multitude of ways of showing the many links and connections between nodes
+* Nodes have links to user editable Markdown files
+* Noveds can be moved anywhere in 3D space and grouped in a variety of ways
+* Nodes can be of different types: people, apps, formats
+
+
 ### A Pattern Language
 
 The book includes 253 patterns along with their links to each other, diagrams and more
