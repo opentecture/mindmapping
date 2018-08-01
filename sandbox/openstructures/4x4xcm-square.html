@@ -1,0 +1,224 @@
+<!doctype html>
+<html lang="en" >
+<head>
+<meta charset="utf-8" >
+<meta name="viewport" content = "width=device-width,user-scalable=no,minimum-scale=1.0,maximum-scale=1.0" >
+<meta name=description content="Real-time 3D in your browser using the Three.js JavaScript library" >
+<meta name=keywords content="Three.js,WebGL,JavaScript,GitHub,FOSS,3D,STEM" >
+<meta name = "date" content = "2018-06-24" >
+<title></title>
+<style>
+
+	body { font: 11pt monospace; margin: 0; overflow: hidden; }
+	a { color: crimson; text-decoration: none; }
+	a:hover, a:focus { background-color: yellow; color: #aaa; text-decoration: underline }
+
+	button { background-color: #ddd; border: none; color: #322; cursor: pointer; padding: 3px 5px; }
+	button:hover { background: #ccc; color: #fff }
+
+	#divMenu { margin: 0 20px; position: absolute; }
+
+</style>
+</head>
+<body>
+<script src = "https://cdn.rawgit.com/mrdoob/three.js/r93/build/three.min.js" ></script>
+<script src = "https://cdn.rawgit.com/mrdoob/three.js/r93/examples/js/controls/TrackballControls.js" ></script>
+
+	<div id = "divMenu" >
+
+		<div id = "divTitle" ></div>
+
+		<p>
+			<button onclick="sceneRotation = sceneRotation === 1 ? 0 : 1;" >rotation</button>
+		</p>
+
+		<div id = "divLog" ></div>
+
+	</div>
+
+<script>
+
+/* globals THREE, divTitle, divMenu, hamburger  */
+// jshint esversion: 6
+
+const v = ( x, y, z ) => new THREE.Vector3( x, y, z );
+
+let sceneRotation = 1;
+let renderer, camera, controls, scene;
+
+init();
+animate();
+
+function init() {
+
+	const title = location.href.split( '/' ).pop().slice( 0, - 5 ).replace( /-/g, ' ' );
+	//const title = document.title;
+
+	divTitle.innerHTML =
+	`<h1>
+		<a href="" >${title}</a>
+	</h1>`;
+
+	renderer = new THREE.WebGLRenderer( { alpha: 1, antialias: true } );
+	renderer.setPixelRatio( window.devicePixelRatio );
+	renderer.setSize( window.innerWidth, window.innerHeight );
+	document.body.appendChild( renderer.domElement );
+
+	camera = new THREE.PerspectiveCamera( 40, window.innerWidth / window.innerHeight, 1, 1000 );
+	camera.position.set( - 10, - 10, 10 );
+	camera.up.set( 0, 0, 1 );
+
+	controls = new THREE.TrackballControls( camera, renderer.domElement );
+
+	scene = new THREE.Scene();
+
+	window.addEventListener( 'resize', onWindowResize, false );
+	window.addEventListener( 'orientationchange', onWindowResize, false );
+	window.addEventListener( 'keyup', () => sceneRotation = 0, false );
+	renderer.domElement.addEventListener( 'click', () => sceneRotation = 0, false );
+
+	const axesHelper = new THREE.AxesHelper( 100 );
+	scene.add( axesHelper );
+
+	const geometry = new THREE.BoxGeometry( 50, 50, 50 );
+	const material = new THREE.MeshNormalMaterial();
+	const mesh = new THREE.Mesh( geometry, material );
+	//scene.add( mesh );
+
+	square1 = draw4x4cmSquarePlaneGeometry();
+	scene.add( square1 );
+
+	square2 = draw4x4cmSquareGridHelper();
+	square2.position.z = 2;
+	scene.add( square2 );
+
+	square3 = draw4x4cmSquareLines();
+	square3.position.z = 4;
+	scene.add( square3 );
+
+	//var material = new THREE.PointsMaterial( { size: 15, vertexColors: THREE.VertexColors } );
+	//points = new THREE.Points( geometry, material );
+
+
+}
+
+
+function draw4x4cmSquarePlaneGeometry() {
+
+	const geometry = new THREE.PlaneGeometry( 4, 4, 4, 4 );
+	const material = new THREE.MeshNormalMaterial( { side: 2, wireframe: false });
+	const mesh = new THREE.Mesh( geometry, material );
+	scene.add( mesh );
+
+	const edges = new THREE.EdgesGeometry( geometry );
+	const line = new THREE.LineSegments( edges, new THREE.LineBasicMaterial( { color: 0x000000 } ) );
+	mesh.add( line );
+
+	return mesh;
+
+};
+
+
+function draw4x4cmSquareGridHelper() {
+
+	const gridHelper = new THREE.GridHelper( 4, 4);
+	gridHelper.applyMatrix( new THREE.Matrix4().makeRotationX( -0.5 * Math.PI ) );
+	return gridHelper;
+
+
+}
+
+
+
+function draw4x4cmSquareLines() {
+
+		const square = new THREE.Group();
+		let geometry, material, line;
+
+		geometry = new THREE.Geometry();
+		geometry.vertices =  [ v( -2, 2 ), v( -2, -2 ), v( 2, 2 ), v( 2, -2 ), v( -2, 2 ), v( 2, 2 ), v( -2, -2 ), v( 2, -2)  ];
+		material = new THREE.LineBasicMaterial( { color: 0x000000 } );
+		line = new THREE.LineSegments( geometry, material );
+		line.computeLineDistances();
+		square.add( line );
+
+		geometry = new THREE.Geometry();
+		geometry.vertices =  [ v( 1, 2 ), v( 1, -2 ), v( 0, 2 ), v( 0, -2 ), v( -1, 2 ), v( -1, -2 ) ];
+		material = new THREE.LineDashedMaterial( { color: 0x00ff00, scale: 20 } );
+		line = new THREE.LineSegments( geometry, material );
+		line.computeLineDistances();
+		square.add( line );
+
+
+		vertices = [ v( -2, 1 ), v( 2, 1 ), v( 2, 0 ), v( -2, 0 ), v( -2, -1 ), v( 2, -1 ) ];
+		geometry = new THREE.Geometry();
+		geometry.vertices = vertices;
+		material2 = new THREE.LineDashedMaterial( { color: 0xff0000, scale: 20 } );
+		line2= new THREE.LineSegments( geometry, material2 );
+		line2.computeLineDistances()
+		square.add( line2 );
+
+		geometry = new THREE.Geometry();
+		geometry.vertices = [ v( -2, 2 ), v( 2, -2 ), v( -2, -2 ), v( 2, 2 ) ];
+		material = new THREE.LineDashedMaterial( { color: 0xff00ff, scale: 20 } );
+		line = new THREE.LineSegments( geometry, material );
+		line .computeLineDistances()
+		square.add( line );
+
+		const curve = new THREE.EllipseCurve(
+			0,  0,            // ax, aY
+			2, 2,             // xRadius, yRadius
+			0,  2 * Math.PI,  // aStartAngle, aEndAngle
+			false,            // aClockwise
+			0                 // aRotation
+		);
+
+		const points = curve.getPoints( 50 );
+		geometry = new THREE.BufferGeometry().setFromPoints( points );
+		material = new THREE.LineDashedMaterial( { color : 0x0000ff, scale: 20 } );
+		const ellipse = new THREE.Line( geometry, material );
+		ellipse.computeLineDistances()
+		square.add( ellipse )
+
+		var grid = new THREE.Points( new THREE.PlaneBufferGeometry( 2, 2, 1, 1 ), new THREE.PointsMaterial( { color: 0xff0000, size: 0.2 } ) );
+		square.add( grid );
+
+
+		const spriteMaterial = new THREE.SpriteMaterial( { color: 0xffff00 } );
+		const sprite = new THREE.Sprite( spriteMaterial );
+		sprite.scale.set(0.1,0.1, 1)
+		square.add( sprite );
+
+		return square;
+
+
+
+
+}
+
+
+function onWindowResize() {
+
+	camera.aspect = window.innerWidth / window.innerHeight;
+	camera.updateProjectionMatrix();
+
+	renderer.setSize( window.innerWidth, window.innerHeight );
+
+	//console.log( 'onWindowResize  window.innerWidth', window.innerWidth );
+
+}
+
+
+
+function animate() {
+
+	requestAnimationFrame( animate );
+	renderer.render( scene, camera );
+	controls.update();
+	scene.rotation.z += sceneRotation / 1000;
+
+}
+
+</script>
+</body>
+</html>
