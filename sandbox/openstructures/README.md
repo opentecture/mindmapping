@@ -8,19 +8,25 @@ value='You are now in a GitHub web page view - Click this button to view this re
 
 # [OpenStructures Read Me]( #sandbox/openstructures/README.md )
 
-
-<iframe src=https://opentecture.github.io/mindmapping/sandbox/openstructures/r2/os-parts.html width=100% height=500px >Iframes are not viewable in GitHub source code views</iframe>
-_r1/openstructures.html_
-
 ### Full Screen: [OpenStructures R2]( https://opentecture.github.io/#mindmapping/sandbox/openstructures/r2/os-parts.html )
 
+<iframe src=https://opentecture.github.io/mindmapping/sandbox/openstructures/r2/os-parts.html width=100% height=500px >Iframes are not viewable in GitHub source code views</iframe>
+_r2/os-parts.html_
 
-<iframe src=https://opentecture.github.io/mindmapping/sandbox/openstructures/r1/os-parts.html width=100% height=500px >Iframes are not viewable in GitHub source code views</iframe>
-_r1/openstructures.html_
+* Instances of seven assemblies representing all Soma pieces with a single cube at the center
+
 
 ### Full Screen: [OpenStructures R1]( https://opentecture.github.io/#mindmapping/sandbox/openstructures/r1/os-parts.html )
 
+<iframe src=https://opentecture.github.io/mindmapping/sandbox/openstructures/r1/os-parts.html width=100% height=500px >Iframes are not viewable in GitHub source code views</iframe>
+_r1/os=parts.html_
+
+
 * First pass
+* Creates parts - box with any dimensions
+* Creates frames - 60 x 60 x 60 cobe with 12 parts
+* Assembles and instances of several combinations of frames
+* Draws a base with grid and axes
 
 ***
 
@@ -39,10 +45,12 @@ _4x4xcm-square.html_
 
 ## Issues
 
+A free open source software toolkit for designing openstructures parts and assemblies
+
 
 ## Links of Interest
 
-### OpenStructures
+### [OpenStructures]( http://www.openstructures.net/ )
 
 * https://github.com/opentecture/open-resources/blob/master/resources-r2.md#openstructures
 

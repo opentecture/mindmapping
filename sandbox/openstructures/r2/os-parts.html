@@ -3,10 +3,10 @@
 <head>
 <meta charset="utf-8" >
 <meta name="viewport" content = "width=device-width,user-scalable=no,minimum-scale=1.0,maximum-scale=1.0" >
-<meta name=description content="Real-time 3D in your browser using the Three.js JavaScript library" >
+<meta name=description content="Real-time 3D openstructures in your browser using the Three.js JavaScript library" >
 <meta name=keywords content="Three.js,WebGL,JavaScript,GitHub,FOSS,3D,STEM" >
 <meta name = "date" content = "2018-06-24" >
-<title></title>
+<title>openStructure Parts R2</title>
 <style>
 
 	body { font: 11pt monospace; margin: 0; overflow: hidden; }
@@ -21,8 +21,8 @@
 </style>
 </head>
 <body>
-<script src = "https://cdn.rawgit.com/mrdoob/three.js/r93/build/three.min.js" ></script>
-<script src = "https://rawgit.com/mrdoob/three.js/r93/examples/js/controls/TrackballControls.js" ></script>
+<script src = "https://cdn.rawgit.com/mrdoob/three.js/r95/build/three.min.js" ></script>
+<script src = "https://rawgit.com/mrdoob/three.js/r95/examples/js/controls/TrackballControls.js" ></script>
 
 	<div id = "divMenu" >
 
@@ -41,6 +41,7 @@
 /* globals THREE, divTitle, divMenu, hamburger  */
 // jshint esversion: 6
 
+const boxHelperColor = 0x000000;
 
 let sceneRotation = 1;
 let renderer, camera, controls, scene;
@@ -50,8 +51,8 @@ animate();
 
 function init() {
 
-	const title = location.href.split( '/' ).pop().slice( 0, - 5 ).replace( /-/g, ' ' );
-	//const title = document.title;
+	//const title = location.href.split( '/' ).pop().slice( 0, - 5 ).replace( /-/g, ' ' );
+	const title = document.title;
 
 	divTitle.innerHTML =
 	`<h1>
@@ -76,54 +77,51 @@ function init() {
 	window.addEventListener( 'keyup', () => sceneRotation = 0, false );
 	renderer.domElement.addEventListener( 'click', () => sceneRotation = 0, false );
 
-
-
 	const geometry = new THREE.BoxGeometry( 4,4,4 );
 	const material = new THREE.MeshNormalMaterial();
 	const mesh = new THREE.Mesh( geometry, material );
 	//scene.add( mesh );
 
+	/////
+
 	base = getBase();
 	scene.add( base );
 
-	frame = getFrame();
-	frame.position.set( -240, 180, 0 );
+	let frame = getFrame();
+	frame.position.set( -60, -60, 0 );
 	scene.add( frame );
 
-	frame = getFrameI();
-	frame.position.set( -120, 60, 0 );
+
+	frame = getFrameV();
+	frame.position.set( 120, 120, 0 );
+	scene.add( frame );
+
+	frame = getFrameL();
+	frame.position.set( -240, 0, 0 );
 	scene.add( frame );
 
 	frame = getFrameT();
-	frame.position.set( 0, 60, 0 );
+	frame.position.set( -60, 60, 0 );
 	scene.add( frame );
 
-	frame = getFrameV();
-	frame.position.set( 180, 120, 0 );
+
+	frame = getFrameZ();
+	frame.position.set( -240, -240, 0 );
 	scene.add( frame );
 
-	const axesHelper = new THREE.AxesHelper( 100 );
-	scene.add( axesHelper );
-}
+
+	frame = getFrameA();
+	frame.position.set( -60, -240, 0 );
+	scene.add( frame );
 
 
-function getBase( obj ) {
+	frame = getFrameB();
+	frame.position.set( 120, -60, 0 );
+	scene.add( frame );
 
-	obj = obj || {};
-	width = obj.width || 600;
-	depth = obj.depth ||600;
-	height = obj.height || 12;
-
-	const geometry = new THREE.BoxGeometry( width, depth, height );
-	geometry.translate( 0, 0, -0.5 * height );
-	const material = new THREE.MeshNormalMaterial();
-	const mesh = new THREE.Mesh( geometry, material );
-
-	const gridHelper = new THREE.GridHelper( 600, 10);
-	gridHelper.rotateX( -0.5 * Math.PI );
-	mesh.add( gridHelper );
-
-	return mesh;
+	frame = getFrameP();
+	frame.position.set( 120, -240, 0 );
+	scene.add( frame );
 
 }
 
@@ -131,20 +129,40 @@ function getBase( obj ) {
 
 function getPart( obj ) {
 
-obj = obj || {};
-width = obj.width || 60;
-depth = obj.depth ||60;
-height = obj.height || 60;
+	obj = obj || {};
+	const width = obj.width || 60;
+	const depth = obj.depth ||60;
+	const height = obj.height || 60;
+	const part = new THREE.Group();
 
-const geometry = new THREE.BoxGeometry( width, depth, height );
-geometry.translate( 0.5 * width, 0.5 * depth, 0.5 * height );
-const material = new THREE.MeshNormalMaterial();
-const mesh = new THREE.Mesh( geometry, material );
+	const geometry = new THREE.BoxGeometry( width, depth, height );
+	geometry.translate( 0.5 * width, 0.5 * depth, 0.5 * height );
+	const material = new THREE.MeshNormalMaterial();
+	const mesh = new THREE.Mesh( geometry, material );
 
-const box = new THREE.BoxHelper( mesh, 0xffff00 );
-mesh.add( box );
+	const boxHelper = new THREE.BoxHelper( mesh, boxHelperColor );
+	part.add( mesh, boxHelper );
 
-return mesh;
+	return part;
+
+}
+
+
+
+function getBase( obj ) {
+
+	const base = new THREE.Group();
+
+	const part = getPart( { width: 600, depth: 600, height: 60 } );
+	part.position.set( -300, -300, -60 );
+
+	const gridHelper = new THREE.GridHelper( 600, 10, );
+	gridHelper.rotateX( -0.5 * Math.PI );
+
+	const axesHelper = new THREE.AxesHelper( 300 );
+	base.add( part, gridHelper, axesHelper );
+
+	return base;
 
 }
 
@@ -189,6 +207,7 @@ function getFrame() {
 
 
 	//
+
 	part = getPart( { width: 4, height: 4 } );
 	part.position.set ( 4, 0, 4 );
 	frame.add( part );
@@ -198,11 +217,11 @@ function getFrame() {
 	frame.add( part );
 
 	part = getPart( { width: 4, height: 4 } );
-	part.position.set ( 4, 0, 52 );
+	part.position.set ( 4, 0, 56 );
 	frame.add( part );
 
 	part = getPart( { width: 4, height: 4 } );
-	part.position.set ( 52, 0, 52 );
+	part.position.set ( 52, 0, 56 );
 	frame.add( part );
 
 	return frame;
@@ -210,54 +229,53 @@ function getFrame() {
 }
 
 
-function getFrameI() {
+
+function getFrameV() {
+
+	const frames = new THREE.Group();
+
+	const frame1 = getFrame();
+	frame1.position.set( 0, 0, 0 );
+
+	const frame2 = getFrame();
+	frame2.position.set( 0, 60, 0 );
+
+	const frame3 = getFrame();
+	frame3.position.set( 60, 0, 0 );
+
+	frames.add( frame1, frame2, frame3 );
+
+	return frames;
+
+}
 
 
-	frameI = new THREE.Group();
 
-	let frame = getFrame()
-	frame.position.set( 0, 0, 0 );
-	frameI.add( frame );
+function getFrameL() {
 
-	frame = getFrame()
-	frame.position.set( 0, 60, 0 );
-	frameI.add( frame );
+	const frames = new THREE.Group();
 
-	frame = getFrame()
-	frame.position.set( 0, 120, 0 );
-	frameI.add( frame );
+	const frame1 = getFrame()
+	frame1.position.set( 0, 0, 0 );
 
-	return frameI;
+	const frame2 = getFrame()
+	frame2.position.set( 0, 60, 0 );
+
+	const frame3 = getFrame()
+	frame3.position.set( 0, 120, 0 );
+
+	const frame4 = getFrame()
+	frame4.position.set( 60, 0, 0 );
+
+	frames.add( frame1, frame2, frame3, frame4 );
+
+	return frames;
 
 }
 
 
 
 function getFrameT() {
-
-	const frames = new THREE.Group();
-
-	let frame = getFrame()
-	frame.position.set( 0, 0, 0 );
-	frames.add( frame );
-
-	frame = getFrame()
-	frame.position.set( 0, 60, 0 );
-	frames.add( frame );
-
-	frame = getFrame()
-	frame.position.set( 60, 60, 0 );
-	frames.add( frame );
-
-	frame = getFrame()
-	frame.position.set( 0, 120, 0 );
-	frames.add( frame );
-
-	return frames;
-
-}
-
-function getFrameV() {
 
 const frames = new THREE.Group();
 
@@ -273,9 +291,125 @@ frame = getFrame()
 frame.position.set( 60, 60, 0 );
 frames.add( frame );
 
+frame = getFrame()
+frame.position.set( 0, 120, 0 );
+frames.add( frame );
+
 return frames;
 
 }
+
+
+
+function getFrameZ() {
+
+	const frames = new THREE.Group();
+
+	let frame = getFrame()
+	frame.position.set( 0, 60, 0 );
+	frames.add( frame );
+
+	frame = getFrame()
+	frame.position.set( 0, 120, 0 );
+	frames.add( frame );
+
+	frame = getFrame()
+	frame.position.set( 60, 0, 0 );
+	frames.add( frame );
+
+	frame = getFrame()
+	frame.position.set( 60, 60, 0 );
+	frames.add( frame );
+
+	return frames;
+
+}
+
+
+
+function getFrameA() {
+
+	frames = new THREE.Group();
+
+	let frame = getFrame()
+	frame.position.set( 0, 60, 0 );
+	frames.add( frame );
+
+	frame = getFrame()
+	frame.position.set( 0, 60, 60 );
+	frames.add( frame );
+
+	frame = getFrame()
+	frame.position.set( 60, 60, 0 );
+	frames.add( frame );
+
+	frame = getFrame()
+	frame.position.set( 60, 0, 0 );
+	frames.add( frame );
+
+	return frames;
+
+}
+
+
+
+function getFrameB() {
+
+	frames = new THREE.Group();
+
+	let frame = getFrame()
+	frame.position.set( 0, 0, 0 );
+	frames.add( frame );
+
+	frame = getFrame()
+	frame.position.set( 0, 60, 0 );
+	frames.add( frame );
+
+	frame = getFrame()
+	frame.position.set( 60, 60, 0 );
+	frames.add( frame );
+
+	frame = getFrame()
+	frame.position.set( 60, 60, 60 );
+	frames.add( frame );
+
+	return frames;
+
+}
+
+
+
+function getFrameP() {
+
+	frames = new THREE.Group();
+
+	let frame = getFrame()
+	frame.position.set( 0, 0, 0 );
+	frames.add( frame );
+
+	frame = getFrame()
+	frame.position.set( 0, 0, 60 );
+	frames.add( frame );
+
+	frame = getFrame()
+	frame.position.set( 0, 60, 0 );
+	frames.add( frame );
+
+	frame = getFrame()
+	frame.position.set( 60, 0, 0 );
+	frames.add( frame );
+
+	return frames;
+
+}
+
+
+
+
+
+
+
+/////////
 
 function onWindowResize() {
 
