@@ -9,7 +9,7 @@ value='You are now in a GitHub web page view - Click this button to view this re
 # [OpenStructures Read Me]( #sandbox/openstructures/README.md )
 
 
-### Full Screen: [OpenStructures R5]( https://opentecture.github.io/#mindmapping/sandbox/openstructures/r5/os-parts.html )
+### Full Screen: [OpenStructures R5]( https://opentecture.github.io/mindmapping/sandbox/openstructures/r5/os-parts.html )
 
 <iframe src=https://opentecture.github.io/mindmapping/sandbox/openstructures/r5/os-parts.html width=100% height=500px >Iframes are not viewable in GitHub source code views</iframe>
 _r5/os-parts.html_
