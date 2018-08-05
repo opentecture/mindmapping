@@ -57,7 +57,7 @@
 
 const boxHelperColor = 0x000000;
 
-let sceneRotation = 1;
+let sceneRotation = 0;
 let renderer, camera, controls, scene;
 
 init();
@@ -197,7 +197,7 @@ function setAssembly2() {
 
 function setAssembly( lines ) {
 
-	console.log( 'lines', lines );
+	//console.log( 'lines', lines );
 	scene.remove( window.assembly )
 
 	window.assembly = new THREE.Group();
