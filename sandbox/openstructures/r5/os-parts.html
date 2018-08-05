@@ -220,19 +220,20 @@ function setAssembly2() {
 
 function setAssembly( lines ) {
 
-	console.log( 'lines', lines );
+	//console.log( 'lines', lines );
 	scene.remove( window.assembly )
 
 	window.assembly = new THREE.Group();
 
 	for ( let line of lines ) {
 
-		part = window[ line.shift() ]();
+		const part = window[ line.shift() ]();
 
 		part.position.fromArray( line.slice( 0, 3 ) );
 
 		part.rotateZ( ( line[ 3 ] || 0 ) * Math.PI / 180 );
 		part.rotateX( ( line[ 4 ] || 0 ) * Math.PI / 180 );
+
 		assembly.add( part );
 
 	}

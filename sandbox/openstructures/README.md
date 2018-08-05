@@ -1,5 +1,5 @@
 
-<span style=display:none; >[You are now in a GitHub source code view - click this link to view Read Me file as a web page]( https://opentecture.github.io/#mindmapping/sandbox/openstructures/README.md "View file as a web page." ) </span>
+<span style=display:none; >[You are now in a GitHub source code view - click this link to view Read Me file as a web page]( https://opentecture.github.io/mindmapping/#sandbox/openstructures/README.md "View file as a web page." ) </span>
 
 <div><input type=button class = 'btn btn-secondary btn-sm' onclick="window.location.href='https://github.com/opentecture/mindmapping/blob/master/sandbox/openstructures/README.md'";
 value='You are now in a GitHub web page view - Click this button to view this read me file as source code' ></div>
@@ -18,7 +18,7 @@ _r5/os-parts.html_
 
 
 
-### Full Screen: [OpenStructures R4]( https://opentecture.github.io/#mindmapping/sandbox/openstructures/r4/os-parts.html )
+### Full Screen: [OpenStructures R4]( https://opentecture.github.io/mindmapping/sandbox/openstructures/r4/os-parts.html )
 
 <iframe src=https://opentecture.github.io/mindmapping/sandbox/openstructures/r4/os-parts.html width=100% height=500px >Iframes are not viewable in GitHub source code views</iframe>
 _r4/os-parts.html_
@@ -26,7 +26,7 @@ _r4/os-parts.html_
 * Add rotations to X and Z axes
 
 
-### Full Screen: [OpenStructures R3]( https://opentecture.github.io/#mindmapping/sandbox/openstructures/r3/os-parts.html )
+### Full Screen: [OpenStructures R3]( https://opentecture.github.io/mindmapping/sandbox/openstructures/r3/os-parts.html )
 
 <iframe src=https://opentecture.github.io/mindmapping/sandbox/openstructures/r3/os-parts.html width=100% height=500px >Iframes are not viewable in GitHub source code views</iframe>
 _r3/os-parts.html_
@@ -36,7 +36,7 @@ _r3/os-parts.html_
 
 
 
-### Full Screen: [OpenStructures R2]( https://opentecture.github.io/#mindmapping/sandbox/openstructures/r2/os-parts.html )
+### Full Screen: [OpenStructures R2]( https://opentecture.github.io/mindmapping/sandbox/openstructures/r2/os-parts.html )
 
 <iframe src=https://opentecture.github.io/mindmapping/sandbox/openstructures/r2/os-parts.html width=100% height=500px >Iframes are not viewable in GitHub source code views</iframe>
 _r2/os-parts.html_
@@ -46,7 +46,7 @@ _r2/os-parts.html_
 
 ***
 
-### Full Screen: [OpenStructures R1]( https://opentecture.github.io/#mindmapping/sandbox/openstructures/r1/os-parts.html )
+### Full Screen: [OpenStructures R1]( https://opentecture.github.io/mindmapping/sandbox/openstructures/r1/os-parts.html )
 
 <iframe src=https://opentecture.github.io/mindmapping/sandbox/openstructures/r1/os-parts.html width=100% height=500px >Iframes are not viewable in GitHub source code views</iframe>
 _r1/os-parts.html_
@@ -65,17 +65,21 @@ _4x4xcm-square.html_
 
 ### [4x4xcm-square.html]( #sandbox/openstructures/4x4xcm-square.html )
 
-
+* Based on OpenStructures diagram
 
 ## Concept
+
+A free open source software toolkit for designing openstructures parts and assemblies
 
 
 ## To Do / Wish List
 
+* 2018-08-04 ~ Theo ~ assemblies with parts cut to length and not to 60 cm sections
+* 2018-08-04 ~ Theo ~ rule-driven methods to add flat surfaces to assembles
+* 2018-08-04 ~ Theo ~ colors, lights, shadows
 
 ## Issues
 
-A free open source software toolkit for designing openstructures parts and assemblies
 
 
 ## Links of Interest
