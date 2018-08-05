@@ -8,23 +8,53 @@ value='You are now in a GitHub web page view - Click this button to view this re
 
 # [OpenStructures Read Me]( #sandbox/openstructures/README.md )
 
+
+### Full Screen: [OpenStructures R5]( https://opentecture.github.io/#mindmapping/sandbox/openstructures/r5/os-parts.html )
+
+<iframe src=https://opentecture.github.io/mindmapping/sandbox/openstructures/r5/os-parts.html width=100% height=500px >Iframes are not viewable in GitHub source code views</iframe>
+_r5/os-parts.html_
+
+* Add load and display data from CSV files
+
+
+
+### Full Screen: [OpenStructures R4]( https://opentecture.github.io/#mindmapping/sandbox/openstructures/r4/os-parts.html )
+
+<iframe src=https://opentecture.github.io/mindmapping/sandbox/openstructures/r4/os-parts.html width=100% height=500px >Iframes are not viewable in GitHub source code views</iframe>
+_r4/os-parts.html_
+
+* Add rotations to X and Z axes
+
+
+### Full Screen: [OpenStructures R3]( https://opentecture.github.io/#mindmapping/sandbox/openstructures/r3/os-parts.html )
+
+<iframe src=https://opentecture.github.io/mindmapping/sandbox/openstructures/r3/os-parts.html width=100% height=500px >Iframes are not viewable in GitHub source code views</iframe>
+_r3/os-parts.html_
+
+* Reads data from an array and assembles frames accordingly
+* Buttons to toggle between three samples of data arrays
+
+
+
 ### Full Screen: [OpenStructures R2]( https://opentecture.github.io/#mindmapping/sandbox/openstructures/r2/os-parts.html )
 
 <iframe src=https://opentecture.github.io/mindmapping/sandbox/openstructures/r2/os-parts.html width=100% height=500px >Iframes are not viewable in GitHub source code views</iframe>
 _r2/os-parts.html_
 
 * Instances of seven assemblies representing all Soma pieces with a single cube at the center
+* Each standard Some piece is a callable function
 
+***
 
 ### Full Screen: [OpenStructures R1]( https://opentecture.github.io/#mindmapping/sandbox/openstructures/r1/os-parts.html )
 
 <iframe src=https://opentecture.github.io/mindmapping/sandbox/openstructures/r1/os-parts.html width=100% height=500px >Iframes are not viewable in GitHub source code views</iframe>
-_r1/os=parts.html_
+_r1/os-parts.html_
 
 
 * First pass
 * Creates parts - box with any dimensions
-* Creates frames - 60 x 60 x 60 cobe with 12 parts
+* Creates frames - 60 x 60 x 60 cube with 12 parts
 * Assembles and instances of several combinations of frames
 * Draws a base with grid and axes
 

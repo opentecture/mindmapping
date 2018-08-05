@@ -1,0 +1,514 @@
+<!doctype html>
+<html lang="en" >
+<head>
+<meta charset="utf-8" >
+<meta name="viewport" content = "width=device-width,user-scalable=no,minimum-scale=1.0,maximum-scale=1.0" >
+<meta name=description content="Real-time 3D openstructures in your browser using the Three.js JavaScript library" >
+<meta name=keywords content="Three.js,WebGL,JavaScript,GitHub,FOSS,3D,STEM" >
+<meta name = "date" content = "2018-06-24" >
+<title>openStructure Parts R4</title>
+<style>
+
+	body { font: 11pt monospace; margin: 0; overflow: hidden; }
+	a { color: crimson; text-decoration: none; }
+	a:hover, a:focus { background-color: yellow; color: #aaa; text-decoration: underline }
+
+	button { background-color: #ddd; border: none; color: #322; cursor: pointer; padding: 3px 5px; }
+	button:hover { background: #ccc; color: #fff }
+
+	#divMenu { margin: 0 20px; position: absolute; }
+
+</style>
+</head>
+<body>
+<script src = "https://cdn.rawgit.com/mrdoob/three.js/r95/build/three.min.js" ></script>
+<script src = "https://rawgit.com/mrdoob/three.js/r95/examples/js/controls/TrackballControls.js" ></script>
+
+	<div id = "divMenu" >
+
+		<div id = "divTitle" ></div>
+
+		<p>
+			<button onclick=setAssemblyDefault() >set assembly default</button>
+		</p>
+
+		<p>
+			<button onclick=setAssembly1() >set assembly 1</button>
+		</p>
+
+		<p>
+			<button onclick=setAssembly2() >set assembly 2</button>
+		</p>
+
+		<p>
+			<button onclick="sceneRotation = sceneRotation === 1 ? 0 : 1;" >rotation</button>
+		</p>
+
+
+		<div id = "divLog" ></div>
+
+	</div>
+
+<script>
+
+/* globals THREE, divTitle, divMenu, hamburger  */
+// jshint esversion: 6
+
+
+const boxHelperColor = 0x000000;
+
+let sceneRotation = 1;
+let renderer, camera, controls, scene;
+
+init();
+animate();
+
+function init() {
+
+	//const title = location.href.split( '/' ).pop().slice( 0, - 5 ).replace( /-/g, ' ' );
+	const title = document.title;
+
+	divTitle.innerHTML =
+	`<h1>
+		<a href="" >${title}</a>
+	</h1>`;
+
+	renderer = new THREE.WebGLRenderer( { alpha: 1, antialias: true } );
+	renderer.setPixelRatio( window.devicePixelRatio );
+	renderer.setSize( window.innerWidth, window.innerHeight );
+	document.body.appendChild( renderer.domElement );
+
+	camera = new THREE.PerspectiveCamera( 40, window.innerWidth / window.innerHeight, 1, 10000 );
+	camera.position.set( - 200, - 500, 500 );
+	camera.up.set( 0, 0, 1 );
+
+	controls = new THREE.TrackballControls( camera, renderer.domElement );
+
+	scene = new THREE.Scene();
+
+	window.addEventListener( 'resize', onWindowResize, false );
+	window.addEventListener( 'orientationchange', onWindowResize, false );
+	window.addEventListener( 'keyup', () => sceneRotation = 0, false );
+	renderer.domElement.addEventListener( 'click', () => sceneRotation = 0, false );
+
+	const geometry = new THREE.BoxGeometry( 4,4,4 );
+	const material = new THREE.MeshNormalMaterial();
+	const mesh = new THREE.Mesh( geometry, material );
+	//scene.add( mesh );
+
+	/////
+
+
+	setAssemblyDefault();
+	//setAssembly2()
+
+}
+
+
+function setAssemblyDefault() {
+
+	const lines = [
+
+		[ 'getBase', 0, 0, 0, 0, 0 ],
+		[ 'getFrame', -60, -60, 120, 0, 90 ],
+		[ 'getFrameV', 120, 120, 0, 30, 90 ],
+		[ 'getFrameL', -240, 0, 0, 10, 90 ],
+		[ 'getFrameT', -60, 60, 0, 30, 90 ],
+		[ 'getFrameZ', -240, -240, 0, -10, 90 ],
+		[ 'getFrameA', -60, -240, 0, -30, 90 ],
+		[ 'getFrameB', 120, -60, 0, -20, 90 ],
+		[ 'getFrameP', 120, -240, 0, -500, 90 ],
+
+	];
+
+	setAssembly( lines );
+
+}
+
+
+
+function setAssembly1() {
+
+	const lines = [
+
+		[ 'getBase', 0, 0, 0 ],
+		[ 'getFrameZ', -120, 60, 0 ],
+		[ 'getFrameB', -60, 60, 60 ],
+		[ 'getFrameV', 60, 60, 120 ],
+		[ 'getFrameA', 120, 0, 0 ],
+		[ 'getFrameB', 120, -120, 0 ],
+		[ 'getFrameP', 0, -120, 0 ],
+		[ 'getFrameL', -60, -240, 0 ],
+		[ 'getFrameP', -180, -240, 0 ],
+		[ 'getFrameA', -240, -120, 0 ],
+		[ 'getFrameZ', -240, -120, 120 ],
+		[ 'getFrameT', -240, 60, 120 ],
+		[ 'getFrameP', -240, 120, 0 ],
+
+	];
+
+	setAssembly( lines );
+
+}
+
+
+
+function setAssembly2() {
+
+	const lines = [
+
+		[ 'getBase', 0, 0, 0 ],
+		[ 'getFrameT', -240, 60, 0 ],
+		[ 'getFrameA', -180, 120, 0 ],
+		[ 'getFrameB', -60, 120, 0 ],
+		[ 'getFrameB', 60, 120, 0 ],
+		[ 'getFrameA', 120, 120, 0 ],
+		[ 'getFrameZ', 120, 0, 0 ],
+
+		/*
+		[ 'getFrame',  0, 0, 0 ],
+
+		[ 'getFrameV', 0, 0, 0 ],
+		[ 'getFrameL', 0, 0, 0 ],
+		[ 'getFrameT', 0, 0, 0 ],
+
+		[ 'getFrameZ', 0, 0, 0 ],
+		[ 'getFrameA', 0, 0, 0 ],
+		[ 'getFrameB', 0, 0, 0 ],
+		[ 'getFrameP', 0, 0, 0 ],
+		*/
+	];
+
+	setAssembly( lines );
+
+}
+
+
+
+function setAssembly( lines ) {
+
+	console.log( 'lines', lines );
+	scene.remove( window.assembly )
+
+	window.assembly = new THREE.Group();
+
+	for ( let line of lines ) {
+
+		part = window[ line.shift() ]();
+
+		part.position.fromArray( line.slice( 0, 3 ) );
+
+		part.rotateZ( ( line[ 3 ] || 0 ) * Math.PI / 180 );
+		part.rotateX( ( line[ 4 ] || 0 ) * Math.PI / 180 );
+		assembly.add( part );
+
+	}
+
+	scene.add( window.assembly );
+
+}
+
+
+function getPart( obj ) {
+
+	obj = obj || {};
+	const width = obj.width || 60;
+	const depth = obj.depth ||60;
+	const height = obj.height || 60;
+	const part = new THREE.Group();
+
+	const geometry = new THREE.BoxGeometry( width, depth, height );
+	geometry.translate( 0.5 * width, 0.5 * depth, 0.5 * height );
+	const material = new THREE.MeshNormalMaterial();
+	const mesh = new THREE.Mesh( geometry, material );
+
+	const boxHelper = new THREE.BoxHelper( mesh, boxHelperColor );
+	part.add( mesh, boxHelper );
+
+	return part;
+
+}
+
+
+
+function getBase( obj ) {
+
+	const base = new THREE.Group();
+
+	const part = getPart( { width: 600, depth: 600, height: 60 } );
+	part.position.set( -300, -300, -60 );
+
+	const gridHelper = new THREE.GridHelper( 600, 10, );
+	gridHelper.rotateX( -0.5 * Math.PI );
+
+	const axesHelper = new THREE.AxesHelper( 300 );
+	base.add( part, gridHelper, axesHelper );
+
+	return base;
+
+}
+
+
+
+function getFrame() {
+
+	const frame = new THREE.Group();
+
+	const partV1 = getPart( { width: 4, depth: 4 } );
+
+	const partV2 = getPart( { width: 4, depth: 4 } );
+	partV2.position.set ( 56, 0, 0 );
+
+	const partV3 = getPart( { width: 4, depth: 4 } );
+	partV3.position.set ( 0, 56, 0 );
+
+	const partV4 = getPart( { width: 4, depth: 4 } );
+	partV4.position.set ( 56, 56, 0 );
+
+	frame.add( partV1, partV2, partV3, partV4 )
+
+
+	//
+	const partW1 = getPart( { depth: 4, height: 4 } );
+	partW1.position.set ( 0, 4, 0 );
+
+	const partW2 = getPart( { depth: 4, height: 4 } );
+	partW2.position.set ( 0, 52, 0 );
+
+	const partW3 = getPart( { depth: 4, height: 4 } );
+	partW3.position.set ( 0, 4, 52 );
+
+	const partW4 = getPart( { depth: 4, height: 4 } );
+	partW4.position.set ( 0, 52, 52 );
+
+	frame.add( partW1, partW2, partW3, partW4 );
+	//
+
+	let part = getPart( { width: 4, height: 4 } );
+	part.position.set ( 4, 0, 4 );
+	frame.add( part );
+
+	part = getPart( { width: 4, height: 4 } );
+	part.position.set ( 52, 0, 4 );
+	frame.add( part );
+
+	part = getPart( { width: 4, height: 4 } );
+	part.position.set ( 4, 0, 56 );
+	frame.add( part );
+
+	part = getPart( { width: 4, height: 4 } );
+	part.position.set ( 52, 0, 56 );
+	frame.add( part );
+
+	return frame;
+
+}
+
+
+
+function getFrameV() {
+
+	const frames = new THREE.Group();
+
+	const frame1 = getFrame();
+	frame1.position.set( 0, 0, 0 );
+
+	const frame2 = getFrame();
+	frame2.position.set( 0, 60, 0 );
+
+	const frame3 = getFrame();
+	frame3.position.set( 60, 0, 0 );
+
+	frames.add( frame1, frame2, frame3 );
+
+	return frames;
+
+}
+
+
+
+function getFrameL() {
+
+	const frames = new THREE.Group();
+
+	const frame1 = getFrame()
+	frame1.position.set( 0, 0, 0 );
+
+	const frame2 = getFrame()
+	frame2.position.set( 0, 60, 0 );
+
+	const frame3 = getFrame()
+	frame3.position.set( 0, 120, 0 );
+
+	const frame4 = getFrame()
+	frame4.position.set( 60, 0, 0 );
+
+	frames.add( frame1, frame2, frame3, frame4 );
+
+	return frames;
+
+}
+
+
+
+function getFrameT() {
+
+const frames = new THREE.Group();
+
+let frame = getFrame()
+frame.position.set( 0, 0, 0 );
+frames.add( frame );
+
+frame = getFrame()
+frame.position.set( 0, 60, 0 );
+frames.add( frame );
+
+frame = getFrame()
+frame.position.set( 60, 60, 0 );
+frames.add( frame );
+
+frame = getFrame()
+frame.position.set( 0, 120, 0 );
+frames.add( frame );
+
+return frames;
+
+}
+
+
+
+function getFrameZ() {
+
+	const frames = new THREE.Group();
+
+	let frame = getFrame()
+	frame.position.set( 0, 60, 0 );
+	frames.add( frame );
+
+	frame = getFrame()
+	frame.position.set( 0, 120, 0 );
+	frames.add( frame );
+
+	frame = getFrame()
+	frame.position.set( 60, 0, 0 );
+	frames.add( frame );
+
+	frame = getFrame()
+	frame.position.set( 60, 60, 0 );
+	frames.add( frame );
+
+	return frames;
+
+}
+
+
+
+function getFrameA() {
+
+	frames = new THREE.Group();
+
+	let frame = getFrame()
+	frame.position.set( 0, 60, 0 );
+	frames.add( frame );
+
+	frame = getFrame()
+	frame.position.set( 0, 60, 60 );
+	frames.add( frame );
+
+	frame = getFrame()
+	frame.position.set( 60, 60, 0 );
+	frames.add( frame );
+
+	frame = getFrame()
+	frame.position.set( 60, 0, 0 );
+	frames.add( frame );
+
+	return frames;
+
+}
+
+
+
+function getFrameB() {
+
+	frames = new THREE.Group();
+
+	let frame = getFrame()
+	frame.position.set( 0, 0, 0 );
+	frames.add( frame );
+
+	frame = getFrame()
+	frame.position.set( 0, 60, 0 );
+	frames.add( frame );
+
+	frame = getFrame()
+	frame.position.set( 60, 60, 0 );
+	frames.add( frame );
+
+	frame = getFrame()
+	frame.position.set( 60, 60, 60 );
+	frames.add( frame );
+
+	return frames;
+
+}
+
+
+
+function getFrameP() {
+
+	frames = new THREE.Group();
+
+	let frame = getFrame()
+	frame.position.set( 0, 0, 0 );
+	frames.add( frame );
+
+	frame = getFrame()
+	frame.position.set( 0, 0, 60 );
+	frames.add( frame );
+
+	frame = getFrame()
+	frame.position.set( 0, 60, 0 );
+	frames.add( frame );
+
+	frame = getFrame()
+	frame.position.set( 60, 0, 0 );
+	frames.add( frame );
+
+	return frames;
+
+}
+
+
+
+
+
+
+
+/////////
+
+function onWindowResize() {
+
+	camera.aspect = window.innerWidth / window.innerHeight;
+	camera.updateProjectionMatrix();
+
+	renderer.setSize( window.innerWidth, window.innerHeight );
+
+	//console.log( 'onWindowResize  window.innerWidth', window.innerWidth );
+
+}
+
+
+
+function animate() {
+
+	requestAnimationFrame( animate );
+	renderer.render( scene, camera );
+	controls.update();
+	scene.rotation.z += sceneRotation / 1000;
+
+}
+
+</script>
+</body>
+</html>

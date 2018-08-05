@@ -1,0 +1,13 @@
+getBase,0,0,0
+getFrameZ,-120,60,0
+getFrameB,-60,60,60
+getFrameV,60,60,120
+getFrameA,120,0,0
+getFrameB,120,-120,0
+getFrameP,0,-120,0
+getFrameL,-60,-240,0
+getFrameP,-180,-240,0
+getFrameA,-240,-120,0
+getFrameZ,-240,-120,120
+getFrameT,-240,60,120
+getFrameP,-240,120,0
