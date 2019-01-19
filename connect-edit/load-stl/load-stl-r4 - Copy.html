@@ -87,7 +87,7 @@
 <script>
 
 	let count = 0;
-	const urlDefault = 'https://https://cdn.jsdelivr.net/gh/mrdoob/three.js@r93.com/opentecture/build/master/components/Door%20Handle.stl';
+	const urlDefault = 'https://cdn.jsdelivr.net/gh/opentecture/build/components/Door%20Handle.stl';
 	let urls;
 
 	let helperObjects = [];
@@ -151,7 +151,7 @@
 
 	function onHashChange() {
 		console.log( 'urls', urls );
-		const path = 'https://https://cdn.jsdelivr.net/gh/mrdoob/three.js@r93.com/opentecture/build/master/';
+		const path = ''; //https://cdn.jsdelivr.net/gh/opentecture/build/';
 		const fileName = location.hash ? location.hash.slice( 1 ) : urls[ Math.floor( Math.random() * urls.length ) ].path;
 		loadSTLFileByURL( path, fileName );
 
@@ -219,8 +219,10 @@
 
 	function loadSTLFileByURL( path, fileName ) {
 
+		console.log( 'path', path );
+		console.log( 'fn', path, fileName );
 
-		//console.log( 'fn', fileName );
+
 		let loader = new THREE.STLLoader();
 		loader.crossOrigin = 'anonymous';
 		loader.load( path + fileName, function ( geometry ) {
@@ -232,7 +234,7 @@
 
 		} );
 
-		}
+	}
 
 
 	function addMesh( geometry, fileName ) {
@@ -344,8 +346,8 @@
 	function callbackGitHubMenu ( files ) {
 
 		const urlGitHubSource = 'https://github.com/opentecture/build/tree/master/components/';
-		const urlGitHubPage = 'https://https://cdn.jsdelivr.net/gh/mrdoob/three.js@r93.com/opentecture/build/master/components/';
-		const iconGitHubMark = '<img src="https://https://cdn.jsdelivr.net/gh/mrdoob/three.js@r93.com/ladybug-tools/spider/master/images/github-mark.png" height=14 style=vertical-align:middle>';
+		const urlGitHubPage = 'https://cdn.jsdelivr.net/gh/opentecture/build/components/';
+		const iconGitHubMark = '<img src="https://cdn.jsdelivr.net/gh/ladybug-tools/spider/images/github-mark.png" height=14 style=vertical-align:middle>';
 
 		let txt = '';
 

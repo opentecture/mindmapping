@@ -90,7 +90,7 @@ function otherSideView() {
 
 // IO
 function loadSTL() {
-  const urlDefault = 'https://rawgit.com/opentecture/build/master/components/Door%20Handle.stl';
+  const urlDefault = 'https://https://cdn.jsdelivr.net/gh/mrdoob/three.js@r93.com/opentecture/build/master/components/Door%20Handle.stl';
   loadSTLFileByURL(urlDefault, 'door handle');
 }
 
@@ -222,7 +222,7 @@ function drawText(text = "Hello 3d World") {
 
 var loader = new THREE.FontLoader();
 
-loader.load( 'https://cdn.rawgit.com/mrdoob/three.js/r93/examples/fonts/gentilis_regular.typeface.json', function ( loadedFont ) {
+loader.load( 'https://cdn.https://cdn.jsdelivr.net/gh/mrdoob/three.js@r93.com/mrdoob/three.js/r93/examples/fonts/gentilis_regular.typeface.json', function ( loadedFont ) {
   font = loadedFont;
   init();
 } );
@@ -446,7 +446,7 @@ function toggleRotation() {
 
 function onHashChange() {
 
-  const path = 'https://rawgit.com/opentecture/build/master/';
+  const path = 'https://https://cdn.jsdelivr.net/gh/mrdoob/three.js@r93.com/opentecture/build/master/';
   const fileName = location.hash ? location.hash.slice( 1 ) : urls[ Math.floor( Math.random() * urls.length ) ].path;
   console.log( 'path', path );
   console.log( 'fileName', fileName );
@@ -469,8 +469,8 @@ function fetchGitHubFolderContents() {
 function callbackGitHubMenu ( files ) {
 
   const urlGitHubSource = 'https://github.com/opentecture/build/tree/master/';
-  const urlGitHubPage = 'https://rawgit.com/opentecture/build/master/';
-  const iconGitHubMark = '<img src="https://rawgit.com/ladybug-tools/spider/master/images/github-mark.png" height=14 style=vertical-align:middle>';
+  const urlGitHubPage = 'https://https://cdn.jsdelivr.net/gh/mrdoob/three.js@r93.com/opentecture/build/master/';
+  const iconGitHubMark = '<img src="https://https://cdn.jsdelivr.net/gh/mrdoob/three.js@r93.com/ladybug-tools/spider/master/images/github-mark.png" height=14 style=vertical-align:middle>';
 
   let txt = '';
   urls = [];

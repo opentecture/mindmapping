@@ -6,7 +6,7 @@
 <meta name=description content="Real-time 3D STL files in your browser using the Three.js JavaScript library with menu sliding" >
 <meta name=keywords content="Three.js,WebGL,JavaScript,GitHub,FOSS,3D,STEM" >
 <meta name = "date" content = "2018-05-19" >
-<title>load stl r4</title>
+<title></title>
 <style>
 /* Copyright 2019 pushMe pullYou authors. MIT License */
 
@@ -35,7 +35,7 @@
 	#divContents { height: 100%; left: 0; margin: 0 auto; max-width: 800px; right: 0;}
 */
 
-	#divMenu { background-color: var( --mnu-back-color ); box-sizing: border-box; margin: 20px;
+	#divMenu { background-color: var( --mnu-back-color ); box-sizing: border-box; margin: 20px; max-height: 100%;
 		overflow-x: hidden; padding: 25px 10px 30px 10px; position: fixed; top: 0; width: var( --mnu-width ); z-index: 1; transition: left 0.5s; }
 
 	#hamburger { background-color: pink; box-sizing: border-box; cursor: pointer; font-size: 30px; left: calc( var( --mnu-width ) - 100px );
@@ -60,19 +60,14 @@
 	<div id = "divMenu" >
 
 		<div>
-				<a href="http://opentecture.github.io/mindmapping/" target="_top">opentecture</a> &raquo;
-				<a href="https://opentecture.github.io/mindmapping/#connect-edit/README.md" target="_top">connect edit</a> &raquo;
+				<a href="http://opentecture.github.io/" target="_top">opentecture</a> &raquo;
+				<a href="http://opentecture.github.io/connect-edit/" target="_top">connect edit</a> &raquo;
 		</div>
 
 		<div id=divTitle ></div>
 
 		<div id = "divContents" >
-			<p><button onclick=controls.autoRotate=!controls.autoRotate; >rotation</button></p>
-			<p>
-				<button onclick=moveToStart(); >move to start</button>
-				<button onclick=moveToFinish(); >move to finish</button>
-			</p>
-			<i>positions are diagrammatic only and not meaningful</i>
+			<button onclick=controls.autoRotate=!controls.autoRotate; >rotation</button>
 		</div>
 
 		<div id = "divMenuItems" ></div>
@@ -86,8 +81,7 @@
 
 <script>
 
-	let count = 0;
-	const urlDefault = 'https://https://cdn.jsdelivr.net/gh/mrdoob/three.js@r93.com/opentecture/build/master/components/Door%20Handle.stl';
+	const urlDefault = 'https://rawgit.com/opentecture/build/master/components/Door%20Handle.stl';
 	let urls;
 
 	let helperObjects = [];
@@ -102,8 +96,8 @@
 	function init() {
 
 		const source = "https://github.com/opentecture/mindmapping/tree/master/connect-edit/";
-		//const title = location.href.split( '/' ).pop().slice( 0, -5 ).replace( /-/g, ' ' );
-		const title = document.title;
+		const title = location.href.split( '/' ).pop().slice( 0, -5 ).replace( /-/g, ' ' );
+		//const title = document.title;
 
 		divTitle.innerHTML =
 			`<h2>
@@ -119,7 +113,7 @@
 		renderer.setSize( window.innerWidth, window.innerHeight );
 		document.body.appendChild( renderer.domElement );
 
-		camera = new THREE.PerspectiveCamera( 40, window.innerWidth / window.innerHeight, 0.1, 10000 );
+		camera = new THREE.PerspectiveCamera( 40, window.innerWidth / window.innerHeight, 0.1, 1000 );
 		camera.position.set( 100, 100, 100 );
 		camera.up.set( 0, 0, 1 );
 
@@ -139,6 +133,7 @@
 		material = new THREE.MeshNormalMaterial();
 		mesh = new THREE.Mesh( geometry, material );
 		//scene.add( mesh );
+
 		setMovable();
 
 		fetchGitHubFolderContents();
@@ -149,13 +144,17 @@
 
 	}
 
+
+
 	function onHashChange() {
-		console.log( 'urls', urls );
-		const path = 'https://https://cdn.jsdelivr.net/gh/mrdoob/three.js@r93.com/opentecture/build/master/';
+		//console.log( 'urls', urls );
+		const path = 'https://rawgit.com/nasa/NASA-3D-Resources/master/';
 		const fileName = location.hash ? location.hash.slice( 1 ) : urls[ Math.floor( Math.random() * urls.length ) ].path;
 		loadSTLFileByURL( path, fileName );
 
 	}
+
+
 
 	function setMovable() {
 
@@ -225,7 +224,7 @@
 		loader.crossOrigin = 'anonymous';
 		loader.load( path + fileName, function ( geometry ) {
 
-			//console.log( 'geo', geometry );
+			console.log( 'geo', geometry );
 			addMesh( geometry, fileName );
 
 			//contents.innerHTML = 'File name: ' + fileName.split('/').pop() + '<br>' + '';
@@ -244,53 +243,17 @@
 
 		let material = new THREE.MeshNormalMaterial( { side: 2 } );
 
-		//scene.remove( mesh );
+		scene.remove( mesh );
 		mesh = new THREE.Mesh( geometry, material );
 		mesh.name = fileName;
-		mesh.scale.set( 20, 20, 20 );
-		mesh.position.x = 20 * count - 100;
-		count++;
+		//mesh.scale.set( 1000, 1000, 1000 );
 		scene.add( mesh );
 		helperObjects.push( mesh );
 
-		//zoomExtents( mesh );
+		zoomExtents( mesh );
 
 	}
 
-
-
-	function moveToStart() {
-
-		for ( obj of helperObjects ) {
-
-			obj.position.set( 30 * Math.random() - 15, 30 * Math.random() + 15, 10 );
-
-		}
-
-	}
-
-
-
-	function moveToFinish() {
-
-		let col = 0;
-		let row = 0;
-
-		for ( obj of helperObjects ) {
-
-			obj.position.set( 30 * col - 40, -30, 50 - 20 * row );
-			col++;
-
-			if ( col % 3 === 0 ){
-
-				row++;
-				col = 0;
-
-			}
-
-		}
-
-	}
 
 
 	function zoomExtents( mesh ) {
@@ -314,7 +277,7 @@
 
 	function fetchGitHubFolderContents() {
 
-		const url = 'https://api.github.com/repos/opentecture/build/contents/components/';
+		const url = 'https://api.github.com/repos/nasa/NASA-3D-Resources/git/trees/master?recursive=1';
 
 		//console.log(url );
 
@@ -334,7 +297,7 @@
 
 		fetch( request )
 			.then( response => response.json() )
-			.then( json => callbackGitHubMenu( json ) );
+			.then( json => callbackGitHubMenu( json.tree ) );
 
 	}
 
@@ -343,17 +306,17 @@
 
 	function callbackGitHubMenu ( files ) {
 
-		const urlGitHubSource = 'https://github.com/opentecture/build/tree/master/components/';
-		const urlGitHubPage = 'https://https://cdn.jsdelivr.net/gh/mrdoob/three.js@r93.com/opentecture/build/master/components/';
-		const iconGitHubMark = '<img src="https://https://cdn.jsdelivr.net/gh/mrdoob/three.js@r93.com/ladybug-tools/spider/master/images/github-mark.png" height=14 style=vertical-align:middle>';
+		const urlGitHubSource = 'https://github.com/nasa/NASA-3D-Resources/tree/master/';
+		const urlGitHubPage = 'https://rawgit.com/nasa/NASA-3D-Resources/master/';
+		const iconGitHubMark = '<img src="https://rawgit.com/ladybug-tools/spider/master/images/github-mark.png" height=14 style=vertical-align:middle>';
 
 		let txt = '';
-
+		urls = [];
 		for ( let file of files) {
-
-			if ( !file.name.endsWith( '.stl' ) ) { continue; }
-
-			const fileName = encodeURI( file.name );
+			if ( !file.path.endsWith( '.stl' ) ) { continue; }
+			urls.push( file )
+			//console.log( 'file', file );
+			const fileName = encodeURI( file.path );
 
 			txt +=
 
@@ -361,7 +324,7 @@
 
 				<a href=${ urlGitHubSource + fileName } title="Edit me" >${ iconGitHubMark }</a>
 
-				<a href=#${ urlGitHubPage + fileName } title="${ file.size.toLocaleString() } bytes" >${ file.name }</a>
+				<a href=#${ urlGitHubPage + fileName } title="${ file.size.toLocaleString() } bytes" >${ file.path.slice( 10 ) }</a>
 
 				<a href=${ urlGitHubPage + fileName } title="Link to just this file" >&#x2750;</a>
 
@@ -370,14 +333,8 @@
 		}
 
 		divGallery.innerHTML = txt;
-		urls = files;
-
-		for ( file of files ) {
-
-			loadSTLFileByURL( urlGitHubPage, file.name );
-
-		}
-
+		//urls = files;
+		onHashChange();
 	}
 
 
