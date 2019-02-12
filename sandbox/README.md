@@ -1,11 +1,11 @@
 # [Sandbox Read Me]( index.html )
 
 
-## [Opentecture Bookmarks View-a-line]( https://opentecture.github.io/resources/sandbox/view-a-line-bookmarks/index.html )
+## [Opentecture Bookmarks View-a-line]( https://opentecture.github.io/mindmapping/sandbox/view-a-line-bookmarks/index.html )
 
 * Opentecture Bookmarks in JSON Lines viewer and editor
 
-## [Opentecture Bookmarks Add-a-line]( https://opentecture.github.io/resources/sandbox/add-a-line-bookmarks/index.html )
+## [Opentecture Bookmarks Add-a-line]( https://opentecture.github.io/mindmapping/sandbox/add-a-line-bookmarks/index.html )
 
 * Opentecture Bookmarks file creator: open, parse and save your browser's bookmarks to a JSON lines file
 
@@ -33,5 +33,3 @@ The scripts here are also an attempt to explore ways of managing browser bookmar
 * https://github.com/sindresorhus/awesome
 * https://support.mozilla.org/en-US/questions/996823
 * https://codereview.stackexchange.com/questions/88433/creating-a-menu-as-nested-unordered-lists-from-json-data
-
-

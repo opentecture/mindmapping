@@ -1,5 +1,5 @@
 
-<span style=display:none; >[You are now in a GitHub source code view - click this link to view Read Me file as a web page]( https://opentecture.github.io/resources/sandbox/#add-a-line-bookmarks/README.md "View file as a web page." ) </span>
+<span style=display:none; >[You are now in a GitHub source code view - click this link to view Read Me file as a web page]( https://opentecture.github.io/mindmapping/sandbox/#add-a-line-bookmarks/README.md "View file as a web page." ) </span>
 
 <div><input type=button class = "btn btn-secondary btn-sm" onclick=window.location.href="https://github.com/pushme-pullyou/resources/sandbox/blob/master/add-a-line-bookmarks/README.md"
 value="You are now in a GitHub web page view - Click this button to view this read me file as source code" ></div>
@@ -9,11 +9,11 @@ value="You are now in a GitHub web page view - Click this button to view this re
 # [Opentecture Bookmarks Add-a-line Read Me]( #add-a-line-bookmarks/README.md )
 
 <!--
-<iframe src=https://opentecture.github.io/resources/sandbox/add-a-line-bookmarks/add-a-line-bookmarks.html width=100% height=500px >Iframes are not viewable in GitHub source code views</iframe>
+<iframe src=https://opentecture.github.io/mindmapping/sandbox/add-a-line-bookmarks/add-a-line-bookmarks.html width=100% height=500px >Iframes are not viewable in GitHub source code views</iframe>
 _<small>Opentecture Bookmarks Add-a-line /small>_
 -->
 
-## Full Screen: [Opentecture Bookmarks Add-a-line ]( https://opentecture.github.io/resources/sandbox/add-a-line-bookmarks/index.html )
+## Full Screen: [Opentecture Bookmarks Add-a-line ]( https://opentecture.github.io/mindmapping/sandbox/add-a-line-bookmarks/index.html )
 
 
 ## Concept
@@ -73,4 +73,3 @@ add-a-line-bookmarks.html R1
 ***
 
 # <center title="hello!" ><a href=javascript:window.scrollTo(0,0); style=text-decoration:none; > ❦ </a></center>
-
