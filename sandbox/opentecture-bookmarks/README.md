@@ -1,11 +1,11 @@
 # [Sandbox Read Me]( index.html )
 
 
-## [Opentecture Bookmarks View-a-line]( https://opentecture.github.io/mindmapping/sandbox/view-a-line-bookmarks/index.html )
+## [Opentecture Bookmarks View-a-line]( https://opentecture.github.io/mindmapping/sandbox/opentecture-bookmarks/view-a-line-bookmarks/index.html )
 
 * Opentecture Bookmarks in JSON Lines viewer and editor
 
-## [Opentecture Bookmarks Add-a-line]( https://opentecture.github.io/mindmapping/sandbox/add-a-line-bookmarks/index.html )
+## [Opentecture Bookmarks Add-a-line]( https://opentecture.github.io/mindmapping/sandbox/opentecture-bookmarks/add-a-line-bookmarks/index.html )
 
 * Opentecture Bookmarks file creator: open, parse and save your browser's bookmarks to a JSON lines file
 
