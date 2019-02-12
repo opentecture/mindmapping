@@ -19,14 +19,17 @@ _<small>Opentecture Bookmarks Add-a-line /small>_
 ## Concept
 
 * Opentecture Bookmarks JSON Lines file creator
-* Open the bookmarks JSON file maintained by your browser
-* Extract and display all the JSON bookmarks in the folder and sub-folders
-* Export the data to a JSON Line file
+* Opens the bookmarks JSON file maintained by your browser
+* Extracts and display all the JSON bookmarks in the select folder and sub-folders
+* Exports the data to a JSON Line file
+* Adds folder to search title and first sub-folder as tags
 
 
 
 ## To Do / Wish List
 
+* 2019-02-11 ~ Be able to scan a markdown file full of links - such as in an 'awesome list'
+* Handle adding all sub...-folders as tags
 
 ## Issues
 
@@ -54,6 +57,12 @@ Enhancing the Script
 
 
 ## Change Log
+
+
+### 2019-02-11 ~ Theo
+
+add-a-line-bookmarks.html R2.1
+* Add name of folderToSearch as a tag item
 
 ### 2019-02-10 ~ Theo
 
