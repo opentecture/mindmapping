@@ -1,0 +1,496 @@
+<!doctype html>
+<html lang = "en" >
+<head>
+<meta charset = "utf-8" >
+<meta name = "viewport" content= "width=device-width, initial-scale=1" >
+<meta name = "description" content = "Opentecture Bookmarks JSON Lines file creator" >
+<meta name = "keywords" content = "JavaScript,GitHub,FOSS" >
+<meta name = "date" content = "2019-02-09" >
+<title>Opentecture Bookmarks Add-a-line</title>
+<style>
+
+	body { font: 12pt monospace; margin: 0 auto; max-width: 800px; }
+	a { color: crimson; text-decoration: none; }
+	a:hover, a:focus, a:active { background-color: yellow; color: #aaa; text-decoration: underline }
+
+	button, input[type=button] { background-color: #ddd; border: none; color: #322; cursor: pointer; padding: 3px 5px; }
+	button:hover { background: #ccc; color: #fff }
+
+	/*
+	#navMenu { background-color: #eee; left: 0; margin: 20px; max-width: 300px; padding: 0 10px; position: absolute; top: 0; }
+	*/
+
+</style>
+</head>
+<body>
+
+	<nav id="navMenu" >
+
+		<div id="divTitle" ></div>
+		<p>
+			<input type=file id=inpFile onchange=openFile(this); >
+		</p>
+
+		<p>
+			<button onclick=saveFile(); >Save File</button></p>
+		</p>
+
+		<!--
+			<button id=but onclick=getSubSet(); accessKey= 'z' title='access key: z '>get opentecture resources bookmarks</button>
+			<button id=but onclick=buildTreeMenu(); accessKey= 'z' title='access key: z '>buildTreeMenu</button>
+
+			<button onclick=getTags(); >getTags</button></p>
+
+		-->
+
+	</nav>
+
+	<div id="divContents" >
+
+
+		Finding your browser bookmarks file
+
+		<h4>Chrome</h4>
+
+		* %\AppData\Local\Google\Chrome\User Data\Default<br>
+		* In search bar, type Bookmarks, you will see a list of files named Bookmarks and/or Bookmarks.bak.
+
+		<h4>Firefox</h4>
+
+		* %APPDATA%\Mozilla\Firefox\Profiles\<br>
+		* Or use bookmark manager and export as JSON
+
+	</div>
+
+	<h3>Notes</h3>
+
+	<p>Looks for a folder titled 'opentecture-resources' in bookmarks bar. Future edition will allow you to name the folder you want.</p>
+
+	<p>Does not yet do a good job of adding all folders as taggs. Working on this. Current files have been edited manually.</p>
+<script>
+
+
+let json;
+let folders;
+
+
+const urlSourceCode = "https://github.com/opentecture/mindmapping/tree/master/sandbox";
+const urlSourceCodeIcon = "https://status.github.com/images/invertocat.png";
+
+init();
+
+function init() {
+
+	divTitle.innerHTML = getTitle();
+
+	//divContents.innerHTML += `${ ( new Date ) }<p>lorem ipsum, quia dolor sit, amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt, ut labore et dolore magnam aliquam quaerat voluptatem. ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? quis autem vel eum iure reprehenderit, qui in ea voluptate velit esse, quam nihil molestiae consequatur, vel illum, qui dolorem eum fugiat, quo voluptas nulla pariatur?</p>`;
+
+	let url = "../2019-02-04-chrome-bookmarks.json";
+
+	//requestFile( url );
+
+}
+
+
+function openFile( files ) {
+
+	//var fileData, reader, data;
+
+	reader = new FileReader();
+	reader.onload = function( event ) {
+
+		json = JSON.parse( reader.result );
+		console.log( 'json', json );
+
+		folders = [];
+		parseFile( json );
+
+		/*
+		divContents.innerHTML = reader.result;
+
+		divLog.innerHTML =
+			'name: ' + files.files[0].name + '<br>' +
+			'size: ' + files.files[0].size.toLocaleString() + ' bytes<br>' +
+			'type: ' + files.files[0].type + '<br>' +
+			'modified: ' + files.files[0].lastModifiedDate.toLocaleDateString() +
+		'';
+
+		console.log( '', files );
+	*/
+
+	}
+
+	reader.readAsText( files.files[0] );
+
+}
+
+
+
+function requestFile( url ) {
+
+	//let xhr;
+
+	xhr = new XMLHttpRequest();
+	xhr.crossOrigin = 'anonymous';
+	xhr.open( 'GET', url, true );
+	xhr.onerror = function( xhr ) { console.log( 'error:', xhr  ); };
+	//xhr.onprogress = function( xhr ) { console.log( 'bytes loaded:', xhr.loaded  ); }; /// or something
+	xhr.onload = callback;
+	xhr.send( null );
+
+	function callback( xhr ) {
+
+		//let response, json;
+
+		response = xhr.target.response;
+		//console.log( 'response', response );
+
+		json = JSON.parse( response );
+		console.log( 'json', json );
+
+		folders = [];
+
+		parseFile();
+
+	}
+
+}
+
+
+
+
+
+function parseFile() {
+
+	const bookmarks = json.roots.bookmark_bar.children;
+	console.log( 'bookmarks', bookmarks );
+
+	//const c = bookmarks.find( item => item.name === "c" );
+	opentecture = bookmarks.find( item => item.name === "opentecture-reference" );
+
+	console.log( 'opentecture', opentecture );
+
+	folders = [];
+	files = [];
+	let folder;
+	let parent;
+	let parentParent;
+
+
+	traverse( opentecture, "opentecture" );
+
+	//console.log( 'files', files );
+
+	str = JSON.stringify( files );
+
+	str =  str.slice( 1, -1 ).replace( /},{/g, "}\n{" )
+
+	divContents.innerText = str;
+
+
+		function traverse( json ) {
+
+
+			for ( let key in json ) {
+
+				data = json[ key ];
+
+				if ( !!data && typeof( data ) === "object" ) {
+
+					if ( data.type === "folder" && !folders.includes( data.name ) ) {
+
+						//console.log( "key", key );
+						console.log( "data", data );
+						folders.push( data.name );
+
+						folder = data.name;
+						//console.log( 'data', data );
+
+					}
+
+					if ( !!data && data.type === "url" ) {
+
+						data.tags = [ folder];
+						//console.log( '', data );
+						files.push( data )
+
+					}
+
+					traverse( data );
+
+				}
+
+			}
+
+		}
+
+}
+
+
+
+/////////////////////// failures
+
+
+function traverse( json ) {
+
+	// https://stackoverflow.com/questions/722668/traverse-all-the-nodes-of-a-json-object-tree-with-javascript
+
+	for ( let key in json ) {
+
+		const data = json[ key ];
+
+		if ( !!data && typeof( data ) === "object" ) {
+
+			if ( data.type === "folder" && !folders.includes( data.name ) ) {
+
+				//console.log( "key", key );
+				//console.log( "data", data );
+				folders.push( data.name );
+
+			}
+
+			traverse( data );
+
+		} else {
+
+			//console.log( 'data', data );
+
+		}
+
+	}
+
+}
+
+
+
+function getTags() {
+
+	bookmarks = json.roots.bookmark_bar
+	obj = {};
+	folders = [];
+
+	tags = [ "root" ];
+	//rootFolders = bookmarks.children.map( item => item.name );
+
+	traverse2( bookmarks, "Bookmarks bar" );
+
+	console.log( 'obj', obj );
+
+
+		function traverse2( json, name ) {
+
+			let tags = [];
+
+			for ( let key in json ) {
+
+				const data = json[ key ];
+
+				if ( !!data && typeof( data ) === "object" ) {
+
+					if ( data.type === "folder" ) {
+
+						//console.log( "key", key );
+						//console.log( "data", data );
+
+						index = tags.indexOf( data.name );
+						//console.log( 'name', data.name );
+
+						if ( index === -1 ) {
+
+							tags.push( data.name );
+
+						} else {
+
+							//tags = tags.slice( 0, index );
+
+							console.log( 'tags', tags );
+
+						}
+
+						//tags = []
+						//console.log( 'tags', tags );
+						//tags.push( data.name );
+						obj[ data.name ] = { tags: tags }
+
+
+					}
+
+					traverse2( data, data.name );
+
+				} else {
+
+					//console.log( 'data', data );
+
+				}
+
+			}
+
+		}
+
+}
+
+
+function getTagsXXX() { // OK
+
+	bookmarks = json.roots.bookmark_bar
+	obj = {};
+	folders = [];
+
+	let tags = [ "root" ];
+	//rootFolders = bookmarks.children.map( item => item.name );
+
+	traverse2( bookmarks, "Bookmarks bar" );
+
+	console.log( 'obj', obj );
+
+
+	function traverse2( json, name ) {
+
+		for ( let key in json ) {
+
+			const data = json[ key ];
+
+			if ( !!data && typeof( data ) === "object" ) {
+
+				if ( data.type === "folder" ) {
+
+					//console.log( "key", key );
+					//console.log( "data", data );
+					console.log( 'name', data.name );
+
+					//tags = rootFolders.includes( data.name ) ? [] : tags;
+					//tags = []
+					//console.log( 'tags', tags );
+					tags.push( data.name );
+					obj[ data.name ] = { tags: tags }
+
+				}
+
+				traverse2( data, data.name );
+
+			} else {
+
+				//console.log( 'data', data );
+
+			}
+
+		}
+
+	}
+
+}
+
+
+////////// Not
+
+function buildTreeMenu() {
+
+	// https://codereview.stackexchange.com/questions/88433/creating-a-menu-as-nested-unordered-lists-from-json-data
+
+	//divContents.innerHTML += folders;
+
+	parents = [];
+
+	bookmarks = json.roots.bookmark_bar.children;
+	console.log( 'bookmarks', bookmarks );
+
+	htmlTxt = "";
+	parentCurrent = "";
+
+	recurseMenu( bookmarks, null );
+
+	divContents.innerHTML += `<ul>${ htmlTxt }</ul>`;
+
+}
+
+
+
+ function recurseMenu( bookmarks, parentName ) {
+
+	htmlStrTxt = "";
+
+	//console.log( '', parentName, 'pc', parentCurrent );
+
+
+	for ( let x in bookmarks) {
+
+		if ( bookmarks[x].name !== parentName && bookmarks[x].type === "folder" ) {
+
+			//console.log( 'bookmarks[x]', bookmarks[x].name);
+
+			if ( !parents.includes( parentName ) ) {
+
+				parents.push( parentName );
+
+			}
+
+			index = parents.indexOf( parentName ) - 2
+
+			parents = parents.slice( index );
+			console.log( 'parents', index, parents );
+
+			htmlStrTxt += `<li>${ parents } ${ bookmarks[x].name }</li>`;
+			//console.log( '', htmlStrTxt );
+
+			if ( parentName !== parentCurrent ) {
+
+				htmlStrTxt += "###"
+
+			}
+
+			//htmlStrTxt += recurseMenu( bookmarks[ x ].id );
+			//htmlTxt += `${htmlStrTxt } </ul>`;
+			htmlTxt += htmlStrTxt;
+			//parents = parents.slice( 1 );
+			parentCurrent = parentName;
+
+			recurseMenu( bookmarks[ x ].children, bookmarks[ x ].name );
+
+		}
+
+	}
+
+
+
+}
+
+
+
+function saveFile() {
+
+	let blob = new Blob( [ divContents.innerText ] );
+	let a = document.body.appendChild( document.createElement( 'a' ) );
+	a.href = window.URL.createObjectURL( blob );
+	a.download = 'hello-world.json';
+	a.click();
+	//		delete a;
+	a = null;
+
+}
+
+
+function getTitle() {
+
+	//document.title = document.title ? document.title : location.href.split( '/' ).pop().slice( 0, - 5 ).replace( /-/g, ' ' );
+
+	const htm =
+	`
+		<h2>
+			<a href=${ urlSourceCode } target=_top title="Source code on GitHub" >
+				<img src=${ urlSourceCodeIcon } height=18 >
+			</a>
+			<a href="" title="Click to reload this page" >${ document.title }</a>
+		</h2>
+
+		<p>
+			${ document.head.querySelector( "[ name=description ]" ).content }
+		</p>
+	`;
+
+	return htm;
+
+}
+
+</script>
+</body>
+</html>
