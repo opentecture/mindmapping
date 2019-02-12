@@ -5,8 +5,8 @@
 <meta name = "viewport" content= "width=device-width, initial-scale=1" >
 <meta name = "description" content = "Opentecture Bookmarks file creator: open, parse and save your browser's bookmarks to a JSON lines file" >
 <meta name = "keywords" content = "JavaScript,GitHub,FOSS" >
-<meta name = "date" content = "2019-02-10" >
-<title>Opentecture Bookmarks Add-a-line R2</title>
+<meta name = "date" content = "2019-02-11" >
+<title>Opentecture Bookmarks Add-a-line R2.1</title>
 <style>
 
 	body { font: 12pt monospace; margin: 0 auto; max-width: 800px; }
@@ -101,12 +101,13 @@
 <script>
 
 
+let folderToSearch;
 let json;
 let folders;
 let files;
 
 
-const urlSourceCode = "https://github.com/opentecture/mindmapping/tree/master/sandbox";
+const urlSourceCode = "https://github.com/opentecture/mindmapping/tree/master/sandbox/opentecture-bookmarks/";
 const urlSourceCodeIcon = "https://status.github.com/images/invertocat.png";
 
 init();
@@ -119,7 +120,7 @@ function init() {
 
 	inpBookmarksUrl.value = bookmarksUrl ? bookmarksUrl : '' ;
 
-	const folderToSearch = localStorage.getItem( 'inpFolderToSearch' );
+	folderToSearch = localStorage.getItem( 'inpFolderToSearch' );
 
 	inpFolderToSearch.value = folderToSearch ? folderToSearch : '' ;
 
@@ -189,7 +190,7 @@ function requestFile( url ) {
 
 function parseFile() {
 
-	let folderToSearch;
+	let folderCurrent;
 	folders = [];
 	files = [];
 	let folder;
@@ -199,12 +200,12 @@ function parseFile() {
 
 	if ( inpFolderToSearch.value !== "" ) {
 
-		folderToSearch = bookmarksChildren.find( item => item.name === inpFolderToSearch.value );
-		//console.log( 'folderToSearch', folderToSearch );
+		folderCurrent = bookmarksChildren.find( item => item.name === inpFolderToSearch.value );
+		//console.log( 'folderCurrent', folderCurrent );
 
 	}
 
-	bookmarks = folderToSearch ? folderToSearch : bookmarksChildren;
+	bookmarks = folderCurrent ? folderCurrent : bookmarksChildren;
 
 	traverse( bookmarks );
 
@@ -237,7 +238,7 @@ function parseFile() {
 
 					if ( !!data && data.type === "url" ) {
 
-						data.tags = [ folder ];
+						data.tags = [ folderToSearch, folder ];
 						//console.log( '', data );
 						files.push( data )
 
