@@ -45,7 +45,7 @@ It is a work-in-progress continuation of manipulating JSON Lines files in useful
 * 2019-02-11 ~ Upgrade to TooToo13
 * 2019-02-11 ~ Sort JSON lines data by tags
 * 2019-02-11 ~ Add line type of 'description', link to tags and display appropriately
-* 2019-02-11 ~ Add line type of comments, link to file and display appropriately
+* 2019-02-11 ~ Add line type of comments, link to type "url" and display appropriately
 * 2019-02-11 ~ Add ability to do screen capture of pages and save / save to Imgur
 
 
