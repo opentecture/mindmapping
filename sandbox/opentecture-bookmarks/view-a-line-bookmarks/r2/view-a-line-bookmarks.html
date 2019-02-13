@@ -1,0 +1,402 @@
+<!doctype html>
+<html lang = "en" >
+<head>
+<meta charset = "utf-8" >
+<meta name = "viewport" content= "width=device-width, initial-scale=1" >
+<meta name = "description" content = "Opentecture Bookmarks in JSON viewer and editor" >
+<meta name = "keywords" content = "JavaScript,GitHub,FOSS" >
+<meta name = "date" content = "2019-02-12" >
+<title>Opentecture Bookmarks View-a-line R2.0</title>
+<style>
+
+	body, html { font: 12pt monospace; height: 100%; margin: 0; overflow: hidden; }
+	a { color: crimson; text-decoration: none; }
+	a:hover, a:focus, a:active { background-color: yellow; color: #aaa; text-decoration: underline }
+
+	button, input[type=button] { background-color: #ddd; border: none; color: #322; cursor: pointer; padding: 3px 5px; }
+	button:hover { background: #ccc; color: #fff }
+
+	iframe { height: 100%; width: 100%; }
+
+	summary { font-weight: bold; font-size: 1.1rem; margin-bottom:0.5rem }
+	textarea { height: 100%; width: 100%; }
+
+	.flex-container { display: flex; }
+
+	#divContents { height: 100%; margin: 0 auto; max-width: 800px; }
+	#navMenu { background-color: #eee; left: 0; height: 100%; margin: 1rem; max-width: 20rem;
+	overflow: auto; padding: 0 10px; position: absolute; top: 0; }
+
+
+</style>
+</head>
+<body>
+
+	<nav id="navMenu" >
+
+		<div id="divTitle" ></div>
+
+		<p>
+			<input type=file id=inpFile onchange=openFile(this); accept = '.json' >
+		</p>
+		<p>
+			<button id=but onclick=saveFile(); accessKey= 'z' title='access key: z '>save edits to file</button>
+		</p>
+
+		<p>
+			<div id=menuItems ></div>
+		</p>
+	</nav>
+
+	<div id="divContents" >
+
+		<h1>Read Me</h1>
+
+		<p>2019-02-12</p>
+
+		<p>
+			This script is a side project of the <a href="https://www.ladybug.tools/spider/#sandbox/gbxml-to-json-lines/" target="_blank">gbXML to JSON Lines </a> project.
+			It is a work-in-progress continuation of manipulating JSON Lines files in useful ways.
+		</p>
+
+		<p>
+
+			Objectives
+			<ul>
+
+				<li>Access large numbers of bookmarks by categories and tags</li>
+				<li>View contents of many sites in a speedy fashion</li>
+				<li>Categorize and tag bookmarks with ease and speed</li>
+			</ul>
+		</p>
+		<p>
+			Features include:
+			<ul>
+				<li>Read JSON Lines files created by Opentecture Bookmarks Add-a-line</li>
+				<li>Display tree menu of bookmarks with HTML details elements</li>
+				<li>For every bookmark allow
+					<ul>
+							<li>Display web page in an iframe</li>
+							<li>Open web page in new tab</li>
+							<li>Edit bookmark json</li>
+					</ul>
+
+				</li>
+				<li>Save edits to new file</li>
+			</ul>
+
+		</p>
+
+		<p>
+			Notes
+			<ul>
+				<li>After editing a JSON bookmark, you must save to a file and then reload the page. Future release will be more convenient.</li>
+				<li>Be sure to create and keep back up files of the data files</li>
+				<li>Tags currently being used as catagories. This will change</li>
+				<li>Does not yet handle file not found errors well</li>
+				<li>Full TooToo13 capabilities to be added</li>
+				<li>Comments, adding new bookmarks will happen in future releases</li>
+
+			</ul>
+		</p>
+
+	</div>
+
+
+<script>
+
+
+url = "hello-world.json";
+url = "../../opentecture-bookmarks.json";
+
+let bookmarks = [];
+let index = 0;
+
+const urlCORS = 'https://cors-anywhere.herokuapp.com/';
+
+const urlSourceCode = "https://github.com/opentecture/mindmapping/tree/master/sandbox/opentecture-bookmarks/view-a-line-bookmarks";
+const urlSourceCodeIcon = "https://status.github.com/images/invertocat.png";
+
+init();
+
+function init() {
+
+	divTitle.innerHTML = getTitle();
+
+	requestFile( url );
+
+}
+
+
+
+function requestFile( url ) {
+
+	//let xhr;
+
+	xhr = new XMLHttpRequest();
+	xhr.crossOrigin = 'anonymous';
+	xhr.open( 'GET', url, true );
+	xhr.onerror = function( xhr ) { console.log( 'error:', xhr  ); };
+	//xhr.onprogress = function( xhr ) { console.log( 'bytes loaded:', xhr.loaded  ); }; /// or something
+	xhr.onload = callback;
+	xhr.send( null );
+
+	function callback( xhr ) {
+
+		const response = xhr.target.response;
+		//console.log( 'response', response );
+
+		//parseFile( response );
+
+		parseFileSort( response );
+
+	}
+
+}
+
+
+
+function parseFileSort( text ) {
+
+	bookmarks = [];
+	index = 0;
+
+	const lines = text.split(/\r\n|\n/).slice( 0, -1 );
+
+	for ( line of lines ) {
+		//console.log( 'line', line );
+
+		const jsonl = JSON.parse( line );
+		//console.log( 'jsonl', jsonl );
+
+		bookmarks.push( jsonl );
+
+	}
+	//console.log( 'bookmarks', bookmarks );
+
+
+	const mapped = bookmarks.map( function( el, i) {
+		return { index: i, value: el.tags[ 0 ].toLowerCase() };
+	})
+
+
+	// sorting the mapped array containing the reduced values
+	mapped.sort(function(a, b) {
+
+		if (a.value > b.value) {
+			return 1;
+		}
+		if (a.value < b.value) {
+			return -1;
+		}
+		return 0;
+
+	});
+
+	// container for the resulting order
+	const result = mapped.map(function(el){
+		return bookmarks[el.index];
+	});
+	//console.log( 'result', result );
+
+	let tag = "";
+	let tag2 = "";
+	let txt = ""
+
+	for ( bookmark of result ) {
+
+		const newTag = bookmark.tags[ 0 ];
+
+		if ( newTag !== tag ) {
+
+			txt += `</details><details><summary>${ newTag }</summary>`;
+			tag = newTag;
+		}
+
+		const newTag2 = bookmark.tags.length > 1 ? bookmark.tags[ 1 ] : "";
+
+		if ( newTag2 !== tag2 ) {
+
+			txt += `<div><b>${ newTag2 }</b></div>`;
+			tag2 = newTag2;
+		}
+
+		txt +=
+
+		`<div class="flex-container" style=margin-bottom:0.5rem;>
+			<div style=width:4rem; >
+				<button onclick=editJson(${index}); title="Edit bookmark in JSON" >✎</button>
+				<a href="${ bookmark.url}" target="_blank" title="Open bookmark in new tab" >🗗</a>
+			</div>
+			<div style=max-width:15rem; >
+				<button onclick=openInIframe("${ bookmark.url}"); title="View bookmark URL in an Iframe"  >${ bookmark.name }</button>
+			</div>
+		</div>
+		`;
+
+		index++;
+
+	}
+
+	menuItems.innerHTML = txt;
+
+}
+
+
+
+function parseFile( text ) {
+
+	bookmarks = [];
+	index = 0;
+
+	const lines = text.split(/\r\n|\n/).slice( 0, -1 );
+
+	for ( line of lines ) {
+		//console.log( 'line', line );
+
+		const jsonl = JSON.parse( line );
+		//console.log( 'jsonl', jsonl );
+
+		bookmarks.push( jsonl );
+
+	}
+
+	let tag = "";
+	let tag2 = "";
+	let txt = ""
+
+	for ( bookmark of bookmarks ) {
+
+		const newTag = bookmark.tags[ 0 ];
+
+		if ( newTag !== tag ) {
+
+			txt += `</details><details><summary>${ newTag }</summary>`;
+			tag = newTag;
+		}
+
+		const newTag2 = bookmark.tags.length > 1 ? bookmark.tags[ 1 ] : "";
+
+		if ( newTag2 !== tag2 ) {
+
+			txt += `<div>${ newTag2 }</div>`;
+			tag2 = newTag2;
+		}
+
+		txt +=
+
+		`<p>
+
+			<button onclick=editJson(${index}); >✎</button>
+
+			<button onclick=openInIframe("${ bookmark.url}"); >${ bookmark.name }</button>
+
+			<a href="${ bookmark.url}" target="_blank">🗗</a>
+		</p>`;
+
+		index++;
+
+	}
+
+	menuItems.innerHTML = txt;
+
+}
+
+
+
+function editJson( i ) {
+
+	index = i;
+	divContents.innerHTML = `<textarea id=txtArea >${ JSON.stringify( bookmarks[ index ] ) }</textarea>`;
+
+}
+
+
+
+function openInIframe( url ) {
+
+	divContents.innerHTML = `<iframe src="${ url }" ></iframe>`;
+
+}
+
+
+
+function openFile( files ) {
+
+	//var fileData, reader, data;
+
+	reader = new FileReader();
+	reader.onload = function( event ) {
+
+		parseFile( reader.result );
+
+		/*
+		divContents.innerHTML = reader.result;
+
+		divLog.innerHTML =
+			'name: ' + files.files[0].name + '<br>' +
+			'size: ' + files.files[0].size.toLocaleString() + ' bytes<br>' +
+			'type: ' + files.files[0].type + '<br>' +
+			'modified: ' + files.files[0].lastModifiedDate.toLocaleDateString() +
+		'';
+
+	console.log( '', files );
+	*/
+
+	}
+
+	reader.readAsText( files.files[0] );
+
+}
+
+
+
+function saveFile() {
+
+	let txt = JSON.parse( txtArea.value );
+	//txt2 = decodeURI( txt );
+
+	bookmarks[ index ] = txt;
+
+	console.log( 'txt', bookmarks[ index ] );
+
+	txtArea.value = JSON.stringify( bookmarks ).replace( /},{/g , "}\n{" ).slice( 1, -1 );
+
+
+	let blob = new Blob( [ txtArea.value ] );
+	let a = document.body.appendChild( document.createElement( 'a' ) );
+	a.href = window.URL.createObjectURL( blob );
+	a.download = 'opentecture-bookmarks.json';
+	a.click();
+	//		delete a;
+	a = null;
+
+}
+
+
+
+function getTitle() {
+
+	//document.title = document.title ? document.title : location.href.split( '/' ).pop().slice( 0, - 5 ).replace( /-/g, ' ' );
+
+	const htm =
+	`
+		<h2>
+			<a href=${ urlSourceCode } target=_top title="Source code on GitHub" >
+				<img src=${ urlSourceCodeIcon } height=18 >
+			</a>
+			<a href="" title="Click to reload this page" >${ document.title }</a>
+		</h2>
+
+		<p>
+			${ document.head.querySelector( "[ name=description ]" ).content }
+		</p>
+	`;
+
+	return htm;
+
+}
+
+</script>
+</body>
+</html>

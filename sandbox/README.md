@@ -1,5 +1,5 @@
 
-<span style=display:none; >[You are now in a GitHub source code view - click this link to view Read Me file as a web page]( https://opentecture.github.io/#mindmapping/sandbox/README.md "View file as a web page." ) </span>
+<span style=display:none; >[You are now in a GitHub source code view - click this link to view Read Me file as a web page]( https://opentecture.github.io/mindmapping/index.html#sandbox/README.md "View file as a web page." ) </span>
 
 <div><input type=button class = 'btn btn-secondary btn-sm' onclick="window.location.href='https://github.com/opentecture/mindmapping/blob/master/sandbox/README.md'";
 value='You are now in a GitHub web page view - Click this button to view this read me file as source code' ></div>

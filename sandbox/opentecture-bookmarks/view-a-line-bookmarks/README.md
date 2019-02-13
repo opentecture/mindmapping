@@ -1,7 +1,7 @@
 
-<span style=display:none; >[You are now in a GitHub source code view - click this link to view Read Me file as a web page]( https://opentecture.github.io/#mindmapping/sandbox/opentecture-bookmarks/view-a-line-bookmarks/README.md "View file as a web page." ) </span>
+<span style=display:none; >[You are now in a GitHub source code view - click this link to view Read Me file as a web page]( https://opentecture.github.io/mindmapping/#sandbox/opentecture-bookmarks/view-a-line-bookmarks/README.md "View file as a web page." ) </span>
 
-<div><input type=button class = 'btn btn-secondary btn-sm' onclick="window.location.href='https://github.com/opentecture/mindmapping/blob/master/sandbox/opentecture-bookmarks/view-a-line-bookmarks/README.md'";
+<div><input type=button class = 'btn btn-secondary btn-sm' onclick="window.location.href='https://github.com/opentecture/mindmapping/tree/master/sandbox/opentecture-bookmarks/view-a-line-bookmarks'";
 value='You are now in a GitHub web page view - Click this button to view this read me file as source code' ></div>
 
 <br>
@@ -41,9 +41,8 @@ It is a work-in-progress continuation of manipulating JSON Lines files in useful
 
 ## To Do / Wish List
 
-* 2019-02-11 ~ Cleaner display of items in menu
+* 2019-02-12 ~ Turn titles of things like university names to links to suitable page
 * 2019-02-11 ~ Upgrade to TooToo13
-* 2019-02-11 ~ Sort JSON lines data by categories
 * 2019-02-11 ~ Sort JSON lines data by tags
 * 2019-02-11 ~ Add line type of 'description', link to tags and display appropriately
 * 2019-02-11 ~ Add line type of comments, link to file and display appropriately
@@ -59,6 +58,18 @@ It is a work-in-progress continuation of manipulating JSON Lines files in useful
 
 
 ## Change Log
+
+view-a-line-bookmarks
+
+### 2019-02-12 ~ Theo
+
+view-a-line-bookmarks r2.0
+
+* Adds sort folders and files by primary category
+	* Closes: 2019-02-11 ~ Sort JSON lines data by categories
+* Add build menu items using flexbox
+	* Closes: 2019-02-11 ~ Cleaner display of items in menu
+
 
 ### 2019-02-11 ~ Theo
 
