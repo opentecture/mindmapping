@@ -323,7 +323,7 @@ MNU.footerIssues = "https://github.com/pushme-pullyou/tootoo13/issues";
 
 <script>
 
-let url = "https://opentecture.github.io/mindmapping/sandbox/opentecture-bookmarks/opentecture-bookmarks.json";
+let url = "../../opentecture-bookmarks.json";
 
 let bookmarks = [];
 let index = 0;
@@ -405,7 +405,9 @@ function parseFileSort( text ) {
 
 
 	const mapped = bookmarks.map( function( el, i) {
+
 		return { index: i, value: el.tags[ 0 ].toLowerCase() };
+		
 	})
 
 
@@ -448,6 +450,7 @@ function parseFileSort( text ) {
 
 			txt += `<div><b>${ newTag2 }</b></div>`;
 			tag2 = newTag2;
+
 		}
 
 		txt +=
