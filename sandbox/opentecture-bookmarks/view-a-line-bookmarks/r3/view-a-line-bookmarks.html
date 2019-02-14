@@ -1,0 +1,633 @@
+<!doctype html>
+<html lang = "en" >
+<head>
+<meta charset = "utf-8" >
+<meta name = "viewport" content= "width=device-width, initial-scale=1" >
+<meta name = "description" content = "This menu is a component of a basic html content management script with sliding menu, css theme selection, Markdown to HTML, drag and drop file reading capability, access to frequently used pages and more" >
+<meta name = "keywords" content = "JavaScript,GitHub,FOSS" >
+<meta name = "date" content = "2019-02-13" >
+<meta name = "release" content = "3.0" >
+<title>Opentecture Bookmarks View-a-line</title>
+<style>
+
+	* {box-sizing: border-box; }
+
+	:root { --mnu-width: 20rem; --screen-width: calc( 100vw ); }
+
+	/* body, html { font: 11pt monospace; height: 100%; margin: 0; overflow: hidden; } */
+	body { font: 12pt monospace; height: 100%; margin: 0; }
+
+	a { color: maroon; font-weight: bold; text-decoration: none; }
+	a:hover, a:focus { background-color: yellow; color: #aaa; text-decoration: underline }
+
+	aside { border: 1px solid lightgray; margin-top:15px; padding: 2px; }
+
+	blockquote, pre { background-color: #eee; padding: 10px; }
+
+	button, input[ type=button ] { background-color: #ddd; border: none; color: #322; cursor: pointer; padding: 3px 5px; }
+	button:hover, input[ type=button ]:hover{ background: #ccc; color: #888 }
+
+	input[ type = range ] { -webkit-appearance: none; -moz-appearance: none; background-color: #ddd; width: 90%; }
+	input[ type = range ]::-moz-range-thumb { background-color: #888; border-radius: 0; width: 10px; }
+	input[ type = range ]::-webkit-slider-thumb { -webkit-appearance: none; background-color: #888; height: 20px; width: 10px; }
+
+	summary { cursor: pointer; font-weight: bold; }
+
+	.attributeTitle { font-style: italic; }
+	.attributeValue { color: blue; }
+	.dragDropArea { border: 1px dashed gray; margin: 0.5rem  0; padding: 0 0.5rem; }
+	.helpItem { float: right; clear: both; }
+	.highlight {background-color: lightgreen }
+	.navSubMenu { /* background-color: yellow; */ padding: 0 0.5rem; }
+	.sumMenuTitle { background-color: #ccc; color: #888; margin: 10px 0; text-align: center; }
+
+	#divContainer { height: calc( 100vh ); margin: 0 0 0 var( --mnu-width ); transition: margin-left .5s; position: relative; }
+	#divContents { height: calc( 100vh ); margin: 0 auto; max-width: 50rem; padding: 1rem; }
+
+	/* for three.js
+	#divContainer { height: 100%; margin: 0; padding: 0; position: relative; }
+	#divContents { border: 0px solid #444; height: calc( 100vh ); margin: 0; max-width: calc( 100vw ); overflow: hidden; padding: 0; width: 100%; }
+	*/
+
+	#navMenu { background-color: #eee;
+		border: 1px solid #888; left: 0; margin: 0; max-height: 100%; overflow: auto;
+		position: fixed; resize: both; top: 0; transition: left 0.5s; width: var( --mnu-width ); z-index: 10; }
+
+	#navMenu button, #navMenu input[type=button] { background-color: #ddd; border: 2px solid white; color: white; cursor: pointer;
+		padding: 2px 5px; min-width: 1.5rem; }
+
+	#navMenu button:hover { background: #ccc; color: #888 }
+
+	#navMenu button.active { border-color: black; font-style: italic; font-weight: bold; margin-left: 1rem;
+		box-shadow: 2px 2px re#888; }
+
+
+	#butHamburger { box-sizing: border-box;
+		font-size: 2rem; left: calc( var( --mnu-width ) + 0rem ); position: fixed; top: 5px; transition: left 0.5s;
+		z-index: 20;
+		box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23); }
+
+
+	#navPopUp { background-color: #eee; border-radius: 8px; display: block; max-height: 95%; max-width: 25%;
+		opacity: 0.95;  overflow: auto; padding: 0 5px 10px 5px; position: fixed; resize: both; right: 1rem;
+		top: 1rem; z-index: 10; };
+
+
+
+	@media only screen and (max-width: 600px) {
+
+	/* needs two to work !?! */
+
+	}
+
+
+	@media only screen and (max-width: 600px) {
+
+		#navMenu { width: 0px; }
+		#butHamburger { left: 1rem; }
+		#divContainer { width: 80rem; }
+		#divContainer { margin: 0; padding: 0;}
+
+		#divContents { max-width: cal( 100vw ); width: calc( 100vw ); }
+		#divContents { margin: 0; padding: 0 1rem; }
+
+		}
+
+
+	iframe { height: 100%; width: 100%; }
+
+	summary { font-weight: bold; font-size: 1.1rem; margin-bottom:0.5rem }
+	textarea { height: 100%; width: 100%; }
+
+	.flex-container { display: flex; }
+
+</style>
+</head>
+<body>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/showdown/1.9.0/showdown.min.js" ></script>
+<script src="https://pushme-pullyou.github.io/tootoo13/js-tootoo13-1/mnu-menu.js" ></script>
+<!--
+	<script src="https://pushme-pullyou.github.io/tootoo13/js-tootoo13-1/fob-file-open-basic.js" ></script>
+	<script src="https://pushme-pullyou.github.io/tootoo13/js-tootoo13-1/ohc-on-hash-change.js" ></script>
+	<script src="https://pushme-pullyou.github.io/tootoo13/js-tootoo13-1/sfm-selected-files-markdown.js" ></script>
+	<script src="https://pushme-pullyou.github.io/tootoo13/js-tootoo13-1/thm-theme-select.js" ></script>
+	<script src="https://pushme-pullyou.github.io/tootoo13/js-tootoo13-1/tmp-template.js" ></script>
+-->
+<script>
+
+//Copyright 2019 pushMe-pullYou authors. MIT License
+
+MNU.description =
+	`
+		Opentecture Bookmarks View-a-line: access large numbers of bookmarks by categories and tags
+	`;
+
+MNU.currentStatusCore =
+	`
+		<h3>
+			Opentecture Bookmarks View-a-line R${ document.head.querySelector( '[ name=release ]' ).content }
+		</h3>
+
+		<p>${ MNU.description }</p>
+
+		<details>
+
+			<summary>Change log ~ ${ document.head.querySelector( '[ name=date ]' ).content }</summary>
+
+			<ul>
+				<li>2019-02-13 ~ R3 beginning to look OK.</li>
+				<!--
+					<li></li>
+				-->
+			</ul>
+
+		</details>
+
+		<details>
+
+			<summary>TooToo Content Manager</summary>
+
+			<p>This web page is built with:</p>
+
+			${ MNU.descriptionTooToo }
+
+		</details>
+	`;
+
+
+//OHC.uriDefaultFile = "https://opentecture.githib.io/mindmapping/sandbox/opentecture-bookmarks/view-a-line-bookmarks/README.md";
+
+//THM.themeUrlStorage = "viewALineThemeUrl";
+//THM.cssBasic = "style.css";
+
+// For main menu header
+MNU.urlSourceCode = "https://github.com/pushme-pullyou/pushme-pullyou.github.io/tree/master/tootoo-templates/hamburger-css";
+
+MNU.homeText  = "Opentecture"; // "pushMe-pullYou";
+MNU.homeTitle = ""; "Very simple JavaScript files to help you explore and build new tools on GitHub.";
+MNU.homeUrl   = "https://opentecture.com";
+
+MNU.repoText  = "MindMapping";
+MNU.repoTitle = ""; //"Basic html templates with sliding menu, css selection, markdown capability and frequently used pages";
+MNU.repoUrl   = "https://opentecture.github.io/mindmapping/";
+
+MNU.appText  = ""; // "CMS";
+MNU.appTitle = ""; //"Basic html content management script with sliding menu, css theme selection, Markdown to HTML, drag and drop file reading capability, access to frequently used pages and more";
+MNU.appUrl   = ""; //"https://pushme-pullyou.github.io/#tootoo-templates/hamburger-theme-cms/README.md";
+
+MNU.urlSourceCodeImage="https://status.github.com/images/invertocat.png";
+MNU.urlSourceCodeIcon=`<img src="${ MNU.urlSourceCodeImage }" height=18 >`;
+
+MNU.footerUrl    = "#../../";
+MNU.footerTarget = ""; //"target=_blank";
+MNU.footerIssues = "https://github.com/pushme-pullyou/tootoo13/issues";
+
+// for parsing
+//OHC.user = 'opentecture';
+//OHC.repo = 'mindmapping';
+//OHC.pathRepo = '';
+//OHC.branch = '/master/';
+
+// When running in dev folder
+// = location.href.includes( OHC.repo ) ? '../' : 'https://' + OHC.repo + "/";
+//OHC.urlGitHubPage = MNU.repoUrl;
+// When running in build repo
+//OHC.urlGitHubPage = "";
+
+</script>
+
+
+	<nav id="navMenu" >
+
+		<header>
+
+			<div id="MNUdivHeader" ></div>
+
+		</header>
+
+		<div class=navSubMenu >
+		<p>
+				<input type=file id=inpFile onchange=openFile(this); accept = '.json' >
+			</p>
+			<p>
+				<button id=but onclick=saveFile(); accessKey= 'z' title='access key: z '>save edits to file</button>
+			</p>
+
+			<p>
+				<div id=menuItems ></div>
+			</p>
+
+		</div>
+
+		<!--
+
+			<details class=navSubMenu open >
+
+				<summary class=sumMenuTitle >Settings</summary>
+
+				<section id=THMsecMenuThemeSelect ></section>
+
+				<section id=TMPsecMenuTemplate ></section>
+
+			</details>
+		-->
+
+
+		<footer class=navSubMenu >
+
+			<section id="MNUdivFooter" ></section>
+
+		</footer>
+
+
+		<h1 onclick=navMenu.scrollTop=0; style=cursor:pointer;text-align:center; title="go to top of menu" > ❦ </h1>
+
+	</nav>
+
+
+	<div>
+
+		<button id="butHamburger" onclick=MNU.toggleNavLeft(); title="click here to hide this menu"> slide &#9776; </button>
+
+	</div>
+
+
+	<nav id="navPopUp" >
+
+		<div id="divPopUpData" ></div>
+
+		<div id="divMessage" ></div>
+
+	</nav>
+
+
+	<div id="divContainer" >
+
+		<div id="divContents" >
+
+			<h1>Read Me</h1>
+
+			<p>2019-02-13</p>
+
+			<p>R3: Too complicated and needs a cleanup</p>
+
+			<p>
+				This script is a side project of the <a href="https://www.ladybug.tools/spider/#sandbox/gbxml-to-json-lines/" target="_blank">gbXML to JSON Lines </a> project.
+				It is a work-in-progress continuation of manipulating JSON Lines files in useful ways.
+			</p>
+
+			<p>
+
+				Objectives
+				<ul>
+
+					<li>Access large numbers of bookmarks by categories and tags</li>
+					<li>View contents of many sites in a speedy fashion</li>
+					<li>Categorize and tag bookmarks with ease and speed</li>
+				</ul>
+			</p>
+			<p>
+				Features include:
+				<ul>
+					<li>Read JSON Lines files created by Opentecture Bookmarks Add-a-line</li>
+					<li>Display tree menu of bookmarks with HTML details elements</li>
+					<li>For every bookmark allow
+						<ul>
+								<li>Display web page in an iframe</li>
+								<li>Open web page in new tab</li>
+								<li>Edit bookmark json</li>
+						</ul>
+
+					</li>
+					<li>Save edits to new file</li>
+				</ul>
+
+			</p>
+
+			<p>
+				Notes
+				<ul>
+					<li>After editing a JSON bookmark, you must save to a file and then reload the page. Future release will be more convenient.</li>
+					<li>Be sure to create and keep back up files of the data files</li>
+					<li>Tags currently being used as catagories. This will change</li>
+					<li>Does not yet handle file not found errors well</li>
+					<li>Full TooToo13 capabilities to be added</li>
+					<li>Comments, adding new bookmarks will happen in future releases</li>
+
+				</ul>
+			</p>
+
+		</div>
+
+	</div>
+
+<script>
+
+let url = "https://opentecture.github.io/mindmapping/sandbox/opentecture-bookmarks/opentecture-bookmarks.json";
+
+let bookmarks = [];
+let index = 0;
+
+init();
+
+
+function init() {
+
+	MNUdivHeader.innerHTML = MNU.getNavHeader();
+
+	//OHCsecMenuRepoFilesFolders.innerHTML = OHC.getMenuRepoFilesFolders();
+
+	//FOBsecFileOpenBasic.innerHTML = FOB.getMenuFileOpenBasic( divContents, divPopUpData );
+
+	//SFM.getMarkdownFileContents("prototypes.md",SFMsecPrototypes);
+
+	//THMsecMenuThemeSelect.innerHTML = THM.getMenuThemeSelect();
+
+	//TMPsecMenuTemplate.innerHTML = TMP.getMenuTemplate();
+
+	//MNUdivFooter.innerHTML = MNU.getNavFooter(); // not essential
+
+	//THM.init();
+
+	//OHC.onHashChange();
+
+	requestFile( url );
+
+}
+
+
+
+
+function requestFile( url ) {
+
+	//let xhr;
+
+	xhr = new XMLHttpRequest();
+	xhr.crossOrigin = 'anonymous';
+	xhr.open( 'GET', url, true );
+	xhr.onerror = function( xhr ) { console.log( 'error:', xhr  ); };
+	//xhr.onprogress = function( xhr ) { console.log( 'bytes loaded:', xhr.loaded  ); }; /// or something
+	xhr.onload = callback;
+	xhr.send( null );
+
+		function callback( xhr ) {
+
+			const response = xhr.target.response;
+			//console.log( 'response', response );
+
+			//parseFile( response );
+
+			parseFileSort( response );
+
+		}
+
+}
+
+
+
+function parseFileSort( text ) {
+
+	bookmarks = [];
+	index = 0;
+
+	const lines = text.split(/\r\n|\n/).slice( 0, -1 );
+
+	for ( line of lines ) {
+		//console.log( 'line', line );
+
+		const jsonl = JSON.parse( line );
+		//console.log( 'jsonl', jsonl );
+
+		bookmarks.push( jsonl );
+
+	}
+	//console.log( 'bookmarks', bookmarks );
+
+
+	const mapped = bookmarks.map( function( el, i) {
+		return { index: i, value: el.tags[ 0 ].toLowerCase() };
+	})
+
+
+	// sorting the mapped array containing the reduced values
+	mapped.sort(function(a, b) {
+
+		if (a.value > b.value) {
+			return 1;
+		}
+		if (a.value < b.value) {
+			return -1;
+		}
+		return 0;
+
+	});
+
+	// container for the resulting order
+	const result = mapped.map(function(el){
+		return bookmarks[el.index];
+	});
+	//console.log( 'result', result );
+
+	let tag = "";
+	let tag2 = "";
+	let txt = ""
+
+	for ( bookmark of result ) {
+
+		const newTag = bookmark.tags[ 0 ];
+
+		if ( newTag !== tag ) {
+
+			txt += `</details><details><summary>${ newTag }</summary>`;
+			tag = newTag;
+		}
+
+		const newTag2 = bookmark.tags.length > 1 ? bookmark.tags[ 1 ] : "";
+
+		if ( newTag2 !== tag2 ) {
+
+			txt += `<div><b>${ newTag2 }</b></div>`;
+			tag2 = newTag2;
+		}
+
+		txt +=
+
+		`<div class="flex-container" style=margin-bottom:0.5rem;>
+			<div style=width:4rem; >
+				<button onclick=editJson(${index}); title="Edit bookmark in JSON" >✎</button>
+				<a href="${ bookmark.url}" target="_blank" title="Open bookmark in new tab" >🗗</a>
+			</div>
+			<div style=max-width:15rem; >
+				<button onclick=openInIframe("${ bookmark.url}"); title="View bookmark URL in an Iframe"  >${ bookmark.name }</button>
+			</div>
+		</div>
+		`;
+
+		index++;
+
+	}
+
+	menuItems.innerHTML = txt;
+
+}
+
+
+
+function parseFile( text ) {
+
+	bookmarks = [];
+	index = 0;
+
+	const lines = text.split(/\r\n|\n/).slice( 0, -1 );
+
+	for ( line of lines ) {
+		//console.log( 'line', line );
+
+		const jsonl = JSON.parse( line );
+		//console.log( 'jsonl', jsonl );
+
+		bookmarks.push( jsonl );
+
+	}
+
+	let tag = "";
+	let tag2 = "";
+	let txt = ""
+
+	for ( bookmark of bookmarks ) {
+
+		const newTag = bookmark.tags[ 0 ];
+
+		if ( newTag !== tag ) {
+
+			txt += `</details><details><summary>${ newTag }</summary>`;
+			tag = newTag;
+		}
+
+		const newTag2 = bookmark.tags.length > 1 ? bookmark.tags[ 1 ] : "";
+
+		if ( newTag2 !== tag2 ) {
+
+			txt += `<div>${ newTag2 }</div>`;
+			tag2 = newTag2;
+		}
+
+		txt +=
+
+		`<p>
+
+			<button onclick=editJson(${index}); >✎</button>
+
+			<button onclick=openInIframe("${ bookmark.url}"); >${ bookmark.name }</button>
+
+			<a href="${ bookmark.url}" target="_blank">🗗</a>
+
+		</p>`;
+
+		index++;
+
+	}
+
+	menuItems.innerHTML = txt;
+
+}
+
+
+
+function editJson( i ) {
+
+	index = i;
+	divContents.innerHTML = `<textarea id=txtArea >${ JSON.stringify( bookmarks[ index ] ) }</textarea>`;
+
+}
+
+
+
+function openInIframe( url ) {
+
+	divContents.innerHTML = `<iframe src="${ url }" ></iframe>`;
+
+}
+
+
+
+function openFile( files ) {
+
+	//var fileData, reader, data;
+
+	reader = new FileReader();
+	reader.onload = function( event ) {
+
+		parseFile( reader.result );
+
+		/*
+		divContents.innerHTML = reader.result;
+
+		divLog.innerHTML =
+			'name: ' + files.files[0].name + '<br>' +
+			'size: ' + files.files[0].size.toLocaleString() + ' bytes<br>' +
+			'type: ' + files.files[0].type + '<br>' +
+			'modified: ' + files.files[0].lastModifiedDate.toLocaleDateString() +
+		'';
+
+		console.log( '', files );
+		*/
+
+	}
+
+	reader.readAsText( files.files[0] );
+
+}
+
+
+
+function saveFile() {
+
+	let txt = JSON.parse( txtArea.value );
+	//txt2 = decodeURI( txt );
+
+	bookmarks[ index ] = txt;
+
+	console.log( 'txt', bookmarks[ index ] );
+
+	txtArea.value = JSON.stringify( bookmarks ).replace( /},{/g , "}\n{" ).slice( 1, -1 );
+
+
+	let blob = new Blob( [ txtArea.value ] );
+	let a = document.body.appendChild( document.createElement( 'a' ) );
+	a.href = window.URL.createObjectURL( blob );
+	a.download = 'opentecture-bookmarks.json';
+	a.click();
+	//		delete a;
+	a = null;
+
+}
+
+
+
+function getTitle() {
+
+	//document.title = document.title ? document.title : location.href.split( '/' ).pop().slice( 0, - 5 ).replace( /-/g, ' ' );
+
+	const htm =
+	`
+		<h2>
+			<a href=${ urlSourceCode } target=_top title="Source code on GitHub" >
+				<img src=${ urlSourceCodeIcon } height=18 >
+			</a>
+			<a href="" title="Click to reload this page" >${ document.title }</a>
+		</h2>
+
+		<p>
+			${ document.head.querySelector( "[ name=description ]" ).content }
+		</p>
+	`;
+
+	return htm;
+
+}
+
+
+</script>
+</body>
+</html>
