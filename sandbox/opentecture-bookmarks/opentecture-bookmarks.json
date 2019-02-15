@@ -2,6 +2,7 @@
 {"date_added":"13159178011000000","id":"280340","name":"Alice: Free, Easy, Interactive 3D Graphics for the WWW","sync_transaction_version":"6821","type":"url","url":"http://www.alice.org/","tags":["academia","carnagie-mellon"]}
 {"date_added":"13159178008000000","id":"276601","meta_info":{"last_visited_desktop":"13179484380932000"},"name":"10min guide to your first simulation · architecture-building-systems/RC_BuildingSimulator Wiki","sync_transaction_version":"9944","type":"url","url":"https://github.com/architecture-building-systems/RC_BuildingSimulator/wiki/10min-guide-to-your-first-simulation","tags":["academia","eth-zurich"]}
 {"date_added":"13176675582154609","id":"324607","meta_info":{"last_visited_desktop":"13176876744523453"},"name":"Institute without Boundaries – Interdisciplinary Design Strategy","sync_transaction_version":"6828","type":"url","url":"http://institutewithoutboundaries.ca/","tags":["academia","george-brown"]}
+
 {"date_added":"13176461174583215","id":"324538","meta_info":{"last_visited_desktop":"13176461174583835"},"name":"NailO | MIT Media Lab","sync_transaction_version":"6831","type":"url","url":"http://nailo.media.mit.edu/","tags":["academia","mit"]}
 {"date_added":"13176461225082428","id":"324539","meta_info":{"last_visited_desktop":"13176879137593726"},"name":"Self-Assembly Lab","sync_transaction_version":"7009","type":"url","url":"https://selfassemblylab.mit.edu/","tags":["academia","mit"]}
 {"date_added":"13159222430000000","id":"279031","meta_info":{"last_visited_desktop":"13193209801770759"},"name":"Open Source Architecture","sync_transaction_version":"22238","type":"url","url":"http://senseable.mit.edu/osarc/","tags":["academia","mit"]}
@@ -283,3 +284,25 @@
 {"date_added":"13194420446677080","id":"327755","meta_info":{"last_visited_desktop":"13194420773409283"},"name":"TrussFab","sync_transaction_version":"23285","type":"url","url":"https://dl.acm.org/citation.cfm?id=3026016","tags":["articles/videos","2017"]}
 {"date_added":"13194420422516826","id":"327753","meta_info":{"last_visited_desktop":"13194420422517849"},"name":"#OpenStructures hashtag on Twitter","sync_transaction_version":"23283","type":"url","url":"https://twitter.com/hashtag/OpenStructures?src=hash&lang=en","tags":["articles/videos","2017"]}
 {"date_added":"13194420468664932","id":"327756","name":"smow Blog Interview: Thomas Lommée - as designers our job is to generate solutions - smow Blog English","sync_transaction_version":"23275","type":"url","url":"https://www.smow.com/blog/2016/02/smow-blog-interview-thomas-lommee-designers-job-generate-solutions/","tags":["articles/videos","2016"]}
+// descriptions
+{"date_added":"13194420468664932","type":"description","tag":"academia","content":"link from a bricks and mortar educational institution"}
+{"date_added":"13194420468664932","type":"description","tag":"articles/videos","content":"news items from a varety of sources"}
+{"date_added":"13194420468664932","type":"description","tag":"bim","content":"building information management"}
+{"date_added":"13194420468664932","type":"description","tag":"collaborating","content":"tools or groups for working together"}
+{"date_added":"13194420468664932","type":"description","tag":"configurators","content":"systems that design things"}
+{"date_added":"13194420468664932","type":"description","tag":"design tools","content":"apps and programs to help create things"}
+{"date_added":"13194420468664932","type":"description","tag":"documents technical","content":"papers of an erudite nature"}
+{"date_added":"13194420468664932","type":"description","tag":"intellectual property","content":"Intellectual property (IP) refers to creations of the mind, such as inventions; literary and artistic works; designs; and symbols, names and images used in commerce."}
+{"date_added":"13194420468664932","type":"description","tag":"lego","content":"items created by assembling brick-like components"}
+{"date_added":"13194420468664932","type":"description","tag":"manifestos","content":"a written statement declaring publicly the intentions, motives, or views of its issuer"}
+{"date_added":"13194420468664932","type":"description","tag":"news blogs resources","content":"providers of newly received or noteworthy information, especially about recent or important events."}
+{"date_added":"13194420468664932","type":"description","tag":"opentecture","content":""}
+{"date_added":"13194420468664932","type":"description","tag":"organizations","content":"an organized body of people with a particular purpose, especially a business, society, association, etc"}
+{"date_added":"13194420468664932","type":"description","tag":"papers","content":"academic, authoritative articles"}
+{"date_added":"13194420468664932","type":"description","tag":"people","content":"individual contributors of note"}
+{"date_added":"13194420468664932","type":"description","tag":"products kits","content":"an article or substance that is manufactured or refined for sale"}
+{"date_added":"13194420468664932","type":"description","tag":"reference","content":"a source of information in order to ascertain something."}
+{"date_added":"13194420468664932","type":"description","tag":"services","content":"A type of economic activity that is intangible, is not stored and does not result in ownership"}
+{"date_added":"13194420468664932","type":"description","tag":"portals","content":"a website or web page providing access or links to other sites."}
+{"date_added":"13194420468664932","type":"description","tag":"designers","content":"a person who plans the form, look, or workings of something before its being made or built, typically by drawing it in detail."}
+{"date_added":"13194420468664932","type":"description","tag":"XXX","content":"xxxxx"}

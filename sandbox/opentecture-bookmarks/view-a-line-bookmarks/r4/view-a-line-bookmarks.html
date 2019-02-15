@@ -1,0 +1,375 @@
+<!doctype html>
+<html lang = "en" >
+<head>
+<meta charset = "utf-8" >
+<meta name = "viewport" content= "width=device-width, initial-scale=1" >
+<meta name = "description" content = "Content manager for web page bookmarks stored in JSON lines files" >
+<meta name = "keywords" content = "JavaScript,GitHub,FOSS" >
+<meta name = "date" content = "2019-02-14" >
+<title></title>
+<style>
+
+	* {box-sizing: border-box; }
+
+	:root { --mnu-width: 20rem; --screen-width: calc( 100vw ); }
+
+	body { font: 12pt monospace; height: 100%; margin: 0; }
+	a { color: crimson; text-decoration: none; }
+	a:hover, a:focus, a:active { background-color: yellow; color: #aaa; text-decoration: underline }
+
+	button, input[type=button] { background-color: #ddd; border: none; color: #322; cursor: pointer; padding: 3px 5px; }
+	button:hover { background: #ccc; color: #fff }
+
+	#divContainer { /* border: solid green 1px; */ height: calc( 100vh ); margin: 0 0 0 var( --mnu-width ); transition: margin-left .5s; position: relative; }
+	#divContents { /* border: solid red 1px; */ height: calc( 100vh ); margin: 0 auto; max-width: 50rem; padding: 1rem; }
+
+
+	#navMenu { background-color: #eee; /* background: rgba( 250, 250, 250, 0.8 ); */
+		border: 1px solid #888; left: 0; margin: 0; max-height: 100%; overflow: auto;
+		padding: 1rem; position: fixed; resize: both; top: 0; transition: left 0.5s; width: var( --mnu-width ); z-index: 10; }
+
+
+	#navMenu button, #navMenu input[type=button] { background-color: #ddd; border: 2px solid white; color: white; cursor: pointer;
+		padding: 2px 5px; min-width: 1.5rem; }
+
+	#navMenu button:hover { background: #ccc; color: #888 }
+
+	#navMenu button.active { border-color: black; font-style: italic; font-weight: bold; margin-left: 1rem;
+		box-shadow: 2px 2px #888; }
+
+
+	#butHamburger { font-size: 2rem; left: calc( var( --mnu-width ) + 0rem ); position: fixed; top: 5px;
+		transition: left 0.5s; z-index: 20;
+		box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23); }
+
+
+		iframe { height: 100%; width: 100%; }
+
+summary { font-weight: bold; font-size: 1.1rem; margin-bottom:0.5rem }
+textarea { height: 100%; width: 100%; }
+
+.flex-container { display: flex; }
+</style>
+</head>
+<body>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/showdown/1.9.0/showdown.min.js" ></script>
+
+	<nav id="navMenu" >
+
+		<div id="divTitle" ></div>
+
+
+		<div id=menuItems ></div>
+
+		<hr>
+
+		<h1 onclick="navMenu.scrollTop=0;" style="cursor:pointer;text-align:center;" title="go to top of menu" > ❦ </h1>
+
+	</nav>
+
+
+	<div>
+
+		<button id="butHamburger" onclick=MNU.toggleNavLeft(); title="click here to hide this menu"> slide ☰ </button>
+
+	</div>
+
+
+	<div id="divContainer" >
+
+		<div id="divContents" ></div>
+
+	</div>
+
+
+<script>
+
+let urlJson = "../../opentecture-bookmarks.json";
+let urlMd = "../READMe.md";
+let bookmarks;
+let index;
+
+
+const urlSourceCode = "https://github.com/opentecture/mindmapping/tree/master/sandbox/opentecture-bookmarks/view-a-line-bookmarks"
+const urlSourceCodeIcon = "https://status.github.com/images/invertocat.png";
+
+const MNU = {};
+
+
+init();
+
+
+function init() {
+
+	document.addEventListener( 'touchstart', MNU.onTouchStart, false );
+	document.addEventListener( 'touchmove', MNU.onTouchMove, false );
+
+	divTitle.innerHTML = getTitle();
+
+	requestFile( urlJson, parseFileSort );
+
+	requestFile( urlMd, parseMarkdownToHtml );
+
+}
+
+
+
+function requestFile( url, callback ) {
+
+	const xhr = new XMLHttpRequest();
+	xhr.crossOrigin = 'anonymous';
+	xhr.open( 'GET', url, true );
+	xhr.onerror = function( xhr ) { console.log( 'error:', xhr  ); };
+	//xhr.onprogress = function( xhr ) { console.log( 'bytes loaded:', xhr.loaded  ); }; /// or something
+	xhr.onload = callback;
+	xhr.send( null );
+
+}
+
+
+
+function parseMarkdownToHtml( xhr ) {
+
+	const response = xhr.target.response;
+	showdown.setFlavor('github');
+	const converter = new showdown.Converter();
+	const html = converter.makeHtml( response );
+
+	divContents.innerHTML = html;
+	window.scrollTo( 0, 0 );
+
+}
+
+
+
+function parseFileSort( xhr ) {
+
+	const response = xhr.target.response;
+	//console.log( 'response', response );
+
+	bookmarks = [];
+	descriptions = [];
+	index = 0;
+
+	 lines = response.split(/\r\n|\n/).slice( 0, -1 );
+
+	for ( let line of lines ) {
+		//console.log( 'line', line );
+
+		if ( line.slice( 0, 1 ) !== "{" ) { continue; }
+		const jsonl = JSON.parse( line );
+		//console.log( 'jsonl', jsonl );
+
+		if ( jsonl.type === "url" ) {
+
+			bookmarks.push( jsonl );
+
+		} else if ( jsonl.type === "description" ) {
+
+			descriptions.push( jsonl );
+
+		}
+
+	}
+	//console.log( 'bookmarks', bookmarks );
+
+
+	const mapped = bookmarks.map( ( el, i) => ( { index: i, value: el.tags[ 0 ].toLowerCase() } ) );
+
+	mapped.sort(function(a, b) {
+
+		if ( a.value > b.value ) { return 1; }
+
+		if ( a.value < b.value ) { return -1; }
+
+		return 0;
+
+	} );
+
+	const result = mapped.map( (el) => bookmarks[el.index] );
+	//console.log( 'result', result );
+
+	let tag1 = "";
+	let tag2 = "";
+	let txt = "";
+
+	for ( let bookmark of result ) {
+
+		const newTag1 = bookmark.tags[ 0 ];
+
+		if ( newTag1 !== tag1 ) {
+
+			item = descriptions.find( item => item.tag === newTag1 )
+			content = item ? item.content : "";
+			txt +=
+				`</details>
+				<details>
+					<summary>${ newTag1 }</summary>
+					<p>${ content }</p>
+				`;
+			tag1 = newTag1;
+
+		}
+
+		const newTag2 = bookmark.tags.length > 1 ? bookmark.tags[ 1 ] : "";
+
+		if ( newTag2 !== tag2 ) {
+
+			txt += `<div><b>${ newTag2 }</b></div>`;
+			tag2 = newTag2;
+
+		}
+
+		txt +=
+		`
+			<div class="flex-container" style=margin-bottom:0.5rem;>
+				<div style=width:4rem; >
+					<button onclick=editJson(${ index }); title="Edit bookmark in JSON" >✎</button>
+					<a href="${ bookmark.url}" target="_blank" title="Open bookmark in new tab" >🗗</a>
+				</div>
+				<div style=max-width:15rem; >
+					<button onclick=openInIframe("${ bookmark.url}"); title="View bookmark URL in an Iframe"  >${ bookmark.name }</button>
+				</div>
+			</div>
+		`;
+
+		index++;
+
+	}
+
+	menuItems.innerHTML = txt;
+
+}
+
+
+
+function editJson( index ) {
+
+	divContents.innerHTML = `<textarea id=txtArea >${ JSON.stringify( bookmarks[ index ] ) }</textarea>`;
+
+}
+
+
+
+function openInIframe( url ) {
+
+	divContents.innerHTML = `<iframe src="${ url }" ></iframe>`;
+
+}
+
+
+
+
+
+////////// User Interface utilities
+
+
+function getTitle() {
+
+	document.title = document.title ? document.title : location.href.split( '/' ).pop().slice( 0, - 5 ).replace( /-/g, ' ' );
+
+	const htm =
+	`
+		<h2>
+			<a href=${ urlSourceCode } target=_top title="Source code on GitHub" >
+				<img src=${ urlSourceCodeIcon } height=18 >
+			</a>
+			<a href="" title="Click to reload this page" >${ document.title }</a>
+		</h2>
+
+		<p>
+			${ document.head.querySelector( "[ name=description ]" ).content }
+		</p>
+	`;
+
+	return htm;
+
+}
+
+
+///// Same as TooToo13
+
+MNU.xDown = null;
+MNU.yDown = null;
+
+MNU.onTouchStart = function( event ) {
+
+MNU.xDown = event.touches[ 0 ].clientX;
+MNU.yDown = event.touches[ 0 ].clientY;
+
+};
+
+
+
+MNU.onTouchMove = function(event) {
+
+// if ( ! MNU.xDown || ! MNU.yDown ) { return; }
+
+const xUp = event.touches[ 0 ].clientX;
+const yUp = event.touches[ 0 ].clientY;
+
+const xDiff = MNU.xDown - xUp;
+const yDiff = MNU.yDown - yUp;
+
+if ( Math.abs( xDiff ) > Math.abs( yDiff ) ) {// most significant
+
+	if ( xDiff > 0 ) {
+
+		MNU.toggleNavLeft();
+		//console.log( 'left swipe' );
+
+	} else {
+
+		MNU.toggleNavLeft();
+		console.log( 'right swipe' );
+
+	}
+
+} else {
+
+	if ( yDiff > 0 ) {
+
+		console.log( 'up swipe' );
+
+	} else {
+
+		console.log( 'down swipe' );
+
+	}
+
+}
+
+MNU.xDown = null;
+MNU.yDown = null;
+
+};
+
+
+
+MNU.toggleNavLeft = function() {
+
+const width = getComputedStyle(document.documentElement).getPropertyValue( '--mnu-width' ).trim();
+
+//console.log( 'width', width );
+//console.log( 'navMenu.style.width', navMenu.style.width );
+
+if ( navMenu.style.width === "0px" ) { // invisible
+
+	navMenu.style.width = width;
+	navMenu.style.padding = '1rem';
+	butHamburger.style.left = 'var( --mnu-width )';
+	divContainer.style.marginLeft = width;
+
+} else {
+
+	navMenu.style.width = "0px";
+	navMenu.style.padding = '0';
+	butHamburger.style.left = '-3rem';
+	divContainer.style.marginLeft = "0px";
+
+}
+
+}
+</script>
+</body>
+</html>
