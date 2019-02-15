@@ -48,8 +48,10 @@ It is a work-in-progress continuation of exploring, manipulating and hacking the
 * 2019-02-11 ~ Add ability to do screen capture of pages and save / save to Imgur? for reuse instead of iframes
 
 
-Notes
+## Notes
 
+* Best to have the JavaScript console open so you can view the errors. There are many issues still to be dealt with in displaying web sites in iframes
+	* Also iframes issues with HTTP/HTTPS are different depending on whether you are running locally or on a sever
 * After editing a JSON bookmark, you must save to a file and then reload the page. Future release will be more convenient.
 * Be sure to create and keep back up files of the data files
 * Tags currently being used as catagories. This will change
@@ -58,7 +60,7 @@ Notes
 
 ## Issues
 
-
+*
 
 ## Links of Interest
 
