@@ -5,8 +5,8 @@
 <meta name = "viewport" content= "width=device-width, initial-scale=1" >
 <meta name = "description" content = "Content manager for web page bookmarks stored in JSON lines files" >
 <meta name = "keywords" content = "JavaScript,GitHub,FOSS" >
-<meta name = "date" content = "2019-02-14" >
-<title></title>
+<meta name = "date" content = "2019-02-15" >
+<title>Opentecture Bookmarks View-a-line R4.1</title>
 <style>
 
 	* {box-sizing: border-box; }
@@ -43,13 +43,13 @@
 		box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23); }
 
 
-	iframe { height: 100%; width: 100%; }
+	iframe { height: 80%; width: 100%; }
 
 	summary { font-weight: bold; font-size: 1.1rem; margin-bottom:0.5rem }
 	textarea { height: 100%; width: 100%; }
 
 	.flex-container { display: flex; }
-	
+
 </style>
 </head>
 <body>
@@ -59,6 +59,12 @@
 
 		<div id="divTitle" ></div>
 
+		<p>
+			<input type=file id=inpFile onchange=openFile(this); accept = '.json' >
+		</p>
+		<p>
+			<button id=but onclick=saveFile(); accessKey= 'z' title='access key: z '>save edits to file</button>
+		</p>
 
 		<div id=menuItems ></div>
 
@@ -88,6 +94,8 @@
 let urlJson = "../../opentecture-bookmarks.json";
 let urlMd = "../README.md";
 let bookmarks;
+let descriptions;
+let comments;
 let index;
 
 
@@ -143,21 +151,22 @@ function parseMarkdownToHtml( xhr ) {
 
 
 
-function parseFileSort( xhr ) {
+function parseFileSort( obj ) {
 
-	const response = xhr.target.response;
-	//console.log( 'response', response );
+	const data = obj.target ? obj.target.response : obj
 
 	bookmarks = [];
 	descriptions = [];
+	comments = [];
 	index = 0;
 
-	 lines = response.split(/\r\n|\n/).slice( 0, -1 );
+	const lines = data.split(/\r\n|\n/).slice( 0, -1 );
 
 	for ( let line of lines ) {
 		//console.log( 'line', line );
 
 		if ( line.slice( 0, 1 ) !== "{" ) { continue; }
+
 		const jsonl = JSON.parse( line );
 		//console.log( 'jsonl', jsonl );
 
@@ -168,6 +177,14 @@ function parseFileSort( xhr ) {
 		} else if ( jsonl.type === "description" ) {
 
 			descriptions.push( jsonl );
+
+		}else if ( jsonl.type === "comment" ) {
+
+			comments.push( jsonl );
+
+		} else {
+
+			console.log( 'oops', jsonl );
 
 		}
 
@@ -187,8 +204,9 @@ function parseFileSort( xhr ) {
 
 	} );
 
-	const result = mapped.map( (el) => bookmarks[el.index] );
+	const result = mapped.map( el => bookmarks[el.index] );
 	//console.log( 'result', result );
+
 
 	let tag1 = "";
 	let tag2 = "";
@@ -229,7 +247,7 @@ function parseFileSort( xhr ) {
 					<a href="${ bookmark.url}" target="_blank" title="Open bookmark in new tab" >🗗</a>
 				</div>
 				<div style=max-width:15rem; >
-					<button onclick=openInIframe("${ bookmark.url}"); title="View bookmark URL in an Iframe"  >${ bookmark.name }</button>
+					<button onclick=openInIframe("${ index }"); title="View bookmark URL in an Iframe"  >${ bookmark.name }</button>
 				</div>
 			</div>
 		`;
@@ -252,13 +270,68 @@ function editJson( index ) {
 
 
 
-function openInIframe( url ) {
+function openInIframe( index ) {
 
-	divContents.innerHTML = `<iframe src="${ url }" ></iframe>`;
+	const bookmark = bookmarks[ index ];
+
+	id = bookmark.id
+
+	commentsFiltered = comments.filter( comment => comment.targetId === bookmark.id );
+
+	commentText = commentsFiltered.length ? `<p>Comments by ${ commentsFiltered[ 0 ].author}: ${ commentsFiltered[ 0 ].content }</p>` : "";
+
+	divContents.innerHTML =
+
+	`
+		<h3>${ bookmark.name }</h3>
+		<p>URL: ${ bookmark.url.link( bookmark.url ) }</p>
+		<p>Tags: ${ bookmark.tags }</p>
+		${ commentText }
+		<iframe src="${ bookmark.url }" ></iframe>
+	`;
 
 }
 
 
+
+function openFile( files ) {
+
+	//var fileData, reader, data;
+
+	reader = new FileReader();
+	reader.onload = function( event ) {
+
+		parseFileSort( reader.result );
+
+	}
+
+	reader.readAsText( files.files[ 0 ] );
+
+}
+
+
+
+function saveFile() {
+
+	let txt = JSON.parse( txtArea.value );
+	//txt2 = decodeURI( txt );
+
+	bookmarks[ index ] = txt;
+
+	console.log( 'txt', bookmarks[ index ] );
+
+	txtArea.value = JSON.stringify( bookmarks ).replace( /},{/g , "}\n{" ).slice( 1, -1 );
+
+
+	let blob = new Blob( [ txtArea.value ] );
+	let a = document.body.appendChild( document.createElement( 'a' ) );
+	a.href = window.URL.createObjectURL( blob );
+	a.download = 'opentecture-bookmarks.json';
+	a.click();
+	//		delete a;
+	a = null;
+
+}
 
 
 
@@ -267,7 +340,7 @@ function openInIframe( url ) {
 
 function getTitle() {
 
-	document.title = document.title ? document.title : location.href.split( '/' ).pop().slice( 0, - 5 ).replace( /-/g, ' ' );
+	//document.title = document.title ? document.title : location.href.split( '/' ).pop().slice( 0, - 5 ).replace( /-/g, ' ' );
 
 	const htm =
 	`

@@ -69,6 +69,15 @@ It is a work-in-progress continuation of exploring, manipulating and hacking the
 
 ## Change Log
 
+### 2019-02-15 ~ Theo
+
+view-a-line-bookmarks R4.1
+* Add file open and file save
+
+
+### 2019-02-14 ~ Theo
+
+
 view-a-line-bookmarks R4.0
 
 * Based on basic-html-hamburger.html template file
@@ -81,7 +90,6 @@ Dealt with
 * 2019-02-11 ~ Sort JSON lines data by tags
 * 2019-02-11 ~ Add line type of 'description', link to tags and display appropriately
 
-### 2019-02-14 ~ Theo
 
 ### 2019-02-13 ~ Theo
 

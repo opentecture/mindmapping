@@ -285,7 +285,7 @@
 {"date_added":"13194420422516826","id":"327753","meta_info":{"last_visited_desktop":"13194420422517849"},"name":"#OpenStructures hashtag on Twitter","sync_transaction_version":"23283","type":"url","url":"https://twitter.com/hashtag/OpenStructures?src=hash&lang=en","tags":["articles/videos","2017"]}
 {"date_added":"13194420468664932","id":"327756","name":"smow Blog Interview: Thomas Lommée - as designers our job is to generate solutions - smow Blog English","sync_transaction_version":"23275","type":"url","url":"https://www.smow.com/blog/2016/02/smow-blog-interview-thomas-lommee-designers-job-generate-solutions/","tags":["articles/videos","2016"]}
 // descriptions
-{"date_added":"13194420468664932","type":"description","tag":"academia","content":"link from a bricks and mortar educational institution"}
+{"date_added":"13194420468664932","id":"d1","type":"description","tag":"academia","content":"link from a bricks and mortar educational institution"}
 {"date_added":"13194420468664932","type":"description","tag":"articles/videos","content":"news items from a varety of sources"}
 {"date_added":"13194420468664932","type":"description","tag":"bim","content":"building information management"}
 {"date_added":"13194420468664932","type":"description","tag":"collaborating","content":"tools or groups for working together"}
@@ -305,4 +305,6 @@
 {"date_added":"13194420468664932","type":"description","tag":"services","content":"A type of economic activity that is intangible, is not stored and does not result in ownership"}
 {"date_added":"13194420468664932","type":"description","tag":"portals","content":"a website or web page providing access or links to other sites."}
 {"date_added":"13194420468664932","type":"description","tag":"designers","content":"a person who plans the form, look, or workings of something before its being made or built, typically by drawing it in detail."}
-{"date_added":"13194420468664932","type":"description","tag":"XXX","content":"xxxxx"}
+//{"date_added":"13194420468664932","type":"description","tag":"XXX","content":"xxxxx"}
+
+{"date_added":"13194420468664932","id":"c1","type":"comment","targetId":"280339","author":"TA","content":"Hello, World!"}
