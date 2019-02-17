@@ -5,8 +5,8 @@
 <meta name = "viewport" content= "width=device-width, initial-scale=1" >
 <meta name = "description" content = "Content manager for web page bookmarks stored in JSON lines files" >
 <meta name = "keywords" content = "JavaScript,GitHub,FOSS" >
-<meta name = "date" content = "2019-02-16" >
-<title>Opentecture Bookmarks View-a-line R4.2</title>
+<meta name = "date" content = "2019-02-15" >
+<title>Opentecture Bookmarks View-a-line R4.1</title>
 <style>
 
 	* {box-sizing: border-box; }
@@ -29,7 +29,7 @@
 		padding: 1rem; position: fixed; resize: both; top: 0; transition: left 0.5s; width: var( --mnu-width ); z-index: 10; }
 
 
-	#navMenu button, #navMenu input[type=button] { background-color: #ddd; border: 2px solid white; color: #444; cursor: pointer;
+	#navMenu button, #navMenu input[type=button] { background-color: #ddd; border: 2px solid white; color: white; cursor: pointer;
 		padding: 2px 5px; min-width: 1.5rem; }
 
 	#navMenu button:hover { background: #ccc; color: #888 }
@@ -43,46 +43,12 @@
 		box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23); }
 
 
-	iframe { height: 200rem; width: 80rem; }
+	iframe { height: 80%; width: 100%; }
 
 	summary { font-weight: bold; font-size: 1.1rem; margin-bottom:0.5rem }
 	textarea { height: 100%; width: 100%; }
 
 	.flex-container { display: flex; }
-
-/*
-https://medium.com/@jamesfuthey/simulating-the-creation-of-website-thumbnail-screenshots-using-iframes-7145269891db
-https://jes.al/2015/03/website-thumbnail-previews-iframe/
-
-*/
-	.thumbnail {
-		position: relative;
-		-ms-zoom: 0.25;
-		-moz-transform: scale(0.25);
-		-moz-transform-origin: 0 0;
-		-o-transform: scale(0.25);
-		-o-transform-origin: 0 0;
-		-webkit-transform: scale( 0.25 );
-		-webkit-transform-origin: 0 0;
-	}
-
-	.thumbnail:after {
-		content: "";
-		display: block;
-		position: absolute;
-		top: 0;
-		left: 0;
-		right: 0;
-		bottom: 0;
-	}
-
-	.thumbnail-container {
-		width: calc( 2000px * 0.25);
-		height: calc(1000px * 0.25);
-		display: inline-block;
-		overflow: hidden;
-		position: relative;
-	}
 
 </style>
 </head>
@@ -127,8 +93,6 @@ https://jes.al/2015/03/website-thumbnail-previews-iframe/
 
 let urlJson = "../../opentecture-bookmarks.json";
 let urlMd = "../README.md";
-
-let jsonLines;
 let bookmarks;
 let descriptions;
 let comments;
@@ -151,7 +115,7 @@ function init() {
 
 	divTitle.innerHTML = getTitle();
 
-	requestFile( urlJson, parseFile );
+	requestFile( urlJson, parseFileSort );
 
 	requestFile( urlMd, parseMarkdownToHtml );
 
@@ -187,190 +151,6 @@ function parseMarkdownToHtml( xhr ) {
 
 
 
-function parseFile( obj ) {
-
-	const data = obj.target ? obj.target.response : obj
-
-	bookmarks = [];
-	descriptions = [];
-	comments = [];
-	index = 0;
-
-	jsonLines = data.split(/\r\n|\n/);
-
-	for ( let line of jsonLines ) {
-		//console.log( 'line', line );
-
-		if ( line.slice( 0, 1 ) !== "{" ) { continue; }
-
-		const jsonl = JSON.parse( line );
-		//console.log( 'jsonl', jsonl );
-
-		if ( jsonl.type === "url" ) {
-
-			bookmarks.push( jsonl );
-
-		} else if ( jsonl.type === "description" ) {
-
-			descriptions.push( jsonl );
-
-		}else if ( jsonl.type === "comment" ) {
-
-			comments.push( jsonl );
-
-		} else {
-
-			console.log( 'oops', jsonl );
-
-		}
-
-	}
-	console.log( 'bookmarks', bookmarks );
-
-
-	setMenuHeaders();
-
-
-}
-
-
-function setMenuHeaders(){
-
-	let menuHeaders = [];
-
-	for ( let bookmark of bookmarks ) {
-
-		const header = bookmark.tags[ 0 ];
-
-		item = menuHeaders.find( item => item === header );
-
-		if ( !item ) {menuHeaders.push( header ); }
-
-	}
-
-	//console.log( 'menuHeaders', menuHeaders );
-
-	menuHeaders = menuHeaders.sort();
-
-	let htm = "";
-
-	for ( let menuHeader of menuHeaders ) {
-
-		let description = descriptions.find( it => it.tag === menuHeader );
-
-		description = description ? description.content : "";
-
-		subHeaders = getSubHeaders( menuHeader );
-
-		let marks = bookmarks.filter( bookmark => bookmark.tags.length === 1 && bookmark.tags[ 0 ] === menuHeader  );
-		//console.log( 'marks', marks );
-
-		let markHtm = ""
-
-		for ( mark of marks ) {
-
-			index = bookmarks.indexOf( mark );
-
-			markHtm +=
-			`
-			<div style=margin-bottom:0.5rem; >
-				<button onclick=openInIframe("${ index }"); title="View bookmark URL in an Iframe"  >${ mark.name }</button>
-			</div>
-			`;
-
-		}
-
-		htm +=
-		`
-			<details>
-
-				<summary>${ menuHeader }</summary>
-
-				<p>${ description }</p>
-
-				<div id=menuItem${ menuHeader } >${ subHeaders }</div>
-
-				${ markHtm }
-
-			</details>
-		`;
-
-	}
-
-	menuItems.innerHTML = htm;
-
-}
-
-
-
-function getSubHeaders( header ) {
-	//console.log( 'header', header );
-
-	let subHeaders = [];
-
-	for ( let bookmark of bookmarks ) {
-
-		if ( bookmark.tags[ 0 ] === header ) {
-
-			if ( bookmark.tags[ 1 ] ) {
-				//console.log( '', bookmark.tags[ 1 ] );
-
-				const subHeader = subHeaders.find( item => item === bookmark.tags[ 1 ] );
-				//console.log( 'subHeaders', subHeaders );
-
-				if ( !subHeader ) { subHeaders.push( bookmark.tags[ 1 ] ); }
-
-			} else {
-
-			}
-
-		}
-
-	}
-
-	subHeaders = subHeaders.sort();
-	//console.log( 'subHeaders', subHeaders );
-
-	htm = "";
-
-	for ( subHeader of subHeaders ) {
-
-		let marks = bookmarks.filter( bookmark => bookmark.tags[ 0 ] + bookmark.tags[ 1 ] ===  header + subHeader  );
-		//console.log( 'marks', marks,  bookmarks[ 0 ].tags[ 0 ] + bookmarks[ 0 ].tags[ 1 ] , [ header, subHeader ]  );
-
-		marks = marks.sort();
-
-		let markHtm = ""
-
-		for ( mark of marks ) {
-
-			const index = bookmarks.indexOf( mark );
-
-			markHtm +=
-			`
-			<div style=margin-bottom:0.5rem; >
-				<button onclick=openInIframe("${ index }"); title="View bookmark URL in an Iframe"  >${ mark.name }</button>
-			</div>
-			`;
-
-		}
-
-
-		htm +=
-		`
-			<h4 style=margin-bottom:0; >${ subHeader }</h4>
-			${ markHtm}
-			<hr>
-		`;
-	}
-
-	return htm;
-
-}
-
-
-
-
 function parseFileSort( obj ) {
 
 	const data = obj.target ? obj.target.response : obj
@@ -380,9 +160,9 @@ function parseFileSort( obj ) {
 	comments = [];
 	index = 0;
 
-	jsonLines = data.split(/\r\n|\n/);
+	const lines = data.split(/\r\n|\n/).slice( 0, -1 );
 
-	for ( let line of jsonLines ) {
+	for ( let line of lines ) {
 		//console.log( 'line', line );
 
 		if ( line.slice( 0, 1 ) !== "{" ) { continue; }
@@ -461,8 +241,12 @@ function parseFileSort( obj ) {
 
 		txt +=
 		`
-			<div class="flex-container" style=margin-bottom:0.6rem;>
-				<div  >
+			<div class="flex-container" style=margin-bottom:0.5rem;>
+				<div style=width:4rem; >
+					<button onclick=editJson(${ index }); title="Edit bookmark in JSON" >✎</button>
+					<a href="${ bookmark.url}" target="_blank" title="Open bookmark in new tab" >🗗</a>
+				</div>
+				<div style=max-width:15rem; >
 					<button onclick=openInIframe("${ index }"); title="View bookmark URL in an Iframe"  >${ bookmark.name }</button>
 				</div>
 			</div>
@@ -478,6 +262,14 @@ function parseFileSort( obj ) {
 
 
 
+function editJson( index ) {
+
+	divContents.innerHTML = `<textarea id=txtArea >${ JSON.stringify( bookmarks[ index ] ) }</textarea>`;
+
+}
+
+
+
 function openInIframe( index ) {
 
 	const bookmark = bookmarks[ index ];
@@ -486,83 +278,18 @@ function openInIframe( index ) {
 
 	commentsFiltered = comments.filter( comment => comment.targetId === bookmark.id );
 
-	commentText = commentsFiltered.length ?
-		`<p>
-			Comments by ${ commentsFiltered[ 0 ].author}:
-			<div style=width:50rem; >${ commentsFiltered[ 0 ].content }</div>
-		</p>`
-		: "";
-
-		commentId = commentsFiltered.length ?
-		commentsFiltered[ 0 ].id
-		:
-		comments.length + 1 ;
+	commentText = commentsFiltered.length ? `<p>Comments by ${ commentsFiltered[ 0 ].author}: ${ commentsFiltered[ 0 ].content }</p>` : "";
 
 	divContents.innerHTML =
+
 	`
-		<h3><a href="${ bookmark.url }" target="_blank">${ bookmark.name}</a></h3>
-		<div class="thumbnail-container">
-			<div class="thumbnail">
-				<iframe src="${ bookmark.url }" frameborder="0" onload="this.style.opacity = 1" ></iframe>
-			</div>
-		</div>
-
-		<hr>
-
+		<h3>${ bookmark.name }</h3>
+		<p>URL: ${ bookmark.url.link( bookmark.url ) }</p>
 		<p>Tags: ${ bookmark.tags }</p>
 		${ commentText }
-
-		Bookmark JSON:
-		<textarea style=height:18rem;width:50rem; >${ JSON.stringify( bookmark, null, '\t' ) }</textarea>
-
-		Comments JSON:
-			<button onclick=commentAdd(${ id }); >add new comment</button>
-			<button onclick=commentUpdate(${ commentId }); >update comment</button>
-		<textarea id=txtComments style=height:10rem;width:50rem; >${ JSON.stringify( commentsFiltered[ 0 ], null, '\t' ) }</textarea>
+		<iframe src="${ bookmark.url }" ></iframe>
 	`;
 
-}
-
-// JSON.stringify( txtComments.value )
-// JSON.parse( txtComments.value )
-
-function commentAdd( id ){
-
-	txtComments.value =
-`{
-	"date_added": "13194420468664932",
-	"id": "comment${ comments.length+1 }",
-	"type": "comment",
-	"targetId": "${ id }",
-	"author": "NAME",
-	"content": "my comment!"
-}
-`;
-}
-
-
-function commentUpdate( index = "c1" ){
-
-	//alert("coming-soon");
-
-	index = jsonLines.findIndex( line => line.includes( `\"id":\"${ index }\"` ) )
-
-	console.log( '', index );
-
-	line = JSON.stringify( JSON.parse( txtComments.value ) );
-	//console.log( 'txtComments.value', line );
-
-	if ( index > 0 ) {
-
-		jsonLines[ index ] = line;
-
-	} else {
-
-		jsonLines.push( line );
-
-	}
-
-	console.log( 'jsonLines[ index ] ', jsonLines[ index ]  );
 }
 
 
@@ -586,18 +313,17 @@ function openFile( files ) {
 
 function saveFile() {
 
-	//let txt = JSON.parse( txtArea.value );
+	let txt = JSON.parse( txtArea.value );
 	//txt2 = decodeURI( txt );
 
-	//bookmarks[ index ] = txt;
+	bookmarks[ index ] = txt;
 
-	//console.log( 'txt', bookmarks[ index ] );
+	console.log( 'txt', bookmarks[ index ] );
 
-	lines = jsonLines.join( "\n" );
-	//lines = JSON.parse( jsonLines.replace( /},{/g , "}\n{" ).slice( 1, -1 );
+	txtArea.value = JSON.stringify( bookmarks ).replace( /},{/g , "}\n{" ).slice( 1, -1 );
 
 
-	let blob = new Blob( [ lines ] );
+	let blob = new Blob( [ txtArea.value ] );
 	let a = document.body.appendChild( document.createElement( 'a' ) );
 	a.href = window.URL.createObjectURL( blob );
 	a.download = 'opentecture-bookmarks.json';
@@ -637,58 +363,58 @@ function getTitle() {
 
 ///// Same as TooToo13
 
-	MNU.xDown = null;
-	MNU.yDown = null;
+MNU.xDown = null;
+MNU.yDown = null;
 
-	MNU.onTouchStart = function( event ) {
+MNU.onTouchStart = function( event ) {
 
-	MNU.xDown = event.touches[ 0 ].clientX;
-	MNU.yDown = event.touches[ 0 ].clientY;
+MNU.xDown = event.touches[ 0 ].clientX;
+MNU.yDown = event.touches[ 0 ].clientY;
 
-	};
+};
 
 
 
-	MNU.onTouchMove = function(event) {
+MNU.onTouchMove = function(event) {
 
-	// if ( ! MNU.xDown || ! MNU.yDown ) { return; }
+// if ( ! MNU.xDown || ! MNU.yDown ) { return; }
 
-	const xUp = event.touches[ 0 ].clientX;
-	const yUp = event.touches[ 0 ].clientY;
+const xUp = event.touches[ 0 ].clientX;
+const yUp = event.touches[ 0 ].clientY;
 
-	const xDiff = MNU.xDown - xUp;
-	const yDiff = MNU.yDown - yUp;
+const xDiff = MNU.xDown - xUp;
+const yDiff = MNU.yDown - yUp;
 
-	if ( Math.abs( xDiff ) > Math.abs( yDiff ) ) {// most significant
+if ( Math.abs( xDiff ) > Math.abs( yDiff ) ) {// most significant
 
-		if ( xDiff > 0 ) {
+	if ( xDiff > 0 ) {
 
-			MNU.toggleNavLeft();
-			//console.log( 'left swipe' );
-
-		} else {
-
-			MNU.toggleNavLeft();
-			console.log( 'right swipe' );
-
-		}
+		MNU.toggleNavLeft();
+		//console.log( 'left swipe' );
 
 	} else {
 
-		if ( yDiff > 0 ) {
-
-			console.log( 'up swipe' );
-
-		} else {
-
-			console.log( 'down swipe' );
-
-		}
+		MNU.toggleNavLeft();
+		console.log( 'right swipe' );
 
 	}
 
-	MNU.xDown = null;
-	MNU.yDown = null;
+} else {
+
+	if ( yDiff > 0 ) {
+
+		console.log( 'up swipe' );
+
+	} else {
+
+		console.log( 'down swipe' );
+
+	}
+
+}
+
+MNU.xDown = null;
+MNU.yDown = null;
 
 };
 

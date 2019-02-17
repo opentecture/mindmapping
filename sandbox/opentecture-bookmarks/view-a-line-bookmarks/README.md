@@ -69,6 +69,12 @@ It is a work-in-progress continuation of exploring, manipulating and hacking the
 
 ## Change Log
 
+### 2019-02-16 ~ Theo
+
+view-a-line-bookmarks R4.2
+* Rebuild everything
+
+
 ### 2019-02-15 ~ Theo
 
 view-a-line-bookmarks R4.1
