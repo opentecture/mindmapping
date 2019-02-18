@@ -5,8 +5,8 @@
 <meta name = "viewport" content= "width=device-width, initial-scale=1" >
 <meta name = "description" content = "Content manager for web page bookmarks stored in JSON lines files" >
 <meta name = "keywords" content = "JavaScript,GitHub,FOSS" >
-<meta name = "date" content = "2019-02-17" >
-<title>Opentecture Bookmarks View-a-line R4.3</title>
+<meta name = "date" content = "2019-02-16" >
+<title>Opentecture Bookmarks View-a-line R4.2</title>
 <style>
 
 	* {box-sizing: border-box; }
@@ -125,11 +125,8 @@ https://jes.al/2015/03/website-thumbnail-previews-iframe/
 
 <script>
 
-
-
 let urlJson = "../../opentecture-bookmarks.json";
 let urlMd = "../README.md";
-const urlCORS = 'https://cors-anywhere.herokuapp.com/';
 
 let jsonLines;
 let bookmarks;
@@ -197,7 +194,7 @@ function parseFile( obj ) {
 	bookmarks = [];
 	descriptions = [];
 	comments = [];
-	//index = 0;
+	index = 0;
 
 	jsonLines = data.split(/\r\n|\n/);
 
@@ -228,7 +225,8 @@ function parseFile( obj ) {
 		}
 
 	}
-	//console.log( 'bookmarks', bookmarks );
+	console.log( 'bookmarks', bookmarks );
+
 
 	setMenuHeaders();
 
@@ -244,7 +242,7 @@ function setMenuHeaders(){
 
 		const header = bookmark.tags[ 0 ];
 
-		const item = menuHeaders.find( item => item === header );
+		item = menuHeaders.find( item => item === header );
 
 		if ( !item ) {menuHeaders.push( header ); }
 
@@ -271,7 +269,7 @@ function setMenuHeaders(){
 
 		for ( mark of marks ) {
 
-			const index = bookmarks.indexOf( mark );
+			index = bookmarks.indexOf( mark );
 
 			markHtm +=
 			`
@@ -304,7 +302,7 @@ function setMenuHeaders(){
 }
 
 
-// make recursive so can handle any number of levels
+
 function getSubHeaders( header ) {
 	//console.log( 'header', header );
 
@@ -373,112 +371,16 @@ function getSubHeaders( header ) {
 
 
 
-function openInIframe( index ) {
+function parseFileSort( obj ) {
 
-	const bookmark = bookmarks[ index ];
-
-	const id = bookmark.id
-
-	commentsFiltered = comments.filter( comment => comment.targetId === id );
-
-	commentText = commentsFiltered.length ?
-		`<p>
-			Comments by ${ commentsFiltered[ 0 ].author}:
-			<div style=width:50rem; >${ commentsFiltered[ 0 ].content }</div>
-		</p>`
-		:
-		""
-	;
-
-	commentId = commentsFiltered.length ?
-		commentsFiltered[ 0 ].id
-		:
-		comments.length + 1
-	;
-
-	divContents.innerHTML =
-	`
-		<details open >
-
-			<summary>View bookmark</summary>
-
-			<h3><a href="${ bookmark.url }" target="_blank">${ bookmark.name}</a></h3>
-
-			<div id=divIframe class="thumbnail-container">
-				<div  class="thumbnail">
-					<iframe id=ifr src="${ bookmark.url }" ></iframe>
-				</div>
-			</div>
-
-			<p>${ bookmark.notes || "" }</p>
-
-			<hr>
-
-			<p>Description: ${ bookmark.description || "" }</p>
-			<p>Tags: ${ bookmark.tags }</p>
-
-			${ commentText }
-
-		</details>
-
-		<details open >
-
-			<summary>Edit bookmark</summary>
-			<p>
-				Best to have the JavaScript Developer Console open while you are editing.
-				After you update bookmarks or update comments, click the 'save edits to file' button in left menu to save the changes to your local drive.
-				Check the validity of your edits by opening the file you just saved.
-			</p>
-
-			Bookmark JSON:
-				<button onclick=bookmarkAdd(${ id }); title="coming soon" >add new bookmark</button>
-				<button onclick=requestFile("${urlCORS + bookmark.url}",parseHtmlGetDescription); title="wait until iframe appears before clicking here" >get description</button>
-				<button onclick=bookmarkUpdate(${ id }); >update bookmark</button>
-
-			<textarea id=txtBookmarks style=height:18rem;width:100%; title="Wait until text appears below before updating" >${ JSON.stringify( bookmark, null, '\t' ) }</textarea>
-
-			Comments JSON:
-				<button onclick=commentAdd(${ id }); >add new comment</button>
-				<button onclick=commentUpdate("${ commentId }"); >update comment</button>
-
-			<textarea id=txtComments style=height:10rem;width:100%; >${ JSON.stringify( commentsFiltered[ 0 ], null, '\t' ) || "No comments yet. Click 'add new comment' button to get going. Current release only handles a single comment per bookmark." }</textarea>
-
-		</details>
-	`;
-
-}
-
-
-
-function bookmarkAdd( id ){
-
-	alert( "Coming soon!" );
-
-}
-
-
-
-// "notes":"Not CORS or Iframe compatible",
-
-function bookmarkUpdate( id ){
-
-	const index = jsonLines.findIndex( line => line.includes( `\"id":\"${ id }\"` ) )
-	console.log( 'index', index );
-
-	line = JSON.stringify( JSON.parse( txtBookmarks.value ) );
-	console.log( 'txtComments.value', line );
-
-	if ( index >= 0 ) {
-
-		jsonLines[ index ] = line;
-
-	} else {
-
-		jsonLines.push( line );
-
-	}
+	const data = obj.target ? obj.target.response : obj
 
 	bookmarks = [];
+	descriptions = [];
+	comments = [];
+	index = 0;
+
+	jsonLines = data.split(/\r\n|\n/);
 
 	for ( let line of jsonLines ) {
 		//console.log( 'line', line );
@@ -492,33 +394,137 @@ function bookmarkUpdate( id ){
 
 			bookmarks.push( jsonl );
 
+		} else if ( jsonl.type === "description" ) {
+
+			descriptions.push( jsonl );
+
+		}else if ( jsonl.type === "comment" ) {
+
+			comments.push( jsonl );
+
+		} else {
+
+			console.log( 'oops', jsonl );
+
 		}
 
 	}
+	//console.log( 'bookmarks', bookmarks );
 
-	console.log( 'jsonLines[ index ] ', jsonLines[ index ]  );
+
+	const mapped = bookmarks.map( ( el, i) => ( { index: i, value: el.tags[ 0 ].toLowerCase() } ) );
+
+	mapped.sort(function(a, b) {
+
+		if ( a.value > b.value ) { return 1; }
+
+		if ( a.value < b.value ) { return -1; }
+
+		return 0;
+
+	} );
+
+	const result = mapped.map( el => bookmarks[el.index] );
+	//console.log( 'result', result );
+
+
+	let tag1 = "";
+	let tag2 = "";
+	let txt = "";
+
+	for ( let bookmark of result ) {
+
+		const newTag1 = bookmark.tags[ 0 ];
+
+		if ( newTag1 !== tag1 ) {
+
+			item = descriptions.find( item => item.tag === newTag1 )
+			content = item ? item.content : "";
+			txt +=
+				`</details>
+				<details>
+					<summary>${ newTag1 }</summary>
+					<p>${ content }</p>
+				`;
+			tag1 = newTag1;
+
+		}
+
+		const newTag2 = bookmark.tags.length > 1 ? bookmark.tags[ 1 ] : "";
+
+		if ( newTag2 !== tag2 ) {
+
+			txt += `<div><b>${ newTag2 }</b></div>`;
+			tag2 = newTag2;
+
+		}
+
+		txt +=
+		`
+			<div class="flex-container" style=margin-bottom:0.6rem;>
+				<div  >
+					<button onclick=openInIframe("${ index }"); title="View bookmark URL in an Iframe"  >${ bookmark.name }</button>
+				</div>
+			</div>
+		`;
+
+		index++;
+
+	}
+
+	menuItems.innerHTML = txt;
 
 }
 
 
 
-function parseHtmlGetDescription( xhr ) {
+function openInIframe( index ) {
 
-	const response = xhr.target.response;
-	console.log( 'response', response );
+	const bookmark = bookmarks[ index ];
 
-	description = response.match( /name="description" content="(.*?)"/i );
+	id = bookmark.id
 
-	description = description  ? description[ 1 ] : "";
+	commentsFiltered = comments.filter( comment => comment.targetId === bookmark.id );
 
-	txtBookmarks.value = txtBookmarks.value.replace( /\t]/, `],"description":"${ description }"` );
+	commentText = commentsFiltered.length ?
+		`<p>
+			Comments by ${ commentsFiltered[ 0 ].author}:
+			<div style=width:50rem; >${ commentsFiltered[ 0 ].content }</div>
+		</p>`
+		: "";
 
-	console.log( 'description', description );
+		commentId = commentsFiltered.length ?
+		commentsFiltered[ 0 ].id
+		:
+		comments.length + 1 ;
+
+	divContents.innerHTML =
+	`
+		<h3><a href="${ bookmark.url }" target="_blank">${ bookmark.name}</a></h3>
+		<div class="thumbnail-container">
+			<div class="thumbnail">
+				<iframe src="${ bookmark.url }" frameborder="0" onload="this.style.opacity = 1" ></iframe>
+			</div>
+		</div>
+
+		<hr>
+
+		<p>Tags: ${ bookmark.tags }</p>
+		${ commentText }
+
+		Bookmark JSON:
+		<textarea style=height:18rem;width:50rem; >${ JSON.stringify( bookmark, null, '\t' ) }</textarea>
+
+		Comments JSON:
+			<button onclick=commentAdd(${ id }); >add new comment</button>
+			<button onclick=commentUpdate(${ commentId }); >update comment</button>
+		<textarea id=txtComments style=height:10rem;width:50rem; >${ JSON.stringify( commentsFiltered[ 0 ], null, '\t' ) }</textarea>
+	`;
 
 }
 
-
-
+// JSON.stringify( txtComments.value )
+// JSON.parse( txtComments.value )
 
 function commentAdd( id ){
 
@@ -532,16 +538,18 @@ function commentAdd( id ){
 	"content": "my comment!"
 }
 `;
-
 }
 
 
-function commentUpdate( id ){
+function commentUpdate( index = "c1" ){
 
-	let index = jsonLines.findIndex( line => line.includes( `\"id":\"${ id }\"` ) )
-	//console.log( 'index', index );
+	//alert("coming-soon");
 
-	const line = JSON.stringify( JSON.parse( txtComments.value ) );
+	index = jsonLines.findIndex( line => line.includes( `\"id":\"${ index }\"` ) )
+
+	console.log( '', index );
+
+	line = JSON.stringify( JSON.parse( txtComments.value ) );
 	//console.log( 'txtComments.value', line );
 
 	if ( index > 0 ) {
@@ -551,7 +559,6 @@ function commentUpdate( id ){
 	} else {
 
 		jsonLines.push( line );
-		index = jsonLines.length - 1;
 
 	}
 
@@ -562,10 +569,12 @@ function commentUpdate( id ){
 
 function openFile( files ) {
 
-	const reader = new FileReader();
+	//var fileData, reader, data;
+
+	reader = new FileReader();
 	reader.onload = function( event ) {
 
-		parseFile( reader.result );
+		parseFileSort( reader.result );
 
 	}
 
@@ -577,13 +586,23 @@ function openFile( files ) {
 
 function saveFile() {
 
-	const lines = jsonLines.join( "\n" );
+	//let txt = JSON.parse( txtArea.value );
+	//txt2 = decodeURI( txt );
+
+	//bookmarks[ index ] = txt;
+
+	//console.log( 'txt', bookmarks[ index ] );
+
+	lines = jsonLines.join( "\n" );
+	//lines = JSON.parse( jsonLines.replace( /},{/g , "}\n{" ).slice( 1, -1 );
+
 
 	let blob = new Blob( [ lines ] );
 	let a = document.body.appendChild( document.createElement( 'a' ) );
 	a.href = window.URL.createObjectURL( blob );
 	a.download = 'opentecture-bookmarks.json';
 	a.click();
+	//		delete a;
 	a = null;
 
 }
@@ -618,21 +637,19 @@ function getTitle() {
 
 ///// Same as TooToo13
 
+	MNU.xDown = null;
+	MNU.yDown = null;
 
-
-MNU.xDown = null;
-MNU.yDown = null;
-
-MNU.onTouchStart = function( event ) {
+	MNU.onTouchStart = function( event ) {
 
 	MNU.xDown = event.touches[ 0 ].clientX;
 	MNU.yDown = event.touches[ 0 ].clientY;
 
-};
+	};
 
 
 
-MNU.onTouchMove = function(event) {
+	MNU.onTouchMove = function(event) {
 
 	// if ( ! MNU.xDown || ! MNU.yDown ) { return; }
 
@@ -679,29 +696,28 @@ MNU.onTouchMove = function(event) {
 
 MNU.toggleNavLeft = function() {
 
-	const width = getComputedStyle(document.documentElement).getPropertyValue( '--mnu-width' ).trim();
+const width = getComputedStyle(document.documentElement).getPropertyValue( '--mnu-width' ).trim();
 
-	//console.log( 'width', width );
-	//console.log( 'navMenu.style.width', navMenu.style.width );
+//console.log( 'width', width );
+//console.log( 'navMenu.style.width', navMenu.style.width );
 
-	if ( navMenu.style.width === "0px" ) { // invisible
+if ( navMenu.style.width === "0px" ) { // invisible
 
-		navMenu.style.width = width;
-		navMenu.style.padding = '1rem';
-		butHamburger.style.left = 'var( --mnu-width )';
-		divContainer.style.marginLeft = width;
+	navMenu.style.width = width;
+	navMenu.style.padding = '1rem';
+	butHamburger.style.left = 'var( --mnu-width )';
+	divContainer.style.marginLeft = width;
 
-	} else {
+} else {
 
-		navMenu.style.width = "0px";
-		navMenu.style.padding = '0';
-		butHamburger.style.left = '-3rem';
-		divContainer.style.marginLeft = "0px";
-
-	}
+	navMenu.style.width = "0px";
+	navMenu.style.padding = '0';
+	butHamburger.style.left = '-3rem';
+	divContainer.style.marginLeft = "0px";
 
 }
 
+}
 </script>
 </body>
 </html>

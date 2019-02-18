@@ -21,6 +21,19 @@ value="You are now in a GitHub web page view - Click this button to view this re
 
 * Opentecture Bookmarks file creator: open, parse and save your browser's bookmarks to a JSON lines file
 
+
+## [opentecture-bookmarks.json]( opentecture-bookmarks.json )
+
+* The current Opentecture bookmarks JSON Lines file
+* Links that are not CORS-compatible are in process of being identified.
+	* Currently checked up to and including BIM
+* Currently includes bookmark description and comments lines for all bookmarks under Academia heading
+* Includes description lines for each main menu header
+
+### [opentecture-bookmarks.json]( opentecture-bookmarks.json )
+
+* The source file created by add-a-line-bookmark.html
+
 ## Concept
 
 The scripts here are a side project of the <a href="https://www.ladybug.tools/spider/#sandbox/gbxml-to-json-lines/" target="_blank">gbXML to JSON Lines </a> project. They are a work-in-progress continuation of manipulating JSON Lines files in useful ways.
@@ -31,14 +44,26 @@ See also a more fully developed concept at [Annotated Bibliography Read Me]( htt
 
 ## Problem to be solved
 
+
+There are many excellent lists on the web. For example:
+
+* https://frontendmasters.com/books/front-end-handbook/2018/tools/css.html
+* https://github.com/sindresorhus/awesome
+* https://github.com/asciimoo/ListOfGithubLists
+
+You can spend many enjoyable hours exploring the links in these lists.  There are several issues with this.
+
+* Given hundreds of links, how can you prioritize what you want to see?
+* Having seen a number of good pages, how can you come back to the list and return to the pages you like and not return to the pages you did not feel are useful to you?
+* Given hundreds of links, how can you use search tools to help you find sites of current interest?
 * Very long read me files with naked links are tedious and uninformative/uncurated
 * Workflows for adding links to bookmarks in your browser then getting these links into markdown are complex
 
 ## Objectives
 
 * Build a list [of resources] good enough for inclusion here: https://github.com/sindresorhus/awesome
-* Good ways of managing curated lists.
-* Take a bunch of links from browser bookmark manager and get them into a markdown file quickly and easily
+* Establish effective ways of managing curated lists
+* Take a bunch of links from browser bookmark manager and get them into a JSON file quickly and easily
 * View and manage links with a tree-view menu system
 
 ### Links of interest

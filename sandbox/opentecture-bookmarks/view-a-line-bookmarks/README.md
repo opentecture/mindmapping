@@ -43,8 +43,9 @@ It is a work-in-progress continuation of exploring, manipulating and hacking the
 
 ## To Do / Wish List
 
+* 2019-02-17 ~ Replace all date references with UTC strings
+* 2019-02-17 ~ Replace 'tags' with 'categories'
 * 2019-02-12 ~ Turn titles of things like university names to links to suitable page
-* 2019-02-11 ~ Add line type of comments, link to type "url" and display appropriately
 * 2019-02-11 ~ Add ability to do screen capture of pages and save / save to Imgur? for reuse instead of iframes
 
 
@@ -60,7 +61,7 @@ It is a work-in-progress continuation of exploring, manipulating and hacking the
 
 ## Issues
 
-*
+* handle CORS and other iframe errorsonerror
 
 ## Links of Interest
 
@@ -69,11 +70,26 @@ It is a work-in-progress continuation of exploring, manipulating and hacking the
 
 ## Change Log
 
+### 2019-02-17 ~ Theo
+
+view-a-line-bookmarks R4.3
+* Add update bookmark
+* Add new bookmark stub
+* Add read and display notes in bookmarks( used to indicate no CORS-compatible )
+* Split UI unto view and edit details elements
+* Start updating and saving versions of opentecture-bookmarks.json
+* Add 'get description' button
+
+Done
+* 2019-02-17 ~ Seek out web site description and add to bookmark JSON
+
 ### 2019-02-16 ~ Theo
 
 view-a-line-bookmarks R4.2
 * Rebuild everything
 
+Done
+* 2019-02-11 ~ Add line type of comments, link to type "url" and display appropriately
 
 ### 2019-02-15 ~ Theo
 
