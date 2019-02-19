@@ -13,7 +13,7 @@ value='You are now in a GitHub web page view - Click this button to view this re
 _view-a-line-bookmarks-by-host.html_
 -->
 
-## Full Screen: [view-a-line-bookmarks-by-host]( https://opentecture.github.io/#mindmapping/sandbox/opentecture-bookmarks/view-a-line-bookmarks-by-host/index.html )
+## Full Screen: [view-a-line-bookmarks-by-host]( https://opentecture.github.io/mindmapping/sandbox/opentecture-bookmarks/view-a-line-bookmarks-by-host/index.html )
 
 
 ## Concept
