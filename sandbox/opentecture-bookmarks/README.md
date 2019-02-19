@@ -39,8 +39,11 @@ value="You are now in a GitHub web page view - Click this button to view this re
 	* Currently checked up to and including BIM
 * Currently includes bookmark description and comments lines for all bookmarks under Academia heading
 * Includes description lines for each main menu header
+* The file needs a lot more curatorial effort in order to be useful. In particular:
+	* if a web page cannot be loaded then a suitable image from the web site should loaded instead of the blank iframe.
+	* Every bookmark should include the text of the home page's description meta tag. If suitable text is not found then text should copied from elsewhere in the HTML file
 
-### [opentecture-bookmarks.json]( opentecture-bookmarks.json )
+### [opentecture-bookmarks-original.json]( opentecture-bookmarks-original.json )
 
 * The source file created by add-a-line-bookmark.html
 
