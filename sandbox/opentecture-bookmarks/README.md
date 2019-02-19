@@ -45,7 +45,7 @@ value="You are now in a GitHub web page view - Click this button to view this re
 
 ### [opentecture-bookmarks-original.json]( opentecture-bookmarks-original.json )
 
-* The source file created by add-a-line-bookmark.html
+* The original source file created by add-a-line-bookmark.html
 
 ## Concept
 

@@ -3,10 +3,10 @@
 <head>
 <meta charset = "utf-8" >
 <meta name = "viewport" content= "width=device-width, initial-scale=1" >
-<meta name = "description" content = "Content manager for web page bookmarks stored in JSON lines files" >
+<meta name = "description" content = "Content manager for web page bookmarks stored in JSON lines files. Find bookmarks by searching the text in a bookmark" >
 <meta name = "keywords" content = "JavaScript,GitHub,FOSS" >
 <meta name = "date" content = "2019-02-19" >
-<title>Opentecture Bookmarks View-a-line R4.5</title>
+<title>Opentecture Bookmarks View-a-line by Find R1.0</title>
 <style>
 
 	* {box-sizing: border-box; }
@@ -93,9 +93,9 @@ https://jes.al/2015/03/website-thumbnail-previews-iframe/
 
 		<div id="divTitle" ></div>
 
+		<div ><a href="../../view-a-line-bookmarks/index.html" target="_blank" >Bookmarks by Category</a></div>
+		<div ><a href="../../view-a-line-bookmarks-by-host/index.html" target="_blank" >Bookmarks by Host</a></div>
 
-		<div ><a href="../../view-a-line-bookmarks-by-host/index.html" target="_blank" title="view the bookmarks by web site name" >Bookmarks by Host</a></div>
-		<div ><a href="../../view-a-line-bookmarks-by-find/index.html" target="_blank" >Bookmarks by Search</a></div>
 
 		<p>
 			<input type=file id=inpFile onchange=openFile(this); accept = '.json' >
@@ -103,6 +103,12 @@ https://jes.al/2015/03/website-thumbnail-previews-iframe/
 
 		<p>
 			<button id=but onclick=saveFile(); accessKey= 'z' title='access key: z '>save edits to file</button>
+		</p>
+
+		<hr>
+
+		<p>
+			Search: <input oninput=filterBookmarks(this) >
 		</p>
 
 		<div id=menuItems ></div>
@@ -143,7 +149,7 @@ let comments;
 let index;
 
 
-const urlSourceCode = "https://github.com/opentecture/mindmapping/tree/master/sandbox/opentecture-bookmarks/view-a-line-bookmarks"
+const urlSourceCode = "https://github.com/opentecture/mindmapping/tree/master/sandbox/opentecture-bookmarks/view-a-line-bookmarks-by-host"
 const urlSourceCodeIcon = "https://status.github.com/images/invertocat.png";
 
 const MNU = {};
@@ -159,7 +165,7 @@ function init() {
 
 	divTitle.innerHTML = getTitle();
 
-	requestFile( urlJson, parseFile );
+	requestFile( urlJson, parseFileByUrl );
 
 	requestFile( urlMd, parseMarkdownToHtml );
 
@@ -195,14 +201,12 @@ function parseMarkdownToHtml( xhr ) {
 
 
 
-function parseFile( obj ) {
+function parseFileByUrl( obj ) {
 
 	const data = obj.target ? obj.target.response : obj
 
 	bookmarks = [];
-	descriptions = [];
 	comments = [];
-	//index = 0;
 
 	jsonLines = data.split(/\r\n|\n/);
 
@@ -220,7 +224,7 @@ function parseFile( obj ) {
 
 		} else if ( jsonl.type === "description" ) {
 
-			descriptions.push( jsonl );
+			//descriptions.push( jsonl );
 
 		}else if ( jsonl.type === "comment" ) {
 
@@ -235,45 +239,90 @@ function parseFile( obj ) {
 	}
 	//console.log( 'bookmarks', bookmarks );
 
-	setMenuHeaders();
+	setMenuItemsByUrl();
 
 }
 
 
-function setMenuHeaders(){
 
-	let menuHeaders = [];
 
-	for ( let bookmark of bookmarks ) {
+function filterBookmarks( input ) {
 
-		const header = bookmark.tags[ 0 ];
+	str = input.value;
+	console.log( '', str );
 
-		const item = menuHeaders.find( item => item === header );
+	bookmarks = [];
 
-		if ( !item ) {menuHeaders.push( header ); }
+	if ( str === "" ) {
+
+		for ( let line of jsonLines ) {
+			//console.log( 'line', line );
+
+			if ( line.slice( 0, 1 ) !== "{" ) { continue; }
+
+			const jsonl = JSON.parse( line );
+			//console.log( 'jsonl', jsonl );
+
+			if ( jsonl.type === "url" ) { bookmarks.push( jsonl ); }
+
+		}
+
+	} else {
+
+		for ( let line of jsonLines ) {
+
+			if ( line.slice( 0, 1 ) !== "{" ) { continue; }
+			//console.log( 'line', line );
+
+			const jsonl = JSON.parse( line );
+			//console.log( 'jsonl', jsonl );
+
+			if (line && line.includes( str ) ) { bookmarks.push( jsonl ); }
+
+		}
+
+
 
 	}
 
-	//console.log( 'menuHeaders', menuHeaders );
+	setMenuItemsByUrl();
 
-	menuHeaders = menuHeaders.sort();
+}
 
-	let htm = "";
 
-	for ( let menuHeader of menuHeaders ) {
 
-		let description = descriptions.find( it => it.tag === menuHeader );
+function setMenuItemsByUrl(){
+	// https://stackoverflow.com/questions/8498592/extract-hostname-name-from-string
 
-		description = description ? description.content : "";
+	sites = [];
+	let a = document.createElement( 'a' );
 
-		subHeaders = getSubHeaders( menuHeader );
+	for ( let bookmark of bookmarks ) {
 
-		let marks = bookmarks.filter( bookmark => bookmark.tags.length === 1 && bookmark.tags[ 0 ] === menuHeader  );
+		a.href = bookmark.url;
+		site = a.hostname;
+
+		let item = sites.find( item => item === site );
+		console.log( 'item', item );
+		if ( !item && site) { sites.push( site ); }
+
+	}
+
+
+	sites = sites.sort();
+	//console.log( 'sites', sites );
+
+	let siteHtm = "";
+
+	for ( let site of sites ) {
+		//console.log( 'site', site );
+
+		marks = bookmarks.filter( bookmark => bookmark.url && bookmark.url.includes( site ) );
 		//console.log( 'marks', marks );
 
-		let markHtm = ""
+		let markHtm = "";
 
-		for ( mark of marks ) {
+		for ( mark of marks) {
 
 			const index = bookmarks.indexOf( mark );
 
@@ -286,94 +335,23 @@ function setMenuHeaders(){
 
 		}
 
-		htm +=
+		siteHtm +=
 		`
 			<details>
 
-				<summary>${ menuHeader }</summary>
-
-				<p>${ description }</p>
-
-				<div id=menuItem${ menuHeader } >${ subHeaders }</div>
+				<summary>${ site } - ${ marks.length }</summary>
 
 				${ markHtm }
 
 			</details>
 		`;
 
+
 	}
 
-	menuItems.innerHTML = htm;
+	menuItems.innerHTML = siteHtm;
 
 }
-
-
-// make recursive so can handle any number of levels
-function getSubHeaders( header ) {
-	//console.log( 'header', header );
-
-	let subHeaders = [];
-
-	for ( let bookmark of bookmarks ) {
-
-		if ( bookmark.tags[ 0 ] === header ) {
-
-			if ( bookmark.tags[ 1 ] ) {
-				//console.log( '', bookmark.tags[ 1 ] );
-
-				const subHeader = subHeaders.find( item => item === bookmark.tags[ 1 ] );
-				//console.log( 'subHeaders', subHeaders );
-
-				if ( !subHeader ) { subHeaders.push( bookmark.tags[ 1 ] ); }
-
-			} else {
-
-			}
-
-		}
-
-	}
-
-	subHeaders = subHeaders.sort();
-	//console.log( 'subHeaders', subHeaders );
-
-	htm = "";
-
-	for ( subHeader of subHeaders ) {
-
-		let marks = bookmarks.filter( bookmark => bookmark.tags[ 0 ] + bookmark.tags[ 1 ] ===  header + subHeader  );
-		//console.log( 'marks', marks,  bookmarks[ 0 ].tags[ 0 ] + bookmarks[ 0 ].tags[ 1 ] , [ header, subHeader ]  );
-
-		marks = marks.sort();
-
-		let markHtm = ""
-
-		for ( mark of marks ) {
-
-			const index = bookmarks.indexOf( mark );
-
-			markHtm +=
-			`
-			<div style=margin-bottom:0.5rem; >
-				<button onclick=openInIframe("${ index }"); title="View bookmark URL in an Iframe"  >${ mark.name }</button>
-			</div>
-			`;
-
-		}
-
-
-		htm +=
-		`
-			<h4 style=margin-bottom:0; >${ subHeader }</h4>
-			${ markHtm}
-			<hr>
-		`;
-	}
-
-	return htm;
-
-}
-
 
 
 
@@ -509,7 +487,7 @@ function bookmarkUpdate( id ){
 function parseHtmlGetDescription( xhr ) {
 
 	const response = xhr.target.response;
-	//console.log( 'response', response );
+	console.log( 'response', response );
 
 	description = response.match( /name="description" content="(.*?)"/i );
 
@@ -517,12 +495,7 @@ function parseHtmlGetDescription( xhr ) {
 
 	txtBookmarks.value = txtBookmarks.value.replace( /\t]/, `],"description":"${ description }"` );
 
-	//console.log( 'description', description );
-
-	texts = response.match( /\<img (.*?)>/gi )
-	images = texts.map(  text => text.match( /src="(.*?)"/i )[ 1 ] );
-
-	console.log( '', images );
+	console.log( 'description', description );
 
 }
 

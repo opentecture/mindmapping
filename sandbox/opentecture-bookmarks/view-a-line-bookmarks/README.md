@@ -72,6 +72,13 @@ It is a work-in-progress continuation of exploring, manipulating and hacking the
 
 ## Change Log
 
+### 2019-02-19 ~ Theo
+
+view-a-line-bookmarks R4.5
+* Add link to view-a-line-bookmarks-by-find
+* Add first pass at acquiring images for use instead of an iframe when there are iframe/CORS issues
+
+
 ### 2019-02-17 ~ Theo
 
 view-a-line-bookmarks R4.3
