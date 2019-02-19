@@ -24,6 +24,7 @@ It is a work-in-progress continuation of exploring, manipulating and hacking the
 
 
 ### Objectives
+
 * Access very large numbers of bookmarks
 * View contents of many sites in a speedy fashion
 * Categorize and tag bookmarks with ease and speed
@@ -38,13 +39,14 @@ It is a work-in-progress continuation of exploring, manipulating and hacking the
 	* Display web page in an iframe
 	* Open web page in new tab
 	* Edit bookmark json
-* Save edits to new file (Not in R4 but coming back soon )
+* Save edits to new file / Open local file for testing
 
 
 ## To Do / Wish List
 
 * 2019-02-17 ~ Replace all date references with UTC strings
-* 2019-02-17 ~ Replace 'tags' with 'categories'
+* 2019-02-17 ~ Upgrade IDs to UUIDs
+* 2019-02-17 ~ Replace 'tags' with 'categories' / Add new separate 'tags' element
 * 2019-02-12 ~ Turn titles of things like university names to links to suitable page
 * 2019-02-11 ~ Add ability to do screen capture of pages and save / save to Imgur? for reuse instead of iframes
 
@@ -57,11 +59,11 @@ It is a work-in-progress continuation of exploring, manipulating and hacking the
 * Be sure to create and keep back up files of the data files
 * Tags currently being used as catagories. This will change
 * Does not yet handle file not found errors well
-* Comments, adding new bookmarks will happen in future releases
+* Adding new bookmarks will happen in future releases
 
 ## Issues
 
-* handle CORS and other iframe errorsonerror
+* handle CORS and other iframe errors better
 
 ## Links of Interest
 
