@@ -11,9 +11,19 @@ value="You are now in a GitHub web page view - Click this button to view this re
 
 
 ## Full screen: [Opentecture Bookmarks View-a-line]( https://opentecture.github.io/mindmapping/sandbox/opentecture-bookmarks/view-a-line-bookmarks/index.html )
+
 ### [Opentecture Bookmarks View-a-line Read Me]( https://opentecture.github.io/mindmapping/#sandbox/opentecture-bookmarks/view-a-line-bookmarks/README.md )
 
-* Opentecture Bookmarks in JSON Lines viewer and editor
+* Opentecture Bookmarks in JSON Lines viewer and editor - by category
+
+
+## Full screen: [Opentecture Bookmarks View-a-line by Host]( https://opentecture.github.io/mindmapping/sandbox/opentecture-bookmarks/view-a-line-bookmarks-by-host/index.html )
+
+### [Opentecture Bookmarks View-a-line by Host Read Me]( https://opentecture.github.io/mindmapping/#sandbox/opentecture-bookmarks/view-a-line-bookmarks-by-host/README.md )
+
+* Opentecture Bookmarks in JSON Lines viewer and editor - by host name
+
+
 
 ## Full screen: [Opentecture Bookmarks Add-a-line]( https://opentecture.github.io/mindmapping/sandbox/opentecture-bookmarks/add-a-line-bookmarks/index.html )
 

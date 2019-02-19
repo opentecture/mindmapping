@@ -6,14 +6,14 @@ value='You are now in a GitHub web page view - Click this button to view this re
 
 <br>
 
-# [view-a-line-bookmarks-by-host Read Me]( #sandbox/opentecture-bookmarks/view-a-line-bookmarks-by-host/README.md )
+# [Opentecture Bookmarks View-a-line by Host Read Me]( #sandbox/opentecture-bookmarks/view-a-line-bookmarks-by-host/README.md )
 
 <!--
 <iframe src=https://opentecture.github.io/mindmapping/view-a-line-bookmarks-by-host/view-a-line-bookmarks-by-host.html width=100% height=500px >Iframes are not viewable in GitHub source code views</iframe>
 _view-a-line-bookmarks-by-host.html_
 -->
 
-## Full Screen: [view-a-line-bookmarks-by-host]( https://opentecture.github.io/mindmapping/sandbox/opentecture-bookmarks/view-a-line-bookmarks-by-host/index.html )
+## Full Screen: [Opentecture Bookmarks View-a-line by Host]( https://opentecture.github.io/mindmapping/sandbox/opentecture-bookmarks/view-a-line-bookmarks-by-host/index.html )
 
 
 ## Concept
