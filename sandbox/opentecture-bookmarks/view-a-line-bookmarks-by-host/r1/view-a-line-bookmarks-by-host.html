@@ -93,7 +93,10 @@ https://jes.al/2015/03/website-thumbnail-previews-iframe/
 
 		<div id="divTitle" ></div>
 
-		<div ><a href="../../view-a-line-bookmarks/index.html" target="_blank" >Bookmarks by Category</a></div>
+		<div ><a href="../../view-a-line-bookmarks-by-category/index.html" target="_blank" >Bookmarks by Category</a></div>
+		<div ><a href="../../view-a-line-bookmarks-by-host/index.html" target="_blank" >Bookmarks by Host</a></div>
+		<div ><a href="../../view-a-line-bookmarks-by-find/index.html" target="_blank" >Bookmarks by Find</a></div>
+
 
 		<p>
 			<input type=file id=inpFile onchange=openFile(this); accept = '.json' >
@@ -305,13 +308,13 @@ function filterBookmarks( input ) {
 function setMenuItemsByUrl(){
 	// https://stackoverflow.com/questions/8498592/extract-hostname-name-from-string
 
-	let sites = [];
+	sites = [];
 	let a = document.createElement( 'a' );
 
 	for ( let bookmark of bookmarks ) {
 
 		a.href = bookmark.url;
-		site = a.hostname;
+		site = a.hostname.replace( "www.", "" );
 
 		let item = sites.find( item => item === site );
 

@@ -1,0 +1,239 @@
+<!doctype html>
+<html lang = "en" >
+<head>
+<meta charset = "utf-8" >
+<meta name = "viewport" content= "width=device-width, initial-scale=1" >
+<meta name = "description" content = "fix things in JSON bookmarks files" >
+<meta name = "keywords" content = "JavaScript,GitHub,FOSS" >
+<meta name = "date" content = "2019-03-02" >
+<title></title>
+<style>
+
+	body { font: 12pt monospace; margin: 0 auto; max-width: 800px; }
+	a { color: crimson; text-decoration: none; }
+	a:hover, a:focus, a:active { background-color: yellow; color: #aaa; text-decoration: underline }
+
+	button, input[type=button] { background-color: #ddd; border: none; color: #322; cursor: pointer; padding: 3px 5px; }
+	button:hover { background: #ccc; color: #fff }
+
+	/*
+	#navMenu { background-color: #eee; left: 0; margin: 20px; max-width: 300px; padding: 0 10px; position: absolute; top: 0; }
+	*/
+
+</style>
+</head>
+<body>
+
+	<nav id="navMenu" >
+
+		<div id="divTitle" ></div>
+
+		<p>
+			<button id=but onclick=saveFile(); accessKey= 'z' title='access key: z '>save file</button>
+		</p>
+
+	</nav>
+
+	<main>
+
+		<div id="divContents" ></div>
+
+	</main>
+
+
+<script>
+
+
+const url = "opentecture-bookmarks.json";
+
+const urlSourceCode = "https://github.com/opentecture/mindmapping/tree/master/sandbox/opentecture-bookmarks/utilities";
+const urlSourceCodeIcon = "https://status.github.com/images/invertocat.png";
+
+init();
+
+
+
+function init() {
+
+	divTitle.innerHTML = getTitle();
+
+	requestFile( url );
+
+}
+
+
+
+function requestFile( url ) {
+
+	divContents.innerText = "";
+
+	const xhr = new XMLHttpRequest();
+	xhr.crossOrigin = 'anonymous';
+	xhr.open( 'GET', url, true );
+	xhr.onerror = function( xhr ) { console.log( 'error:', xhr  ); };
+	//xhr.onprogress = function( xhr ) { divLog.innerHTML = `<p>Bytes loaded: ${xhr.loaded.toLocaleString() }</p>` }; /// or something
+	xhr.onload = callback;
+	xhr.send( null );
+
+
+}
+
+
+function callback( xhr ) {
+
+	const response = xhr.target.response;
+	//console.log( 'response', response );
+
+	text = response.replace( /"date_added":"(.*?)"/g, `"date_added\":"xxx"` );
+
+	jsonLines = response.split(/\r\n|\n/);
+	index = 0;
+	let a = document.createElement( "a" );
+
+	noChange = ["academia", "organizations", "people" ];
+
+	pubs = [ "articles/videos","documents technical", "documents-technical","news blogs sources","papers", "portals" ];
+
+	organizations = [ "collaborating", "intellectual property", "manifestos", "opentecture", "reference"];
+
+	products = [ "bim", "configurators", "lego", "open objects furniture", "products kits" ];
+
+	services = ["designers", "design tools", "services" ];
+
+
+	for ( let line of jsonLines ) {
+		//console.log( 'line', line );
+
+		if ( line.slice( 0, 1 ) !== "{" ) { continue; }
+
+		const nanoSeconds = line.match( /"date_added":"(.*?)"/i )[ 1 ];
+		//console.log( 'nanoseconds', nanoSeconds);
+
+		const dateTime = getDateTime( nanoSeconds );
+		// console.log( 'dateTime', dateTime );
+
+		line = line.replace( /"date_added":"(.*?)"/i, `"date_added":"${ dateTime }"` );
+
+		line = line.replace( /"meta_info":{(.*)},/, `` );
+
+
+		// specials
+
+		tags = line.match( /"tags":\[(.*?)\]/i );
+		//console.log( 'tags', tags );
+
+
+
+		if ( tags ) {
+
+			tag1 = tags[ 1 ].split( "," ).slice( 0, 1 )[ 0 ].replace(/"/g, "");
+			//console.log( 'tag1', tag1 );
+
+			if ( noChange.includes( tag1 ) ) {
+
+				category = tag1;
+
+			} else if ( organizations.includes( tag1 ) === true ) {
+
+				category = "organizations";
+
+			} else if ( products.includes( tag1 ) === true ) {
+
+				category = "products";
+
+			} else if ( pubs.includes( tag1 ) === true ) {
+
+				category = "publication";
+
+			} else if ( services.includes( tag1 ) ) {
+
+				category = "services";
+
+			} else {
+
+				category = "";
+
+				console.log( 'tag1', tag1 );
+
+			}
+
+
+		}
+
+
+		const url = line.match( /"url":"(.*?)"/i );
+
+		if ( url ) {
+
+			a.href = url[ 1 ];
+
+			const domain = a.hostname.split( "." ).slice( a.href.includes( ".co.") ? -3 : -2 ).join( ".");
+			//console.log( 'domain', domain );
+
+			line = line.replace( /\{/, `{"domain":"${ domain }","category":"${ category }",` );
+
+		}
+
+		//line = line.replace( /"tags":/i, `"category":` );
+
+
+		jsonLines[ index++ ] = line;
+
+	}
+
+	divContents.innerText = jsonLines.join( "\n\n" );
+
+}
+
+
+function getDateTime( nanoSeconds ) {
+
+	// https://stackoverflow.com/questions/51343828/how-to-parse-chrome-bookmarks-date-added-value-to-a-date
+
+	const dateTime = new Date( Date.UTC( 1601, 0, 1 ) + nanoSeconds / 1000 ).toISOString();
+
+	return dateTime;
+
+}
+
+
+function saveFile() {
+
+	const lines = jsonLines.join( "\n" );
+
+	let blob = new Blob( [ lines ] );
+	let a = document.body.appendChild( document.createElement( 'a' ) );
+	a.href = window.URL.createObjectURL( blob );
+	a.download = 'opentecture-bookmarks-updated.json';
+	a.click();
+	a = null;
+
+}
+
+
+
+function getTitle() {
+
+	document.title = document.title ? document.title : location.href.split( '/' ).pop().slice( 0, - 5 ).replace( /-/g, ' ' );
+
+	const htm =
+	`
+		<h2>
+			<a href=${ urlSourceCode } target=_top title="Source code on GitHub" >
+				<img src=${ urlSourceCodeIcon } height=18 >
+			</a>
+			<a href="" title="Click to reload this page" >${ document.title }</a>
+		</h2>
+
+		<p>
+			${ document.head.querySelector( "[ name=description ]" ).content }
+		</p>
+	`;
+
+	return htm;
+
+}
+
+</script>
+</body>
+</html>
