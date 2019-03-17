@@ -134,6 +134,16 @@ Convert bookmark dates to UTC
 
 * https://stackoverflow.com/questions/51343828/how-to-parse-chrome-bookmarks-date-added-value-to-a-date
 
+
+## Wish List / To Do
+
+* 2019-03-17 ~ Enable creating new bookmarks from scratch
+* 2019-03-17 ~ Make it easier to add new images
+* 2019-03-17 ~ Be able to edit bookmarks with same tools from any of the viewers
+* 2019-03-17 ~ Gallery page for all the bookmarks
+
+
+
 ## Change Log
 
 
@@ -200,7 +210,6 @@ List I made to the time to try to help me build up categories. Probably not very
 * z33.be
 
 
-
 * person > Suleiman Alhadidi > designer/ aec
 * person > Sara Hendren > publication > abler
 * Mario Gutman > http://www.whitefeet.com/
@@ -209,8 +218,6 @@ List I made to the time to try to help me build up categories. Probably not very
 * person > Andrew Alexander Price > developer
 * james halliday > https://substack.net/
 * Guillermo Webster > http://omrelli.ug/
-
-
 
 * portal > archive.org >
 
