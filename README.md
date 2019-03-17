@@ -47,10 +47,14 @@ MindMads that are geared up to display Wardley Maps
 
 ## Change Log
 
+### ~ 2019-03-17 ~ Theo
+
+* Update MindMapping CMS to [TooToo13]( https://pushme-pullyou.github.io/tootoo13/ )
+
 ### 2018-06-30 ~ Theo
 
 This Read Me remixed
-* MindMap 3D details forked to MindMap 3D Rea Me
+* MindMap 3D details forked to MindMap 3D Read Me
 * Link and details to GraphQL 3D added
 * Link and details to Connect-Edit added
 
