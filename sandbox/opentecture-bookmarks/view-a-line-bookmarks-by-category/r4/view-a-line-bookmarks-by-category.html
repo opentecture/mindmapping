@@ -131,12 +131,9 @@ https://jes.al/2015/03/website-thumbnail-previews-iframe/
 
 <script>
 
-
+const VLB = { release: "4.8", date: "2019-03-17" };
 
 let urlJson = "../../opentecture-bookmarks.json";
-let urlMd = "../README.md";
-const urlCORS = 'https://cors-anywhere.herokuapp.com/';
-
 let jsonLines;
 let bookmarks;
 let descriptions;
@@ -145,8 +142,13 @@ let images;
 let index;
 
 
+let urlMd = "../README.md";
+const urlCORS = 'https://cors-anywhere.herokuapp.com/';
+
+
+
 const urlSourceCode = "https://github.com/opentecture/mindmapping/tree/master/sandbox/opentecture-bookmarks/view-a-line-bookmarks"
-const urlSourceCodeIcon = "https://status.github.com/images/invertocat.png";
+const urlSourceCodeIcon = "https://pushme-pullyou.github.io/github-mark-64.png";
 
 const MNU = {};
 
@@ -383,9 +385,27 @@ function getSubHeaders( header ) {
 
 function openInIframe( index ) {
 
-	const bookmark = bookmarks[ index ];
+	bookmark = bookmarks[ index ];
 
-	const id = bookmark.id
+	const id = bookmark.id;
+
+
+	if ( !bookmark.notes || bookmark.notes.toLowerCase().includes( "not cors or iframe compatible" ) === false ) {
+
+		iframeHTM =
+		`
+			<div id=divIframe class="thumbnail-container">
+				<div class="thumbnail" >
+					<iframe id=ifr src="${ bookmark.url }" ></iframe>
+				</div>
+			</div>
+		`;
+	} else {
+
+		iframeHTM = "";
+
+	}
+
 
 	commentsFiltered = comments.filter( comment => comment.targetId === id );
 
@@ -404,6 +424,8 @@ function openInIframe( index ) {
 		comments.length + 1
 	;
 
+
+
 	divContents.innerHTML =
 	`
 		<details open >
@@ -412,18 +434,19 @@ function openInIframe( index ) {
 
 			<h3><a href="${ bookmark.url }" target="_blank">${ bookmark.name}</a></h3>
 
-			<div id=divIframe class="thumbnail-container">
-				<div class="thumbnail" >
-					<iframe id=ifr src="${ bookmark.url }" ></iframe>
-				</div>
-			</div>
+			${ iframeHTM }
 
 			<p>${ bookmark.notes || "" }</p>
+
+			<p>
+				<img style=background-color:#ddd;max-width:50rem; src="${ bookmark.images ? bookmark.images[ 0 ] : `` }" >
+			<p>
+
 
 			<hr>
 
 			<p>Description: ${ bookmark.description || "" }</p>
-			
+
 			<p>Tags: ${ bookmark.tags }</p>
 
 			${ commentText }
@@ -516,23 +539,28 @@ function bookmarkUpdate( id ){
 
 
 
+/////////
+
 function parseHtmlGetDescription( xhr ) {
 
-	const response = xhr.target.response;
+	VLB.source = xhr.target.response;
 	//console.log( 'response', response );
 
-	description = response.match( /name="description" content="(.*?)"/i );
+	description = VLB.source.match( /name="description" content="(.*?)"/i );
 
 	description = description  ? description[ 1 ] : "";
 
-	txtBookmarks.value = txtBookmarks.value.replace( /\t]/, `],"description":"${ description }"` );
+	txt = txtBookmarks.value.match( /"description": "(.*?)"/i );
 
-	//console.log( 'description', description );
+	if ( txt && txt[ 1 ].length === 0 ) {
 
-	texts = response.match( /\<img (.*?)>/gi )
-	images = texts.map(  text => text.match( /src="(.*?)"/i )[ 1 ] );
+		txtBookmarks.value = txtBookmarks.value.replace( /\t]/, `],"description":"${ description }"` );
 
-	console.log( '', images );
+	} else {
+
+		console.log( 'description exits', txt, description );
+
+	}
 
 }
 
@@ -542,9 +570,14 @@ function getImages() {
 
 	let htm = "";
 
+	texts = VLB.source.match( /\<img (.*?)>/gi )
+	images = texts.map(  text => text.match( /src="(.*?)"/i )[ 1 ] );
+
+	console.log( 'images', images );
+
 	for ( image of images ) {
 
-		htm += `<img src="${ image }" ><br>`;
+		htm += `<p style=background-color:#eee; ><img src="${ image }" ><br>${ image }</p>`;
 
 	}
 

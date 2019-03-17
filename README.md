@@ -47,7 +47,7 @@ MindMads that are geared up to display Wardley Maps
 
 ## Change Log
 
-### ~ 2019-03-17 ~ Theo
+### 2019-03-17 ~ Theo
 
 * Update MindMapping CMS to [TooToo13]( https://pushme-pullyou.github.io/tootoo13/ )
 

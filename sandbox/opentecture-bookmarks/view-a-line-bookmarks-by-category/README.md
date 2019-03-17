@@ -72,6 +72,8 @@ It is a work-in-progress continuation of exploring, manipulating and hacking the
 
 ## Change Log
 
+
+
 ### 2019-02-19 ~ Theo
 
 view-a-line-bookmarks R4.5
