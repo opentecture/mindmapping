@@ -1,7 +1,7 @@
 
 <span style=display:none; >[You are now in a GitHub source code view - click this link to view Read Me file as a web page]( https://opentecture.github.io/mindmapping/#sandbox/opentecture-bookmarks/README.md "View file as a web page." ) </span>
 
-<div><input type=button class = "btn btn-secondary btn-sm" onclick=window.location.href="https://github.com/opentecture/mindmapping/tree/master/sandbox/"
+<div><input type=button class = "btn btn-secondary btn-sm" onclick=window.location.href="https://github.com/opentecture/mindmapping/tree/master/sandbox/sandbox/opentecture-bookmarks/"
 value="You are now in a GitHub web page view - Click this button to view this read me file as source code" ></div>
 
 <br>
@@ -13,7 +13,7 @@ value="You are now in a GitHub web page view - Click this button to view this re
 
 ## Full screen: [Opentecture Bookmarks View-a-line-by-category]( https://opentecture.github.io/mindmapping/sandbox/opentecture-bookmarks/view-a-line-bookmarks-by-category/index.html )
 
-### [Opentecture Bookmarks View-a-line Read Me]( https://opentecture.github.io/mindmapping/#sandbox/opentecture-bookmarks/view-a-line-bookmarks-by-category/README.md )
+### [Opentecture Bookmarks View-a-line by Category Read Me]( https://opentecture.github.io/mindmapping/#sandbox/opentecture-bookmarks/view-a-line-bookmarks-by-category/README.md )
 
 * Opentecture Bookmarks in JSON Lines viewer and editor - by category
 
@@ -151,14 +151,8 @@ Convert bookmark dates to UTC
 
 CORS workaround working again. Yay!
 
-view-a-line-bookmarks-by-category.html R4.8
+Update readme and links
 
-* Fix Octocat logo
-* Start adding name space
-* Not add description if already exists
-* Add no show iframes if notes include "Not CORS or Iframe compatible"
-* Add links underneath images
-* Add images array element to bookmark
 
 ### 2019-03-16 ~ Theo
 

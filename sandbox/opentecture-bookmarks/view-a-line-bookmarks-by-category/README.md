@@ -72,7 +72,16 @@ It is a work-in-progress continuation of exploring, manipulating and hacking the
 
 ## Change Log
 
+### 2019-03-17 ~ Theo
 
+view-a-line-bookmarks-by-category.html R4.8
+
+* Fix Octocat logo
+* Start adding name space
+* Not add description if already exists
+* Add no show iframes if notes include "Not CORS or Iframe compatible"
+* Add links underneath images
+* Add images array element to bookmark
 
 ### 2019-02-19 ~ Theo
 
