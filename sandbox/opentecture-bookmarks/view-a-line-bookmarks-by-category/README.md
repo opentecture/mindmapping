@@ -44,6 +44,8 @@ It is a work-in-progress continuation of exploring, manipulating and hacking the
 
 ## To Do / Wish List
 
+* 2019-03-24 ~ Build an API
+	* See https://pinboard.in/api/
 * 2019-02-17 ~ Replace all date references with UTC strings
 * 2019-02-17 ~ Upgrade IDs to UUIDs
 * 2019-02-17 ~ Replace 'tags' with 'categories' / Add new separate 'tags' element
@@ -66,6 +68,8 @@ It is a work-in-progress continuation of exploring, manipulating and hacking the
 * handle CORS and other iframe errors better
 
 ## Links of Interest
+
+### JSON Lines format
 
 * http://jsonlines.org/
 * http://ndjson.org/
