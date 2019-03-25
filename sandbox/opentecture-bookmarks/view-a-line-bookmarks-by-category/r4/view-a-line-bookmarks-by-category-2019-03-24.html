@@ -5,8 +5,8 @@
 <meta name = "viewport" content= "width=device-width, initial-scale=1" >
 <meta name = "description" content = "Content manager for web page bookmarks stored in JSON lines files" >
 <meta name = "keywords" content = "JavaScript,GitHub,FOSS" >
-<meta name = "date" content = "2019-03-24" >
-<title>Opentecture Bookmarks View-a-line by Category R4.9</title>
+<meta name = "date" content = "2019-03-17" >
+<title>Opentecture Bookmarks View-a-line by Category R4.8</title>
 <style>
 
 	* {box-sizing: border-box; }
@@ -19,8 +19,6 @@
 
 	button, input[type=button] { background-color: #ddd; border: none; color: #322; cursor: pointer; padding: 3px 5px; }
 	button:hover { background: #ccc; color: #fff }
-
-	td input { width: 40rem; }
 
 	#divContainer { /* border: solid green 1px; */ height: calc( 100vh ); margin: 0 0 0 var( --mnu-width ); transition: margin-left .5s; position: relative; }
 	#divContents { /* border: solid red 1px; */ height: calc( 100vh ); margin: 0 auto; max-width: 50rem; padding: 1rem; }
@@ -104,7 +102,6 @@ https://jes.al/2015/03/website-thumbnail-previews-iframe/
 			<input type=file id=inpFile onchange=openFile(this); accept = '.json' >
 		</p>
 
-		<p><button onclick=bookmarkAdd(); >add new bookmark </button></p>
 		<p>
 			<button id=but onclick=saveFile(); accessKey= 'z' title='access key: z '>save edits to file</button>
 		</p>
@@ -132,47 +129,7 @@ https://jes.al/2015/03/website-thumbnail-previews-iframe/
 	</div>
 
 
-	<template id=tmpNewBookmark >
-
-		<h2>Add new bookmark</h2>
-
-		<table>
-
-			<tr><td>id: </td><td><input id=inpId ></td></tr>
-
-			<tr><td>date added: </td><td><input id=inpDateAdded ></td></tr>
-
-			<tr><td>name: </td><td><input id=inpName ></td>
-
-			<tr><td>type: </td><td><input id=inpType ></td></tr>
-
-			<tr><td>url: </td><td><input id=inpUrl ></td></tr>
-
-			<tr><td>images: </td><td><input id=inpImages ></td></tr>
-
-			<tr><td>tags: </td><td><input id=inpTags ></td></tr>
-
-			<tr><td>description: </td><td><input id=inpDescription ></td></tr>
-
-		</table>
-
-		<p>
-			<button onclick=bookmarkNewUpdate() >update bookmark</button>
-		</p>
-
-		<p>
-
-			Bookmark JSON data:
-			<textarea id=txtBookmarkNew style=height:10rem;width:100%; ></textarea>
-		</p>
-
-		<p>
-			<button onclick=alert("coming-soon"); >add bookmark</button>
-		</p>
-	</template>
-
 <script>
-
 
 const VLB = { release: "4.8", date: "2019-03-17" };
 
@@ -187,6 +144,7 @@ let index;
 
 let urlMd = "../README.md";
 const urlCORS = 'https://cors-anywhere.herokuapp.com/';
+
 
 
 const urlSourceCode = "https://github.com/opentecture/mindmapping/tree/master/sandbox/opentecture-bookmarks/view-a-line-bookmarks-by-category";
@@ -505,6 +463,7 @@ function openInIframe( index ) {
 			</p>
 
 			Bookmark JSON:
+				<button onclick=bookmarkAdd(${ id }); title="coming soon" >add new bookmark</button>
 
 				<button onclick=requestFile("${urlCORS + bookmark.url}",parseHtmlGetDescription); title="wait until iframe appears before clicking here" >get description</button>
 				<button onclick=getImages(); >get images</button>
@@ -516,8 +475,7 @@ function openInIframe( index ) {
 			Comments JSON:
 				<button onclick=commentAdd(${ id }); >add new comment</button>
 				<button onclick=commentUpdate("${ commentId }"); >update comment</button>
-				-
-				<button onclick=addImage(${ id }); >add new image</button>
+
 			<textarea id=txtComments style=height:10rem;width:100%; >${ JSON.stringify( commentsFiltered[ 0 ], null, '\t' ) || "No comments yet. Click 'add new comment' button to get going. Current release only handles a single comment per bookmark." }</textarea>
 
 			<div id=divImages >nnn</div>
@@ -531,34 +489,10 @@ function openInIframe( index ) {
 
 function bookmarkAdd( id ){
 
-	divContents.innerHTML = tmpNewBookmark.innerHTML;
-
-	inpId.value = bookmarks.length + 1;
-
-	inpDateAdded.value = new Date().toISOString();
-
-	inpType.value = "url";
-
+	alert( "Coming soon!" );
 
 }
 
-
-function bookmarkNewUpdate() {
-
-	txt =
-`{
-	"id": "${ inpId.value }",
-	"dateAdded": "${ inpDateAdded.value }",
-	"name": "${ inpName.value }",
-	"type": "${ inpType.value }",
-	"url": "${ inpUrl.value }",
-	"images": "${ inpImages.value }",
-	"tags": "${ inpTags.value }",
-	"description": "${ inpDescription.value }",
-}`
-
-	txtBookmarkNew.value = txt;
-}
 
 
 // "notes":"Not CORS or Iframe compatible",
@@ -613,20 +547,18 @@ function parseHtmlGetDescription( xhr ) {
 	//console.log( 'response', response );
 
 	description = VLB.source.match( /name="description" content="(.*?)"/i );
-	//console.log( 'description', description );
 
 	description = description  ? description[ 1 ] : "";
 
 	txt = txtBookmarks.value.match( /"description": "(.*?)"/i );
-	//console.log( 'txt', txt );
 
-	if ( !txt || txt[ 1 ].length === 0 ) {
+	if ( txt && txt[ 1 ].length === 0 ) {
 
 		txtBookmarks.value = txtBookmarks.value.replace( /\t]/, `],"description":"${ description }"` );
 
 	} else {
 
-		console.log( 'description exists', txt, description );
+		console.log( 'description exits', txt, description );
 
 	}
 
@@ -638,37 +570,19 @@ function getImages() {
 
 	let htm = "";
 
-	const texts = VLB.source.match( /\<img (.*?)>/gi );
+	texts = VLB.source.match( /\<img (.*?)>/gi )
+	images = texts.map(  text => text.match( /src="(.*?)"/i )[ 1 ] );
 
-	const images = texts ?
-
-		texts.map( text => {
-
-			const link = text.match( /src="(.*?)"/i );
-			//console.log( 'link', link );
-
-			return link ? link[ 1 ] : "";
-		} )
-	: "";
-
-	//console.log( 'images', images );
+	console.log( 'images', images );
 
 	for ( image of images ) {
-
-		if ( !image.toLowerCase().startsWith( 'http') ) {
-
-			console.log( 'image', image );
-
-			image = bookmark.url + image;
-
-
-		}
 
 		htm += `<p style=background-color:#eee; ><img src="${ image }" ><br>${ image }</p>`;
 
 	}
 
 	divImages.innerHTML = htm;
+
 
 }
 
@@ -688,19 +602,6 @@ function commentAdd( id ){
 `;
 
 }
-
-
-
-function addImage( id ){
-
-	const txt = txtBookmarks.value;
-
-	const txtNew = txt.replace( /"tags":/i, `"images" : [ "" ],\n"tags":` )
-
-	txtBookmarks.value = txtNew;
-
-}
-
 
 
 function commentUpdate( id ){

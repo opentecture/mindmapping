@@ -70,7 +70,31 @@ It is a work-in-progress continuation of exploring, manipulating and hacking the
 * http://jsonlines.org/
 * http://ndjson.org/
 
+## Commit message prefixes
+
+From [The case for single character git commit message prefixes]( https://smalldata.tech/blog/2018/10/04/the-case-for-single-character-git-commit-message-prefixes )
+* B, indicates a bugfix.
+* F, indicates a feature or a change - this will most likely be the majority of the commits.
+* a, code formatting change.
+* c, comments and or documentation.
+* D, dependency updates.
+* R, code refactoring, note that this is different from r below.
+* r, proven code refactoring - this is the original meaning of the mathematical term refactoring, where it can be mathematically proven that the code change does not change any functionality (I'm personally not sure where this is useful).
+* T, test cases and/or test improvements - I believe that tests should ideally live with the source code and be treated as such. However, I can see the need for this in larger code bases with a separate QA team.
+* !, unknown - i.e. for when you really need to make that commit because there's a horde of zombies waiting outside.
+
 ## Change Log
+
+### 2019-03-24 ~ Theo
+
+Opentecture Bookmarks View-a-line by Category
+view-a-line-bookmarks-by-category.html R4.9
+
+* B - 'get description' not fetching description
+* F - Add 'add new image' button - adds template text  to bookmark
+* F - Add 'add new bookmark' button and new data entry web page
+* c - add 'Commit message prefixes' to read me
+
 
 ### 2019-03-17 ~ Theo
 
