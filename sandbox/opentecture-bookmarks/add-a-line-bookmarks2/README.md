@@ -1,5 +1,5 @@
 
-<span style=display:none; >[You are now in a GitHub source code view - click this link to view Read Me file as a web page]( https://opentecture.github.io/#mindmapping/sandbox/opentecture-bookmarks/add-a-line-bookmarks2/README.md "View file as a web page." ) </span>
+<span style=display:none; >[You are now in a GitHub source code view - click this link to view Read Me file as a web page]( https://opentecture.github.io/mindmapping/#sandbox/opentecture-bookmarks/add-a-line-bookmarks2/README.md "View file as a web page." ) </span>
 
 <div><input type=button class = 'btn btn-secondary btn-sm' onclick="window.location.href='https://github.com/opentecture/mindmapping/blob/master/sandbox/opentecture-bookmarks/add-a-line-bookmarks2/README.md'";
 value='You are now in a GitHub web page view - Click this button to view this read me file as source code' ></div>
@@ -13,7 +13,7 @@ value='You are now in a GitHub web page view - Click this button to view this re
 _sandbox/opentecture-bookmarks/add-a-line-bookmarks2.html_
 -->
 
-## Full Screen: [Add-a-line Bookmarks2]( https://opentecture.github.io/#mindmapping/sandbox/opentecture-bookmarks/add-a-line-bookmarks2/ )
+## Full Screen: [Add-a-line Bookmarks2]( https://opentecture.github.io/mindmapping/sandbox/opentecture-bookmarks/add-a-line-bookmarks2/ )
 
 
 ## Concept
