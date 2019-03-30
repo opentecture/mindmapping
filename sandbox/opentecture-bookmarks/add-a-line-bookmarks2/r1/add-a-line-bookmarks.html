@@ -1,0 +1,892 @@
+<!doctype html>
+<html lang = "en" >
+<head>
+<meta charset = "utf-8" >
+<meta name = "viewport" content= "width=device-width, initial-scale=1" >
+<meta name = "description" content = "Content manager for web page bookmarks stored in JSON lines files" >
+<meta name = "keywords" content = "JavaScript,GitHub,FOSS" >
+<meta name = "date" content = "2019-03-30" >
+<title>Add-a-Line-Bookmarks2 R1.0</title>
+<style>
+
+	* {box-sizing: border-box; }
+
+	:root { --mnu-width: 20rem; --screen-width: calc( 100vw ); }
+
+	body { font: 12pt monospace; height: 100%; margin: 0; }
+	a { color: crimson; text-decoration: none; }
+	a:hover, a:focus, a:active { background-color: yellow; color: #aaa; text-decoration: underline }
+
+	button, input[type=button] { background-color: #ddd; border: none; color: #322; cursor: pointer; padding: 3px 5px; }
+	button:hover { background: #ccc; color: #fff }
+
+	td input { width: 40rem; }
+
+	#divContainer { /* border: solid green 1px; */ height: calc( 100vh ); margin: 0 0 0 var( --mnu-width ); transition: margin-left .5s; position: relative; }
+	#divContents { /* border: solid red 1px; */ height: calc( 100vh ); margin: 0 auto; max-width: 50rem; padding: 1rem; }
+
+
+	#navMenu { background-color: #eee; /* background: rgba( 250, 250, 250, 0.8 ); */
+		border: 1px solid #888; left: 0; margin: 0; max-height: 100%; overflow: auto;
+		padding: 1rem; position: fixed; resize: both; top: 0; transition: left 0.5s; width: var( --mnu-width ); z-index: 10; }
+
+
+	#navMenu button, #navMenu input[type=button] { background-color: #ddd; border: 2px solid white; color: #444; cursor: pointer;
+		padding: 2px 5px; min-width: 1.5rem; }
+
+	#navMenu button:hover { background: #ccc; color: #888 }
+
+	#navMenu button.active { border-color: black; font-style: italic; font-weight: bold; margin-left: 1rem;
+		box-shadow: 2px 2px #888; }
+
+
+	#butHamburger { font-size: 2rem; left: calc( var( --mnu-width ) + 0rem ); position: fixed; top: 5px;
+		transition: left 0.5s; z-index: 20;
+		box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23); }
+
+
+	iframe { height: 200rem; width: 80rem; }
+
+	summary { font-weight: bold; font-size: 1.1rem; margin-bottom:0.5rem }
+	textarea { height: 100%; width: 100%; }
+
+	.flex-container { display: flex; }
+
+/*
+https://medium.com/@jamesfuthey/simulating-the-creation-of-website-thumbnail-screenshots-using-iframes-7145269891db
+https://jes.al/2015/03/website-thumbnail-previews-iframe/
+
+*/
+	.thumbnail {
+		position: relative;
+		-ms-zoom: 0.25;
+		-moz-transform: scale(0.25);
+		-moz-transform-origin: 0 0;
+		-o-transform: scale(0.25);
+		-o-transform-origin: 0 0;
+		-webkit-transform: scale( 0.25 );
+		-webkit-transform-origin: 0 0;
+	}
+
+	.thumbnail:after {
+		content: "";
+		display: block;
+		position: absolute;
+		top: 0;
+		left: 0;
+		right: 0;
+		bottom: 0;
+	}
+
+	.thumbnail-container {
+		width: calc( 2000px * 0.25);
+		height: calc(1000px * 0.25);
+		display: inline-block;
+		overflow: hidden;
+		position: relative;
+	}
+
+</style>
+</head>
+<body>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/showdown/1.9.0/showdown.min.js" ></script>
+
+	<nav id="navMenu" >
+
+		<div id="divTitle" ></div>
+
+
+		<div ><a href="../../view-a-line-bookmarks-by-category/index.html" target="_blank" >Bookmarks by Category</a></div>
+		<div ><a href="../../view-a-line-bookmarks-by-host/index.html" target="_blank" >Bookmarks by Host</a></div>
+		<div ><a href="../../view-a-line-bookmarks-by-find/index.html" target="_blank" >Bookmarks by Find</a></div>
+
+		<p>
+			<input type=file id=inpFile onchange=openFile(this); accept = '.json' >
+		</p>
+
+		<p><button onclick=bookmarkAdd(); >add new bookmark </button></p>
+		<p>
+			<button id=but onclick=saveFile(); accessKey= 'z' title='access key: z '>save edits to file</button>
+		</p>
+
+		<div id=menuItems ></div>
+
+		<hr>
+
+		<h1 onclick="navMenu.scrollTop=0;" style="cursor:pointer;text-align:center;" title="go to top of menu" > ❦ </h1>
+
+	</nav>
+
+
+	<div>
+
+		<button id="butHamburger" onclick=MNU.toggleNavLeft(); title="click here to hide this menu"> slide ☰ </button>
+
+	</div>
+
+
+	<div id="divContainer" >
+
+		<div id="divContents" ></div>
+
+	</div>
+
+
+	<template id=tmpNewBookmark >
+
+		<h2>Add new bookmark</h2>
+
+		<table>
+
+			<tr><td>name: </td><td><input id=inpName ></td>
+
+			<tr><td>url: </td><td><input id=inpUrl ></td></tr>
+
+			<tr><td>date added: </td><td><input id=inpDateAdded ></td></tr>
+
+			<tr><td>id: </td><td><input id=inpId ></td></tr>
+
+			<tr><td>type: </td><td><input id=inpType ></td></tr>
+
+			<tr><td>images: </td><td><input id=inpImages ></td></tr>
+
+			<tr><td>tags: </td><td><input id=inpTags ></td></tr>
+
+			<tr><td>description: </td><td><textarea id=txtDescription ></textarea></td></tr>
+
+			<tr><td>source: </td>
+				<td>
+					<select id=selSource size=6 >
+						<option>Academia</option>
+						<option>Organization</option>
+						<option>Person</option>
+						<option>Publisher</option>
+						<option>Vendor</option>
+						<option>Other</option>
+					</select>
+				</td>
+			</tr>
+
+		</table>
+
+		<p>
+			<input type=checkbox id=inpIframeOk > Iframe compatible
+		</p>
+
+		<p>
+			<button onclick=bookmarkNewUpdate() >update bookmark</button>
+		</p>
+
+		<p>
+
+			Bookmark JSON data:
+			<textarea id=txtBookmarkNew style=height:12rem;width:100%; ></textarea>
+		</p>
+
+		<p>
+			<button onclick=alert("coming-soon"); >add bookmark</button>
+		</p>
+	</template>
+
+<script>
+
+
+const VLB = { release: "4.8", date: "2019-03-17" };
+
+let urlJson = "../../opentecture-bookmarks.json";
+let jsonLines;
+let bookmarks;
+let descriptions;
+let comments;
+let images;
+let index;
+
+
+let urlMd = "../README.md";
+const urlCORS = 'https://cors-anywhere.herokuapp.com/';
+
+
+const urlSourceCode = "https://github.com/opentecture/mindmapping/tree/master/sandbox/opentecture-bookmarks/view-a-line-bookmarks-by-category";
+const urlSourceCodeIcon = "https://pushme-pullyou.github.io/github-mark-64.png";
+
+const MNU = {};
+
+
+init();
+
+
+function init() {
+
+	document.addEventListener( 'touchstart', MNU.onTouchStart, false );
+	document.addEventListener( 'touchmove', MNU.onTouchMove, false );
+
+	divTitle.innerHTML = getTitle();
+
+	requestFile( urlJson, parseFile );
+
+	requestFile( urlMd, parseMarkdownToHtml );
+
+}
+
+
+
+function requestFile( url, callback ) {
+
+	const xhr = new XMLHttpRequest();
+	xhr.crossOrigin = 'anonymous';
+	xhr.open( 'GET', url, true );
+	xhr.onerror = function( xhr ) { console.log( 'error:', xhr  ); };
+	//xhr.onprogress = function( xhr ) { console.log( 'bytes loaded:', xhr.loaded  ); }; /// or something
+	xhr.onload = callback;
+	xhr.send( null );
+
+}
+
+
+
+function parseMarkdownToHtml( xhr ) {
+
+	const response = xhr.target.response;
+	showdown.setFlavor('github');
+	const converter = new showdown.Converter();
+	const html = converter.makeHtml( response );
+
+	divContents.innerHTML = html;
+	window.scrollTo( 0, 0 );
+
+}
+
+
+
+function parseFile( obj ) {
+
+	const data = obj.target ? obj.target.response : obj
+
+	bookmarks = [];
+	descriptions = [];
+	comments = [];
+	//index = 0;
+
+	jsonLines = data.split(/\r\n|\n/);
+
+	for ( let line of jsonLines ) {
+		//console.log( 'line', line );
+
+		if ( line.slice( 0, 1 ) !== "{" ) { continue; }
+
+		const jsonl = JSON.parse( line );
+		//console.log( 'jsonl', jsonl );
+
+		if ( jsonl.type === "url" ) {
+
+			bookmarks.push( jsonl );
+
+		} else if ( jsonl.type === "description" ) {
+
+			descriptions.push( jsonl );
+
+		}else if ( jsonl.type === "comment" ) {
+
+			comments.push( jsonl );
+
+		} else {
+
+			console.log( 'oops', jsonl );
+
+		}
+
+	}
+	//console.log( 'bookmarks', bookmarks );
+
+	setMenuHeaders();
+
+}
+
+
+
+function setMenuHeaders(){
+
+	let menuHeaders = [];
+
+	for ( let bookmark of bookmarks ) {
+
+		const header = bookmark.tags[ 0 ];
+
+		const item = menuHeaders.find( item => item === header );
+
+		if ( !item ) {menuHeaders.push( header ); }
+
+	}
+
+	//console.log( 'menuHeaders', menuHeaders );
+
+	menuHeaders = menuHeaders.sort();
+
+	let htm = "";
+
+	for ( let menuHeader of menuHeaders ) {
+
+		let description = descriptions.find( it => it.tag === menuHeader );
+
+		description = description ? description.content : "";
+
+		subHeaders = getSubHeaders( menuHeader );
+
+		let marks = bookmarks.filter( bookmark => bookmark.tags.length === 1 && bookmark.tags[ 0 ] === menuHeader  );
+		//console.log( 'marks', marks );
+
+		let markHtm = ""
+
+		for ( mark of marks ) {
+
+			const index = bookmarks.indexOf( mark );
+
+			markHtm +=
+			`
+			<div style=margin-bottom:0.5rem; >
+				<button onclick=openInIframe("${ index }"); title="View bookmark URL in an Iframe"  >${ mark.name }</button>
+			</div>
+			`;
+
+		}
+
+		htm +=
+		`
+			<details>
+
+				<summary>${ menuHeader }</summary>
+
+				<p>${ description }</p>
+
+				<div id=menuItem${ menuHeader } >${ subHeaders }</div>
+
+				${ markHtm }
+
+			</details>
+		`;
+
+	}
+
+	menuItems.innerHTML = htm;
+
+}
+
+
+
+// make recursive so can handle any number of levels
+function getSubHeaders( header ) {
+	//console.log( 'header', header );
+
+	let subHeaders = [];
+
+	for ( let bookmark of bookmarks ) {
+
+		if ( bookmark.tags[ 0 ] === header ) {
+
+			if ( bookmark.tags[ 1 ] ) {
+				//console.log( '', bookmark.tags[ 1 ] );
+
+				const subHeader = subHeaders.find( item => item === bookmark.tags[ 1 ] );
+				//console.log( 'subHeaders', subHeaders );
+
+				if ( !subHeader ) { subHeaders.push( bookmark.tags[ 1 ] ); }
+
+			} else {
+
+			}
+
+		}
+
+	}
+
+	subHeaders = subHeaders.sort();
+	//console.log( 'subHeaders', subHeaders );
+
+	htm = "";
+
+	for ( subHeader of subHeaders ) {
+
+		let marks = bookmarks.filter( bookmark => bookmark.tags[ 0 ] + bookmark.tags[ 1 ] ===  header + subHeader  );
+		//console.log( 'marks', marks,  bookmarks[ 0 ].tags[ 0 ] + bookmarks[ 0 ].tags[ 1 ] , [ header, subHeader ]  );
+
+		marks = marks.sort();
+
+		let markHtm = ""
+
+		for ( mark of marks ) {
+
+			const index = bookmarks.indexOf( mark );
+
+			markHtm +=
+			`
+			<div style=margin-bottom:0.5rem; >
+				<button onclick=openInIframe("${ index }"); title="View bookmark URL in an Iframe"  >${ mark.name }</button>
+			</div>
+			`;
+
+		}
+
+
+		htm +=
+		`
+			<h4 style=margin-bottom:0; >${ subHeader }</h4>
+			${ markHtm}
+			<hr>
+		`;
+	}
+
+	return htm;
+
+}
+
+
+
+
+function openInIframe( index ) {
+
+	bookmark = bookmarks[ index ];
+
+	const id = bookmark.id;
+
+
+	if ( !bookmark.notes || bookmark.notes.toLowerCase().includes( "not cors or iframe compatible" ) === false ) {
+
+		iframeHTM =
+		`
+			<div id=divIframe class="thumbnail-container">
+				<div class="thumbnail" >
+					<iframe id=ifr src="${ bookmark.url }" ></iframe>
+				</div>
+			</div>
+		`;
+	} else {
+
+		iframeHTM = "";
+
+	}
+
+
+	commentsFiltered = comments.filter( comment => comment.targetId === id );
+
+	commentText = commentsFiltered.length ?
+		`<p>
+			Comments by ${ commentsFiltered[ 0 ].author}:
+			<div style=width:50rem; >${ commentsFiltered[ 0 ].content }</div>
+		</p>`
+		:
+		""
+	;
+
+	commentId = commentsFiltered.length ?
+		commentsFiltered[ 0 ].id
+		:
+		comments.length + 1
+	;
+
+
+
+	divContents.innerHTML =
+	`
+		<details open >
+
+			<summary>View bookmark</summary>
+
+			<h3><a href="${ bookmark.url }" target="_blank">${ bookmark.name}</a></h3>
+
+			${ iframeHTM }
+
+			<p>${ bookmark.notes || "" }</p>
+
+			<p>
+				<img style=background-color:#ddd;max-width:50rem; src="${ bookmark.images ? bookmark.images[ 0 ] : `` }" >
+			<p>
+
+
+			<hr>
+
+			<p>Description: ${ bookmark.description || "" }</p>
+
+			<p>Tags: ${ bookmark.tags }</p>
+
+			${ commentText }
+
+		</details>
+
+		<details>
+
+			<summary>Edit bookmark</summary>
+			<p>
+				Best to have the JavaScript Developer Console open while you are editing.
+				After you update bookmarks or update comments, click the 'save edits to file' button in left menu to save the changes to your local drive.
+				Check the validity of your edits by opening the file you just saved.
+			</p>
+
+			Bookmark JSON:
+
+				<button onclick=requestFile("${urlCORS + bookmark.url}",parseHtmlGetDescription); title="wait until iframe appears before clicking here" >get description</button>
+				<button onclick=getImages(); >get images</button>
+
+				<button onclick=bookmarkUpdate(${ id }); >update bookmark</button>
+
+			<textarea id=txtBookmarks style=height:18rem;width:100%; title="Wait until text appears below before updating" >${ JSON.stringify( bookmark, null, '\t' ) }</textarea>
+
+			Comments JSON:
+				<button onclick=commentAdd(${ id }); >add new comment</button>
+				<button onclick=commentUpdate("${ commentId }"); >update comment</button>
+				-
+				<button onclick=addImage(${ id }); >add new image</button>
+			<textarea id=txtComments style=height:10rem;width:100%; >${ JSON.stringify( commentsFiltered[ 0 ], null, '\t' ) || "No comments yet. Click 'add new comment' button to get going. Current release only handles a single comment per bookmark." }</textarea>
+
+			<div id=divImages >nnn</div>
+
+		</details>
+	`;
+
+}
+
+
+
+function bookmarkAdd( id ){
+
+	divContents.innerHTML = tmpNewBookmark.innerHTML;
+
+	inpId.value = bookmarks.length + 1;
+
+	inpDateAdded.value = new Date().toISOString();
+
+	inpType.value = "url";
+
+}
+
+
+function bookmarkNewUpdate() {
+
+	txt =
+`{
+	"name": "${ inpName.value }",
+	"url": "${ inpUrl.value }",
+	"dateAdded": "${ inpDateAdded.value }",
+	"id": "${ inpId.value }",
+	"type": "${ inpType.value }",
+	"images": "${ inpImages.value }",
+	"tags": "${ inpTags.value }",
+	"source": "${ selSource.value }",
+	"description": "${ txtDescription.value }",
+	"iframeCompatible": "${ inpIframeOk.checked }"
+}`
+
+	txtBookmarkNew.value = txt;
+}
+
+
+// "notes":"Not CORS or Iframe compatible",
+
+function bookmarkUpdate( id ){
+
+	const index = jsonLines.findIndex( line => line.includes( `\"id":\"${ id }\"` ) )
+	console.log( 'index', index );
+
+	line = JSON.stringify( JSON.parse( txtBookmarks.value ) );
+	console.log( 'txtComments.value', line );
+
+	if ( index >= 0 ) {
+
+		jsonLines[ index ] = line;
+
+	} else {
+
+		jsonLines.push( line );
+
+	}
+
+	bookmarks = [];
+
+	for ( let line of jsonLines ) {
+		//console.log( 'line', line );
+
+		if ( line.slice( 0, 1 ) !== "{" ) { continue; }
+
+		const jsonl = JSON.parse( line );
+		//console.log( 'jsonl', jsonl );
+
+		if ( jsonl.type === "url" ) {
+
+			bookmarks.push( jsonl );
+
+		}
+
+	}
+
+	console.log( 'jsonLines[ index ] ', jsonLines[ index ]  );
+
+}
+
+
+
+/////////
+
+function parseHtmlGetDescription( xhr ) {
+
+	VLB.source = xhr.target.response;
+	//console.log( 'response', response );
+
+	description = VLB.source.match( /name="description" content="(.*?)"/i );
+	//console.log( 'description', description );
+
+	description = description  ? description[ 1 ] : "";
+
+	txt = txtBookmarks.value.match( /"description": "(.*?)"/i );
+	//console.log( 'txt', txt );
+
+	if ( !txt || txt[ 1 ].length === 0 ) {
+
+		txtBookmarks.value = txtBookmarks.value.replace( /\t]/, `],"description":"${ description }"` );
+
+	} else {
+
+		console.log( 'description exists', txt, description );
+
+	}
+
+}
+
+
+
+function getImages() {
+
+	let htm = "";
+
+	const texts = VLB.source.match( /\<img (.*?)>/gi );
+
+	const images = texts ?
+
+		texts.map( text => {
+
+			const link = text.match( /src="(.*?)"/i );
+			//console.log( 'link', link );
+
+			return link ? link[ 1 ] : "";
+		} )
+	: "";
+
+	//console.log( 'images', images );
+
+	for ( image of images ) {
+
+		if ( !image.toLowerCase().startsWith( 'http') ) {
+
+			console.log( 'image', image );
+
+			image = bookmark.url + image;
+
+
+		}
+
+		htm += `<p style=background-color:#eee; ><img src="${ image }" ><br>${ image }</p>`;
+
+	}
+
+	divImages.innerHTML = htm;
+
+}
+
+
+
+function commentAdd( id ){
+
+	txtComments.value =
+`{
+	"date_added": "13194420468664932",
+	"id": "comment${ comments.length+1 }",
+	"type": "comment",
+	"targetId": "${ id }",
+	"author": "NAME",
+	"content": "my comment!"
+}
+`;
+
+}
+
+
+
+function addImage( id ){
+
+	const txt = txtBookmarks.value;
+
+	const txtNew = txt.replace( /"tags":/i, `"images" : [ "" ],\n"tags":` )
+
+	txtBookmarks.value = txtNew;
+
+}
+
+
+
+function commentUpdate( id ){
+
+	let index = jsonLines.findIndex( line => line.includes( `\"id":\"${ id }\"` ) )
+	//console.log( 'index', index );
+
+	const line = JSON.stringify( JSON.parse( txtComments.value ) );
+	//console.log( 'txtComments.value', line );
+
+	if ( index > 0 ) {
+
+		jsonLines[ index ] = line;
+
+	} else {
+
+		jsonLines.push( line );
+		index = jsonLines.length - 1;
+
+	}
+
+	console.log( 'jsonLines[ index ] ', jsonLines[ index ]  );
+}
+
+
+
+function openFile( files ) {
+
+	const reader = new FileReader();
+	reader.onload = function( event ) {
+
+		parseFile( reader.result );
+
+	}
+
+	reader.readAsText( files.files[ 0 ] );
+
+}
+
+
+
+function saveFile() {
+
+	const lines = jsonLines.join( "\n" );
+
+	let blob = new Blob( [ lines ] );
+	let a = document.body.appendChild( document.createElement( 'a' ) );
+	a.href = window.URL.createObjectURL( blob );
+	a.download = 'opentecture-bookmarks.json';
+	a.click();
+	a = null;
+
+}
+
+
+
+////////// User Interface utilities
+
+
+function getTitle() {
+
+	//document.title = document.title ? document.title : location.href.split( '/' ).pop().slice( 0, - 5 ).replace( /-/g, ' ' );
+
+	const htm =
+	`
+		<h2>
+			<a href=${ urlSourceCode } target=_top title="Source code on GitHub" >
+				<img src=${ urlSourceCodeIcon } height=18 >
+			</a>
+			<a href="" title="Click to reload this page" >${ document.title }</a>
+		</h2>
+
+		<p>
+			${ document.head.querySelector( "[ name=description ]" ).content }
+		</p>
+	`;
+
+	return htm;
+
+}
+
+
+///// Same as TooToo13
+
+
+
+MNU.xDown = null;
+MNU.yDown = null;
+
+MNU.onTouchStart = function( event ) {
+
+	MNU.xDown = event.touches[ 0 ].clientX;
+	MNU.yDown = event.touches[ 0 ].clientY;
+
+};
+
+
+
+MNU.onTouchMove = function(event) {
+
+	// if ( ! MNU.xDown || ! MNU.yDown ) { return; }
+
+	const xUp = event.touches[ 0 ].clientX;
+	const yUp = event.touches[ 0 ].clientY;
+
+	const xDiff = MNU.xDown - xUp;
+	const yDiff = MNU.yDown - yUp;
+
+	if ( Math.abs( xDiff ) > Math.abs( yDiff ) ) {// most significant
+
+		if ( xDiff > 0 ) {
+
+			MNU.toggleNavLeft();
+			//console.log( 'left swipe' );
+
+		} else {
+
+			MNU.toggleNavLeft();
+			console.log( 'right swipe' );
+
+		}
+
+	} else {
+
+		if ( yDiff > 0 ) {
+
+			console.log( 'up swipe' );
+
+		} else {
+
+			console.log( 'down swipe' );
+
+		}
+
+	}
+
+	MNU.xDown = null;
+	MNU.yDown = null;
+
+};
+
+
+
+MNU.toggleNavLeft = function() {
+
+	const width = getComputedStyle(document.documentElement).getPropertyValue( '--mnu-width' ).trim();
+
+	//console.log( 'width', width );
+	//console.log( 'navMenu.style.width', navMenu.style.width );
+
+	if ( navMenu.style.width === "0px" ) { // invisible
+
+		navMenu.style.width = width;
+		navMenu.style.padding = '1rem';
+		butHamburger.style.left = 'var( --mnu-width )';
+		divContainer.style.marginLeft = width;
+
+	} else {
+
+		navMenu.style.width = "0px";
+		navMenu.style.padding = '0';
+		butHamburger.style.left = '-3rem';
+		divContainer.style.marginLeft = "0px";
+
+	}
+
+}
+
+</script>
+</body>
+</html>
