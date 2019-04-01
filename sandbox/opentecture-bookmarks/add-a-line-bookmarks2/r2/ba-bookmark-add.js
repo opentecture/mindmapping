@@ -13,7 +13,7 @@ BA.bookmarkAddInit = function( id ){
 
 	divContents.innerHTML = tmpNewBookmark.innerHTML;
 
-	inpId.value = AB.bookmarks.length + 1;
+	inpId.value = FM.bookmarks.length + 1;
 
 	inpDateAdded.value = new Date().toISOString();
 
@@ -47,20 +47,20 @@ BA.bookmarkAddUpdateTextarea = function() {
 
 BA.bookmarkAdd = function( id ) {
 
-	const index = AB.jsonLines.findIndex( line => line.includes( `\"id":\"${ id }\"` ) )
+	const index = FM.jsonLines.findIndex( line => line.includes( `\"id":\"${ id }\"` ) )
 	console.log( 'index', index );
 
 	json = JSON.parse( BAtxtBookmark.value );
 	line = JSON.stringify( json );
-	console.log( 'AB.jsonLines', line );
+	console.log( 'FM.jsonLines', line );
 
 	if ( index >= 0 ) {
 
-		AB.jsonLines[ index ] = line;
+		FM.jsonLines[ index ] = line;
 
 	} else if ( json.url !== "" ) {
 
-		AB.jsonLines.push( line );
+		FM.jsonLines.push( line );
 
 	} else {
 
@@ -71,7 +71,7 @@ BA.bookmarkAdd = function( id ) {
 	}
 
 
-	for ( let line of AB.jsonLines ) {
+	for ( let line of FM.jsonLines ) {
 		//console.log( 'line', line );
 
 		if ( line.slice( 0, 1 ) !== "{" ) { continue; }
@@ -81,13 +81,13 @@ BA.bookmarkAdd = function( id ) {
 
 		if ( jsonl.type === "url" ) {
 
-			AB.bookmarks.push( jsonl );
+			FM.bookmarks.push( jsonl );
 
 		}
 
 	}
 
-	console.log( 'AB.bookmarks[ AB.bookmarks.length - 1 ] ', AB.bookmarks[ AB.bookmarks.length - 1 ]  );
+	console.log( 'FM.bookmarks[ FM.bookmarks.length - 1 ] ', FM.bookmarks[ FM.bookmarks.length - 1 ]  );
 
 }
 

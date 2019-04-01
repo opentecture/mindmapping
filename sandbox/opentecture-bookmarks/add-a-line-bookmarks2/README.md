@@ -18,18 +18,45 @@ _sandbox/opentecture-bookmarks/add-a-line-bookmarks2.html_
 
 ## Concept
 
+See also [Opentecture Bookmarks View-a-line Read Me]( https://opentecture.github.io/mindmapping/#sandbox/opentecture-bookmarks/view-a-line-bookmarks/README.md )
+
+* Access very large numbers of bookmarks
+* View contents of many sites in a speedy fashion
+* View bookmarks listed by host name with ease and speed
+* Speed up identification with descriptions added on-the-fly
+* Curate the output using comments
 
 ## To Do / Wish List
+
+* 2019-03-31 ~ Add view links in a single page gallery
 
 
 ## Issues
 
 
-
 ## Links of Interest
+
+Compare
+* https://npmcompare.com/compare/apidoc,documentation,esdoc,gitbook,jsdoc
+
+Scripts
+
+* https://www.gitbook.com/
+* http://usejsdoc.org/about-getting-started.html
+* https://github.com/jsdoc3/jsdoc - 9,044 stars
+* https://github.com/esdoc/esdoc - 2,385 stars
+* https://github.com/apidoc/apidoc - 7,207 stars
 
 
 ## Change Log
+
+
+### 2019-03-31 ~ Theo
+
+Add-a-line Bookmarks2 1.1
+
+* Add View by finding host
+* Continue name spacing
 
 ### 2019-03-30 ~ Theo
 
