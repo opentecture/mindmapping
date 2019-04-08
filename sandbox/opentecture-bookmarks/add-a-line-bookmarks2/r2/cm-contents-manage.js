@@ -83,7 +83,8 @@ function openInIframe( index ) {
 
 			Bookmark JSON:
 
-				<button onclick=requestFile("${urlCORS + bookmark.url}",parseHtmlGetDescription); title="wait until iframe appears before clicking here" >get description</button>
+				<button onclick=tidyData(); >tidy data</button>
+				<button onclick=FM.requestFile("${urlCORS + bookmark.url}",parseHtmlGetDescription); title="wait until iframe appears before clicking here" >get description</button>
 				<button onclick=getImages(); >get images</button>
 
 				<button onclick=bookmarkUpdate(${ id }); >update bookmark</button>
@@ -109,17 +110,45 @@ function openInIframe( index ) {
 
 /////////
 
+function tidyData() {
+
+	let value = txtBookmarks.value;
+	const txt1 = value.match( /"meta_info": \{(.*?)}./ism );
+	//console.log( 'txt1', txt1[ 0 ] );
+	value = txt1 ? value.replace( txt1[ 0 ], "" ) : value;
+
+	const txt2 = value.match( /"sync_transaction_version": "(.*?)",/i );
+	//console.log( 'txt2', txt2[ 1 ] );
+	value  = txt2 ? value.replace( txt2[ 0 ], "" ) : value;
+
+	const txt3 = value.match( /"date_added": "(.*?)",/i );
+	console.log( 'txt3', txt3 );
+
+	if ( txt3 && txt3[ 1 ].includes( "T" ) === false ) {
+
+		date =  new Date( txt3[ 1 ] * 0.0001 ).toISOString();
+		console.log( '', date );
+		value  = value.replace( txt3[ 0 ], `"date_added": "${ date }",` );
+
+	}
+
+	txtBookmarks.value = value;
+
+}
+
+
+
 function parseHtmlGetDescription( xhr ) {
 
-	VLB.source = xhr.target.response;
+	FM.source = xhr.target.response;
 	//console.log( 'response', response );
 
-	description = VLB.source.match( /name="description" content="(.*?)"/i );
+	const description = FM.source.match( /name="description" content="(.*?)"/i );
 	//console.log( 'description', description );
 
 	description = description  ? description[ 1 ] : "";
 
-	txt = txtBookmarks.value.match( /"description": "(.*?)"/i );
+	const txt = txtBookmarks.value.match( /"description": "(.*?)"/i );
 	//console.log( 'txt', txt );
 
 	if ( !txt || txt[ 1 ].length === 0 ) {
@@ -140,7 +169,7 @@ function getImages() {
 
 	let htm = "";
 
-	const texts = VLB.source.match( /\<img (.*?)>/gi );
+	const texts = FM.source.match( /\<img (.*?)>/gi );
 
 	const images = texts ?
 
@@ -176,6 +205,53 @@ function getImages() {
 
 
 
+
+// "notes":"Not CORS or Iframe compatible",
+
+function bookmarkUpdate( id ){
+
+	const index = FM.jsonLines.findIndex( line => line.includes( `\"id":\"${ id }\"` ) )
+	console.log( 'index', index );
+
+	line = JSON.stringify( JSON.parse( txtBookmarks.value ) );
+	console.log( 'txtComments.value', line );
+
+	if ( index >= 0 ) {
+
+		FM.jsonLines[ index ] = line;
+
+	} else {
+
+		FM.jsonLines.push( line );
+
+	}
+
+	bookmarks = [];
+
+	for ( let line of FM.jsonLines ) {
+		//console.log( 'line', line );
+
+		if ( line.slice( 0, 1 ) !== "{" ) { continue; }
+
+		const jsonl = JSON.parse( line );
+		//console.log( 'jsonl', jsonl );
+
+		if ( jsonl.type === "url" ) {
+
+			bookmarks.push( jsonl );
+
+		}
+
+	}
+
+	console.log( 'FM.jsonLines[ index ] ', FM.jsonLines[ index ]  );
+
+}
+
+
+
+//////////
+
 function commentAdd( id ){
 
 	txtComments.value =
@@ -207,7 +283,7 @@ function addImage( id ){
 
 function commentUpdate( id ){
 
-	let index = jsonLines.findIndex( line => line.includes( `\"id":\"${ id }\"` ) )
+	let index = FM.jsonLines.findIndex( line => line.includes( `\"id":\"${ id }\"` ) )
 	//console.log( 'index', index );
 
 	const line = JSON.stringify( JSON.parse( txtComments.value ) );
@@ -215,15 +291,16 @@ function commentUpdate( id ){
 
 	if ( index > 0 ) {
 
-		jsonLines[ index ] = line;
+		FM.jsonLines[ index ] = line;
 
 	} else {
 
-		jsonLines.push( line );
-		index = jsonLines.length - 1;
+		FM.jsonLines.push( line );
+		index = FM.jsonLines.length - 1;
 
 	}
 
-	console.log( 'jsonLines[ index ] ', jsonLines[ index ]  );
+	console.log( 'FM.jsonLines[ index ] ', FM.jsonLines[ index ]  );
 }
+
 

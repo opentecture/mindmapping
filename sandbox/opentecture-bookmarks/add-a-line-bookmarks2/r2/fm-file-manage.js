@@ -7,7 +7,7 @@ const FM = { "release": "1.1", "date": "2019-03-31" };
 
 FM.bookmarks = [];
 FM.jsonLines = [];
-FM.urlJson = "../../opentecture-bookmarks.json";
+FM.urlJson = "opentecture-bookmarks-2.json";
 
 
 
@@ -80,7 +80,9 @@ FM.parseFile = function( obj ) {
 	}
 	//console.log( 'bookmarks', FM.bookmarks );
 
-	BLBS.setMenuHeaders(); // will change to setting an event here
+	//BLBS.setMenuHeaders(); // will change to setting an event here
+
+	setMenuItemsByUrl(FM.bookmarks);
 
 };
 

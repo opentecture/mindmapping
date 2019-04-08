@@ -5,8 +5,8 @@
 <meta name = "viewport" content= "width=device-width, initial-scale=1" >
 <meta name = "description" content = "Content manager for web page bookmarks stored in JSON lines files" >
 <meta name = "keywords" content = "JavaScript,GitHub,FOSS" >
-<meta name = "date" content = "2019-03-31" >
-<title>Add-a-Line-Bookmarks2 R2.1</title>
+<meta name = "date" content = "2019-04-08" >
+<title>Add-a-Line-Bookmarks2 R2.2</title>
 <style>
 
 	* {box-sizing: border-box; }
@@ -168,11 +168,12 @@ https://jes.al/2015/03/website-thumbnail-previews-iframe/
 
 			<tr><td>source: </td>
 				<td>
-					<select id=selSource size=6 >
+					<select id=selSource size=7 >
 						<option>Academia</option>
 						<option>Organization</option>
 						<option>Person</option>
 						<option>Publisher</option>
+						<option>Reference</option>
 						<option>Vendor</option>
 						<option>Other</option>
 					</select>
@@ -203,6 +204,7 @@ https://jes.al/2015/03/website-thumbnail-previews-iframe/
 
 <script>
 
+let comments = [];
 
 let urlMd = "../README.md";
 const urlCORS = 'https://cors-anywhere.herokuapp.com/';

@@ -48,12 +48,21 @@ Scripts
 * https://github.com/apidoc/apidoc - 7,207 stars
 
 
+Add UUID
+* https://stackoverflow.com/questions/105034/create-guid-uuid-in-javascript
+
 ## Change Log
 
 
 ### 2019-03-31 ~ Theo
 
-Add-a-line Bookmarks2 1.1
+Add-a-line Bookmarks2 2.1
+* B - get description / get images / get comment  buttons all working again
+* F - Add 'tidy data button
+
+### 2019-03-31 ~ Theo
+
+Add-a-line Bookmarks2 2.1
 
 * Add View by finding host
 * Continue name spacing
