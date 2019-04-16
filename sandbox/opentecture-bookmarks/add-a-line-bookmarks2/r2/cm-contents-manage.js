@@ -1,5 +1,6 @@
 
 
+CM = {};
 
 
 function openInIframe( index ) {
@@ -72,7 +73,7 @@ function openInIframe( index ) {
 
 		</details>
 
-		<details>
+		<details open>
 
 			<summary>Edit bookmark</summary>
 			<p>
@@ -85,8 +86,19 @@ function openInIframe( index ) {
 
 				<button onclick=tidyData(); >tidy data</button>
 				<button onclick=FM.requestFile("${urlCORS + bookmark.url}",parseHtmlGetDescription); title="wait until iframe appears before clicking here" >get description</button>
-				<button onclick=getImages(); >get images</button>
+				<button onclick=CM.getImages(); >get images</button>
 
+				<select id=selSource onchange=CM.updateSource(this) >
+					<option></option>
+					<option>Academia</option>
+					<option>Organization</option>
+					<option>Person</option>
+					<option>Publisher</option>
+					<option>Reference</option>
+					<option>Vendor</option>
+					<option>Wikipdia</option>
+					<option>Other</option>
+				</select>
 				<button onclick=bookmarkUpdate(${ id }); >update bookmark</button>
 
 			<textarea id=txtBookmarks style=height:18rem;width:100%; title="Wait until text appears below before updating" >${ JSON.stringify( bookmark, null, '\t' ) }</textarea>
@@ -113,6 +125,7 @@ function openInIframe( index ) {
 function tidyData() {
 
 	let value = txtBookmarks.value;
+
 	const txt1 = value.match( /"meta_info": \{(.*?)}./ism );
 	//console.log( 'txt1', txt1[ 0 ] );
 	value = txt1 ? value.replace( txt1[ 0 ], "" ) : value;
@@ -132,6 +145,17 @@ function tidyData() {
 
 	}
 
+	/*
+	const txt4 = value.match( /"type": "url",/i );
+	const txt5 = value.match( /"images": ,/i );
+	if ( txt4 && !txt5 ) {
+
+		value  = value.replace( txt4[ 0 ], `"images": [],\n\t"type": "url",` );
+
+	}
+
+	*/
+
 	txtBookmarks.value = value;
 
 }
@@ -143,7 +167,7 @@ function parseHtmlGetDescription( xhr ) {
 	FM.source = xhr.target.response;
 	//console.log( 'response', response );
 
-	const description = FM.source.match( /name="description" content="(.*?)"/i );
+	let description = FM.source.match( /name="description" content="(.*?)"/i );
 	//console.log( 'description', description );
 
 	description = description  ? description[ 1 ] : "";
@@ -165,7 +189,7 @@ function parseHtmlGetDescription( xhr ) {
 
 
 
-function getImages() {
+CM.getImages = function() {
 
 	let htm = "";
 
@@ -201,10 +225,36 @@ function getImages() {
 
 	divImages.innerHTML = htm;
 
+};
+
+
+CM.updateSource = function( select ) {
+
+	console.log( 'select', select.value );
+	ss = select;
+
+	let value = txtBookmarks.value;
+	const tags = value.match( /"tags": \[/i );
+	//console.log( 't4', txt4[ 0 ] );
+
+	const source = value.match( /"source": "(.*?)"/i );
+	//console.log( 't5', txt5 );
+
+	if ( tags && null === source ) {
+
+		value  = value.replace( tags[ 0 ], `"source": "${ select.value.toLowerCase() }",\n\t"tags": [` );
+
+		txtBookmarks.value = value;
+
+	} else if ( source ) {
+
+		value  = value.replace( source[ 0 ], `"source": "${ select.value.toLowerCase() }"` );
+
+		txtBookmarks.value = value;
+
+	}
+
 }
-
-
-
 
 // "notes":"Not CORS or Iframe compatible",
 
@@ -254,14 +304,15 @@ function bookmarkUpdate( id ){
 
 function commentAdd( id ){
 
+	const date =  new Date( txt3[ 1 ] * 0.0001 ).toISOString();
 	txtComments.value =
 `{
-	"date_added": "13194420468664932",
+	"date_added": "${ date }",
 	"id": "comment${ comments.length+1 }",
 	"type": "comment",
 	"targetId": "${ id }",
 	"author": "NAME",
-	"content": "my comment!"
+	"content": "comments"
 }
 `;
 
@@ -273,7 +324,7 @@ function addImage( id ){
 
 	const txt = txtBookmarks.value;
 
-	const txtNew = txt.replace( /"tags":/i, `"images" : [ "" ],\n"tags":` )
+	const txtNew = txt.replace( /"tags":/i, `"images" : [ "" ],\n\t"tags":` )
 
 	txtBookmarks.value = txtNew;
 

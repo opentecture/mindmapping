@@ -6,7 +6,7 @@
 <meta name = "description" content = "Content manager for web page bookmarks stored in JSON lines files" >
 <meta name = "keywords" content = "JavaScript,GitHub,FOSS" >
 <meta name = "date" content = "2019-04-14" >
-<title>Add-a-Line-Bookmarks2 R2.2</title>
+<title>Add-a-Line-Bookmarks2 R3.0.0</title>
 <style>
 
 	* {box-sizing: border-box; }
@@ -86,19 +86,21 @@ https://jes.al/2015/03/website-thumbnail-previews-iframe/
 		position: relative;
 	}
 
+	#divDrop {border: 1px solid #aaaaaa;height: 70px;padding: 10px;	width: 100%; }
+
 </style>
 </head>
 <body>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/showdown/1.9.0/showdown.min.js" ></script>
-
+<script src="mnu-menu.js" ></script>
+<script src="ba-bookmark-add.js" ></script>
+<!--
 <script src="cm-contents-manage.js" ></script>
 <script src="blbs-bookmarks-list-by-source.js" ></script>
 <script src="blbf-bookmarks-list-by-find.js" ></script>
 <script src="fm-file-manage.js" ></script>
-<script src="mnu-menu.js" ></script>
-<script src="ba-bookmark-add.js" ></script>
 
-
+-->
 
 	<nav id="navMenu" >
 
@@ -113,15 +115,13 @@ https://jes.al/2015/03/website-thumbnail-previews-iframe/
 		<p>
 			<button id=but onclick=FM.saveFile(); accessKey= 'z' title='access key: z '>save edits to file</button>
 		</p>
-
+		<!--
 		<div ><button onclick=BLBS.setMenuHeaders(); >Bookmarks by source</button></div>
 
-		<!--
 		<div ><button >Bookmarks by host</button></div>
-		-->
 
 		<div ><button onclick=setMenuItemsByUrl(FM.bookmarks); >Bookmarks list by find</button></div>
-
+		-->
 
 		<div id=menuItems ></div>
 
@@ -150,26 +150,48 @@ https://jes.al/2015/03/website-thumbnail-previews-iframe/
 
 		<h2>Add new bookmark</h2>
 
-		<table>
+		<div contenteditable id="divDrop" ></div>
 
-			<tr><td>name: </td><td><input id=inpName ></td>
+		<p>
+			<button onclick=divContents.innerHTML=tmpNewBookmark.innerHTML; >new bookmark</button>
+			<button onclick=BA.onInput(); >reset data</button>
+
+			<button onclick=BA.addTest(); >add test</button>
+		</p>
+
+		<table>
 
 			<tr><td>url: </td><td><input id=inpUrl ></td></tr>
 
-			<tr><td>date added: </td><td><input id=inpDateAdded ></td></tr>
+			<tr><td>name: </td><td><input id=inpName ></td>
 
-			<tr><td>id: </td><td><input id=inpId ></td></tr>
+			<tr>
+				<td>date add: </td>
+				<td><input id=inpDateAdd style=width:17rem; > update:
+					<input id=inpDateUpdate style=width:18rem; >
+				</td>
+			</tr>
 
-			<tr><td>type: </td><td><input id=inpType ></td></tr>
+			<tr>
+				<td>id: </td>
+				<td>
+					<input id=inpId style=width:17rem; > type: <input id=inpType style=width:17rem;>
+				</td>
+			</tr>
+
+			<tr><td>description: </td><td><textarea id=txtDescription ></textarea></td></tr>
 
 			<tr><td>images: </td><td><input id=inpImages ></td></tr>
 
 			<tr><td>tags: </td><td><input id=inpTags ></td></tr>
 
-			<tr><td>description: </td><td><textarea id=txtDescription ></textarea></td></tr>
+		</table>
 
-			<tr><td>source: </td>
-				<td>
+		<table>
+
+			<tr>
+				<td valign="top" >source: </td>
+				<td valign="top" >
 					<select id=selSource size=8 >
 						<option>Academia</option>
 						<option>Organization</option>
@@ -179,18 +201,56 @@ https://jes.al/2015/03/website-thumbnail-previews-iframe/
 						<option>Vendor</option>
 						<option>Wikipdia</option>
 						<option>Other</option>
-					</select>
-				</td>
+					</select></td>
+					<td valign="top" >
+						status:
+
+					</td>
+					<td valign="top" >
+					<select id=selStatus size=8 >
+							<option>iframe-ok</option>
+							<option>noframe</option>
+							<option>dead</option>
+							<option>stale</option>
+							<option></option>
+							<option></option>
+							<option></option>
+							<option></option>
+							<option>Other</option>
+						</select>
+
+					</td>
+					<td>
+						tags:
+							<input list="tags" name="tags" autocomplete="off" style=width:12rem; onchange=BA.addTag(this) >
+							<datalist id="tags">
+							  <option value="Software">
+							  <option value="Open-source">
+							  <option value="Architecture">
+							  <option value="CAD">
+							  <option value="3D">
+							</datalist>
+
+							<input type="text" id="country" list="country_list" style=width:12rem;>
+							<datalist id="country_list">
+								<option value="AF">Afghanistan</option>
+								<option value="AX">Åland Islands</option>
+								<option value="AL">Albania</option>
+								<option value="DZ">Algeria</option>
+								<option>Cat</option>
+								<option>Dog</option>
+								<option>Hamster</option>
+								<option>Turtle</option>
+							</datalist>
+
+					</td>
 			</tr>
 
 		</table>
 
 		<p>
-			<input type=checkbox id=inpIframeOk > Iframe compatible
-		</p>
 
-		<p>
-			<button onclick=BA.bookmarkAddUpdateTextarea() >update bookmark</button>
+			<button onclick=BA.bookmarkAddUpdateTextarea() >update bookmark JSON</button>
 		</p>
 
 		<p>
@@ -202,6 +262,12 @@ https://jes.al/2015/03/website-thumbnail-previews-iframe/
 		<p>
 			<button onclick=BA.bookmarkAdd(); >add bookmark</button>
 		</p>
+
+		<div id=divIframe class="thumbnail-container">
+			<div class="thumbnail" >
+				<iframe id=ifr ></iframe>
+			</div>
+		</div>
 
 	</template>
 
@@ -226,10 +292,13 @@ function init() {
 
 	divTitle.innerHTML = getTitle();
 
-	FM.requestFile( FM.urlJson, FM.parseFile );
+	divContents.innerHTML = tmpNewBookmark.innerHTML;
 
-	FM.requestFile( urlMd, FM.parseMarkdownToHtml );
+	//FM.requestFile( FM.urlJson, FM.parseFile );
 
+	//FM.requestFile( urlMd, FM.parseMarkdownToHtml );
+
+	divDrop.addEventListener("input", BA.onInput, false);
 }
 
 
