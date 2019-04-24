@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang=en >
+<head>
+<title></title>
+<meta charset=utf-8 />
+<style>
+
+body { font: normal 12pt monospace; }
+
+</style>
+</head>
+<body>
+
+	<h1><a href="" >tags manage</a> </h1>
+
+	<p>
+		<input type=search id=inpTag name="q" oninput=filterTags(this); onchange=console.log(this);>
+
+		<button id=butAddNewTag onclick=addTag() disabled >add to list of tags</button>
+	</p>
+
+		<select id=selTag onchange=console.log(this.value); size=10 style=width:10rem ></select>
+
+<script>
+
+
+
+tags = [
+
+	"2d", "3d", "api", "architecture", "assembly", "association", "bim", "building",
+	"cad", "collaboration", "component", "configure", "consultant",
+	"design", "designer", "diy", "education", "engineering", "environment", "fabricate", "gallery", "gbxml","hardware",
+	"ifc", "interactive", "justice",
+	"landscape", "lego", "modular", "mvp", "news", "online",
+	 "open-source", "parametric design", "performance", "planning", "printing",
+	 "rendering", "reference", "repository", "research", "robotics",
+	 "schema", "science", "service", "software", "space", "standards", "structure", "sustainability", "system",
+	 "tools", "urban", "visualization"
+];
+
+
+	let options = tags.map ( tag => `<option>${ tag }</option>` );
+
+	selTag.innerHTML = options;
+
+
+function filterTags( input ) {
+
+	const str = input.value;
+	//console.log( 'str', str );
+
+	tagsFiltered = [];
+
+	if ( str === "" ) {
+
+		tagsFiltered = tags.slice();
+
+	} else {
+
+		tagsFiltered = tags.filter( tag => tag.includes( str ) );
+
+	}
+
+	if ( tagsFiltered.length === 0 && str.length > 0 ) {
+
+		butAddNewTag.disabled = false;
+
+	}
+
+	const options = tagsFiltered.map ( tag => `<option>${ tag }</option>` );
+
+	selTag.innerHTML = options;
+
+}
+
+
+function addTag () {
+
+ 	tag = inpTag.value.toLowerCase();
+
+	if ( tags.includes( tag ) === false ) {
+
+		tags.push( tag );
+
+		tags = [ ...new Set( tags ) ].sort();
+
+		console.log( 'tags', tags );
+
+	}
+
+}
+
+
+</script>
+</body>
+</html>
