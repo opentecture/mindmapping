@@ -6,7 +6,6 @@ value="You are now in a GitHub web page view - Click this button to view this re
 
 <br>
 
-<i style=color:green >Progress halted for the moment. See Change Log</i>
 
 # [Opentecture Bookmarks Read Me]( #sandbox/opentecture-bookmarks/README.md )
 
@@ -111,14 +110,28 @@ Convert bookmark dates to UTC
 
 ## Wish List / To Do
 
+* 2019-05-13 ~ delete www for page titles
+* 2019-05-13 ~ Start adding comments
+* 2019-05-13 ~ Enable adding new tags
+* 2019-05-13 ~ Close button on popup help
+* 2019-05-13 ~ Links to sites in left menu
 * 2019-03-17 ~ Enable creating new bookmarks from scratch
 * 2019-03-17 ~ Make it easier to add new images
 * 2019-03-17 ~ Be able to edit bookmarks with same tools from any of the viewers
 * 2019-03-17 ~ Gallery page for all the bookmarks
 
 
+## Issues
+
+
 
 ## Change Log
+
+### 2019-05-12 ~ Theo
+
+* First commit r 0.4.0
+
+Very happy with the way things are progressing - even though not ready to show or discuss much for now.
 
 
 ### 2019-03-31 ~ Theo

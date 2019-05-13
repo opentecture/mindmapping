@@ -79,7 +79,8 @@ textarea { width: 100%; resize: both; }
 
 #navPanel #secContent a:active, #navPanel #secContent a:focus { color: #ff0000; }
 
-#navPopup { background-color: #eee; border: 1px solid #aaa;  border-radius: 8px; max-height: 90%;
+#navPopup { background-color: #eee; border: 1px solid #aaa;  border-radius: 8px;
+	max-height: 90%; max-width:40%;
 	opacity: 0.95;  overflow: auto; padding: 0 1rem 1rem 1rem; z-index: 100;
 	left: 50%; margin-right: -50%; position: absolute; top: 40%; transform: translate(-50%, -40%);
 	box-shadow: 10px 10px 25px rgba(0,0,0,0.3), 6px 6px 6px rgba(0,0,0,0.5); }
@@ -113,13 +114,16 @@ https://jes.al/2015/03/website-thumbnail-previews-iframe/ */
 @media all and ( max-width: 640px ) {
 
 	h1 { margin-top: 20px; margin-bottom: 20px; }
+	
+	#expandButton { display: block; }
 
 	#navPanel { border-bottom: 1px solid #dedede; max-height: 480px; left: 0; overflow: hidden;
 		position: absolute; right: 0; top: 0; width: 100%; z-index: 100; }
 
 	#navPanel.collapsed { height: 56px; }
 
-	#expandButton { display: block; }
+	#navPopup { max-width:80%; }
+
 
 	#secContent { position: absolute; left: 0; top: 90px; right: 0; bottom: 0; font-size: 17px;
 	line-height: 22px; overflow: auto; }
@@ -179,7 +183,7 @@ https://jes.al/2015/03/website-thumbnail-previews-iframe/ */
 		<header>
 
 			<h1>
-				<a href="https://github.com/pushme-pullyou-tootoo13/tree/master/sandbox/template-html/template-html.html" title="Source on GitHub" >
+				<a href="https://github.com/opentecture/mindmapping/tree/master/sandbox/opentecture-bookmarks/add-a-line-bookmarks2" title="Source on GitHub" >
 					<img src="https://pushme-pullyou.github.io/github-mark-64.png" style=height:1rem;opacity:0.8; ></a>
 				<a href="" title="Click to reload this page" >
 					<script> document.write( document.title ); </script>
