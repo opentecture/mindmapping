@@ -6,7 +6,7 @@ value="You are now in a GitHub web page view - Click this button to view this re
 
 <br>
 
-# [ZZZZZ Read Me]( #xxxxx/README.md )
+# [Add-a-line Bookmarks Read Me]( #xxxxx/README.md )
 
 <!--
 <iframe src=https://pushme-pullyou.github.io/tootoo13/xxxxx/xxxxx.html width=100% height=500px >Iframes are not viewable in GitHub source code views</iframe>
@@ -60,7 +60,7 @@ Enhancing the Script
 
 <summary>Change Log</summary>
 
-### XXX
+### 2019-05-12 ~ Theo
 
 * First commit
 

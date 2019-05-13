@@ -19,7 +19,7 @@ body { font: normal 12pt monospace; }
 		<button id=butAddNewTag onclick=addTag() disabled >add to list of tags</button>
 	</p>
 
-		<select id=selTag onchange=console.log(this.value); size=10 style=width:10rem ></select>
+	<select id=selTag onchange=console.log(this.value); size=10 style=width:10rem ></select>
 
 <script>
 
@@ -39,9 +39,9 @@ tags = [
 ];
 
 
-	let options = tags.map ( tag => `<option>${ tag }</option>` );
+let options = tags.map ( tag => `<option>${ tag }</option>` );
 
-	selTag.innerHTML = options;
+selTag.innerHTML = options;
 
 
 function filterTags( input ) {

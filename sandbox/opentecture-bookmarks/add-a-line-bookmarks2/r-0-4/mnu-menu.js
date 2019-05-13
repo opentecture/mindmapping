@@ -1,11 +1,14 @@
 // Copyright 2019 pushMe-pullYou authors. MIT License
-/* global  * /
+/* global  */
 /* jshint esversion: 6 */
 /* jshint loopfunc: true */
 
 ///// Same as TooToo13
 
-const MNU = { "release": "1.0", "date": "2019-03-30" };
+const MNU = {
+	"release": "1.0",
+	"date": "2019-03-30"
+};
 
 MNU.xDown = null;
 MNU.yDown = null;
@@ -87,4 +90,4 @@ MNU.toggleNavLeft = function() {
 
 	}
 
-}
+};

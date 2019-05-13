@@ -1,9 +1,9 @@
 // Copyright 2019 pushMe-pullYou authors. MIT License
-/* global  * /
+/* global  */
 /* jshint esversion: 6 */
 /* jshint loopfunc: true */
 
-const BLBF = { "release": "1.o", "date": "2019-03-31" };
+const BLBF = { "release": "0.1.0", "date": "2019-03-31" };
 
 
 BLBF.description =
@@ -73,7 +73,7 @@ BLBF.setMenuItemsByUrl = function( bookmarks ){
 	for ( let bookmark of bookmarks ) {
 
 		a.href = bookmark.url;
-		site = a.hostname;
+		const site = a.hostname;
 
 		let item = sites.find( item => item === site );
 		//console.log( 'item', item );
@@ -108,12 +108,12 @@ BLBF.setMenuItemsByUrl = function( bookmarks ){
 	for ( let site of sites ) {
 		//console.log( 'site', site );
 
-		marks = bookmarks.filter( bookmark => bookmark.url && bookmark.url.includes( site ) );
+		const marks = bookmarks.filter( bookmark => bookmark.url && bookmark.url.includes( site ) );
 		//console.log( 'marks', marks );
 
 		let markHtm = "";
 
-		for ( mark of marks) {
+		for ( let mark of marks) {
 
 			const index = bookmarks.indexOf( mark );
 
@@ -142,5 +142,5 @@ BLBF.setMenuItemsByUrl = function( bookmarks ){
 
 	divResults.innerHTML = siteHtm;
 
-}
+};
 

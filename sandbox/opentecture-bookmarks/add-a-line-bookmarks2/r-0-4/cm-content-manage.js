@@ -1,9 +1,12 @@
-// Copyright 2019 pushMe-pullYou authors. MIT License
-/* global  * /
+/* global  */
 /* jshint esversion: 6 */
 /* jshint loopfunc: true */
 
-const CM = { "release": "0.4.0", "date": "2019-04-20" };
+const CM = {
+	"copyright": "Copyright 2019 pushMe-pullYou authors. MIT License",
+	"date": "2019-04-20",
+	"release": "0.4.0"
+};
 
 CM.bookmarks = [];
 CM.jsonLines = [];
@@ -11,16 +14,20 @@ CM.urlJson = "opentecture-bookmarks.json";
 
 CM.tags = [
 
-	"3d", "api", "architecture", "assembly", "association", "bim", "building",
+	"2d", "3d", "api", "architecture", "assembly", "association", "bim", "building",
 	"cad", "collaboration", "component", "configure", "consultant",
-	"design", "designer", "diy", "education", "engineering", "environment", "fabricate", "gallery", "gbxml","hardware",
+	"design", "designer", "developer", "diy", "education", "engineering", "environment", "fabricate", "gallery", "gbxml","hardware",
 	"ifc", "interactive", "justice",
 	"landscape", "lego", "modular", "mvp", "news", "online",
 	 "open-source", "parametric design", "performance", "planning", "printing",
 	 "rendering", "reference", "repository", "research", "robotics",
 	 "schema", "science", "service", "software", "space", "standards", "structure", "sustainability", "system",
 	 "tools", "urban", "visualization"
-]
+];
+
+CM.options = CM.tags.map ( tag => `<option>${ tag }</option>` );
+
+// called by HTML file init()
 
 CM.parseFile = function( obj ) {
 
@@ -29,7 +36,7 @@ CM.parseFile = function( obj ) {
 	CM.bookmarks = [];
 	CM.descriptions = [];
 	CM.comments = [];
-	CM.tags = [];
+	//CM.tags = [];
 	//index = 0;
 
 	CM.jsonLines = data.split(/\r\n|\n/);
@@ -82,14 +89,16 @@ CM.parseJson = function( index ) {
 	bookmark = CM.bookmarks[ index ];
 	//console.log( 'bookmark', bookmark );
 
+	aUrl.href = bookmark.url;
+	aUrl.innerHTML = bookmark.url;
 	inpUrl.value = bookmark.url;
 	inpName.value = bookmark.name;
 	inpDateAdd.value = bookmark.dateAdd;
 	inpDateUpdate.value = bookmark.dateUpdate;
 	inpId.value = bookmark.id;
 	inpType.value = bookmark.type;
-	inpImages.value = bookmark.images,
-	inpTags.value = bookmark.tags,
+	inpImages.value = bookmark.images;
+	inpTags.value = bookmark.tags;
 	selSource.value = bookmark.source;
 	txtDescription.value = bookmark.description;
 	selStatus.value = bookmark.status;
@@ -99,6 +108,8 @@ CM.parseJson = function( index ) {
 		ifr.src = bookmark.url;
 
 	}
+
+	selTag.innerHTML = CM.options;
 
 
 /*
@@ -122,12 +133,20 @@ CM.parseJson = function( index ) {
 
 */
 
-
-}
-
+};
 
 
-function parseHtmlGetDescription( xhr ) {
+CM.newBookmark = function() {
+
+	divContents.innerHTML=tmpNewBookmark.innerHTML
+
+	selTag.innerHTML = CM.options;
+
+};
+
+
+
+function xxxparseHtmlGetDescription( xhr ) {
 
 	CM.source = xhr.target.response;
 	//console.log( 'response', response );
@@ -173,7 +192,7 @@ CM.getImages = function() {
 
 	//console.log( 'images', images );
 
-	for ( image of images ) {
+	for ( let image of images ) {
 
 		if ( !image.toLowerCase().startsWith( 'http') ) {
 
@@ -197,7 +216,7 @@ CM.getImages = function() {
 CM.updateSource = function( select ) {
 
 	console.log( 'select', select.value );
-	ss = select;
+	const ss = select;
 
 	let value = txtBookmarks.value;
 	const tags = value.match( /"tags": \[/i );
@@ -220,16 +239,18 @@ CM.updateSource = function( select ) {
 
 	}
 
-}
+};
+
+
 
 // "notes":"Not CORS or Iframe compatible",
 
-function bookmarkUpdate( id ){
+function bbbbbookmarkUpdate( id ){
 
-	const index = CM.jsonLines.findIndex( line => line.includes( `\"id":\"${ id }\"` ) )
+	const index = CM.jsonLines.findIndex( line => line.includes( `\"id":\"${ id }\"` ) );
 	console.log( 'index', index );
 
-	line = JSON.stringify( JSON.parse( txtBookmarks.value ) );
+	const line = JSON.stringify( JSON.parse( txtBookmarks.value ) );
 	console.log( 'txtComments.value', line );
 
 	if ( index >= 0 ) {
@@ -266,7 +287,7 @@ function bookmarkUpdate( id ){
 
 
 
-//////////
+////////// To be added
 
 function tagsAdd( id ){
 
@@ -306,7 +327,7 @@ function addImage( id ){
 
 	const txt = txtBookmarks.value;
 
-	const txtNew = txt.replace( /"tags":/i, `"images" : [ "" ],\n\t"tags":` )
+	const txtNew = txt.replace( /"tags":/i, `"images" : [ "" ],\n\t"tags":` );
 
 	txtBookmarks.value = txtNew;
 
@@ -316,7 +337,7 @@ function addImage( id ){
 
 function commentUpdate( id ){
 
-	let index = CM.jsonLines.findIndex( line => line.includes( `\"id":\"${ id }\"` ) )
+	let index = CM.jsonLines.findIndex( line => line.includes( `\"id":\"${ id }\"` ) );
 	//console.log( 'index', index );
 
 	const line = JSON.stringify( JSON.parse( txtComments.value ) );

@@ -1,11 +1,16 @@
 // Copyright 2019 pushMe-pullYou authors. MIT License
-/* global  * /
+/* globals */
 /* jshint esversion: 6 */
 /* jshint loopfunc: true */
 
-const FM = { "release": "1.1", "date": "2019-03-31" };
+const FM = {
 
+	"release": "1.1",
+	"date": "2019-03-31"
 
+};
+
+FM.urlCORS = 'https://cors-anywhere.herokuapp.com/';
 
 FM.requestFile = function( url, callback ) {
 
@@ -28,13 +33,11 @@ FM.openFile = function( files ) {
 
 		CM.parseFile( reader.result );
 
-	}
+	};
 
 	reader.readAsText( files.files[ 0 ] );
 
 };
-
-
 
 
 
@@ -48,14 +51,13 @@ FM.parseMarkdownToHtml = function( xhr ) {
 	divContents.innerHTML = html;
 	window.scrollTo( 0, 0 );
 
-}
-
+};
 
 
 
 FM.saveFile = function() {
 
-	const lines = FM.jsonLines.join( "\n" );
+	const lines = CM.jsonLines.join( "\n" );
 
 	let blob = new Blob( [ lines ] );
 	let a = document.body.appendChild( document.createElement( 'a' ) );
