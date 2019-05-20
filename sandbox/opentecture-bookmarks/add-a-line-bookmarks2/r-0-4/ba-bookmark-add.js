@@ -51,6 +51,7 @@ BA.onInput = function( id ){
 };
 
 
+
 BA.addTest = function( index ) {
 
 	divDrop.innerHTML = BA.testData[ index ];
@@ -155,7 +156,13 @@ BA.getDescription = function() {
 
 	const url = urlCORS + inpUrl.value;
 
-	FM.requestFile( url , BA.parseHtmlGetDescription );
+	xhr = new XMLHttpRequest();
+	xhr.crossOrigin = 'anonymous';
+	xhr.open( 'GET', url, true );
+	xhr.onerror = function( xhr ) { console.log( 'error:', xhr  ); };
+	//xhr.onprogress = function( xhr ) { console.log( 'bytes loaded:', xhr.loaded  ); }; /// or something
+	xhr.onload = BA.parseHtmlGetDescription;
+	xhr.send( null );
 
 };
 

@@ -1,0 +1,180 @@
+
+* { box-sizing: border-box; }
+
+:root { --mnu-width: 22rem; --screen-width: calc( 100vw ); }
+
+html { height: 100%; }
+
+body {background-color: #ffffff; color: #555; font-family: 'inconsolata'; font-size: 15px; height: 100%;
+	line-height: 18px; margin: 0px; overflow: hidden; }
+
+h1 { margin-top: 30px; margin-bottom: 5px; font-size: 25px; font-weight: normal; }
+
+h2 { font-size: 20px; font-weight: normal; }
+
+a { color: #2194CE; text-decoration: none; }
+
+blockquote, pre { background-color: #eee; padding: 10px; }
+
+button, input[ type=button ], input[ type = file ] { background-color: #ddd; border: 1px solid #ccc; border-radius: 2px;
+	color: #322; cursor: pointer; outline: none; padding: 3px 5px; }
+
+button:hover, input[ type=button ]:hover{ background: #ccc;
+	box-shadow: 5px 5px 5px rgba(0,0,0,0.3); color: #f00 }
+
+iframe { height: 200rem;  width: 100rem; }
+
+input[ type = range ] { -webkit-appearance: none; -moz-appearance: none; background-color: #ddd; width: 90%; }
+input[ type = range ]::-moz-range-thumb { background-color: rgb(228, 225, 225); border-radius: 0; width: 10px; }
+input[ type = range ]::-webkit-slider-thumb { -webkit-appearance: none; background-color: #888; height: 20px; width: 10px; }
+
+main { position: absolute; border: 0px; left: var( --mnu-width ); width: calc(100% - var( --mnu-width ) - var( --mnu-width )); height: 100%;
+	margin: 0; overflow: auto; }
+
+summary { cursor: pointer; font-size: 1rem; font-weight: bold; }
+
+textarea { width: 100%; resize: both; }
+
+
+
+#butViewSource { position: fixed; bottom: 20px; right: 20px; padding: 8px; color: #fff;
+	background-color: #555; opacity: 0.7; }
+
+#butViewSource:hover { cursor: pointer; opacity: 1; }
+
+
+
+#navPanel { background: #fafafa; height: 100%; left: 0px; overflow: auto; position: fixed; width: var( --mnu-width ); }
+
+#navPanel header, #navPanel section { padding: 0px 8px 20px 20px; }
+
+#navPanel #secContent a { color: #2194CE; text-decoration: none; cursor: pointer; }
+
+#navPanel #secContent a:hover { text-decoration: underline; }
+
+#navPanel #secContent a:active, #navPanel #secContent a:focus { color: #ff0000; }
+
+
+#divContents { border: 1px solid red; height: 100%;  }
+
+#divDrop {border: 1px solid #aaaaaa;height: 50px; padding: 10px; width: 100%; }
+
+
+#divIframe { background-color: #f1f1f1; border: 1px solid #d3d3d3; width: var( --mnu-width ); position: fixed; right: 0; top: 0; }
+
+#divComments { padding: 5px; }
+
+
+#navPopup { background-color: #eee; border: 1px solid #aaa;  border-radius: 8px;
+	max-height: 90%; max-width:40%;
+	opacity: 0.95;  overflow: auto; padding: 0 1rem 1rem 1rem; z-index: 100;
+	left: 50%; margin-right: -50%; position: absolute; top: 40%; transform: translate(-50%, -40%);
+	box-shadow: 10px 10px 25px rgba(0,0,0,0.3), 6px 6px 6px rgba(0,0,0,0.5); }
+
+
+/* https://medium.com/@jamesfuthey/simulating-the-creation-of-website-thumbnail-screenshots-using-iframes-7145269891db
+https://jes.al/2015/03/website-thumbnail-previews-iframe/ */
+
+.thumbnail { position: relative; -ms-zoom: 0.25; -moz-transform: scale(0.25); -moz-transform-origin: 0 0;
+	-o-transform: scale(0.25); -o-transform-origin: 0 0;-webkit-transform: scale( 0.25 );-webkit-transform-origin: 0 0; }
+
+.thumbnail:after { content: ""; display: block; position: absolute; top: 0; left: 0; right: 0; bottom: 0; }
+
+.thumbnail-container { width: 100%; height: 500px; display: inline-block;
+	overflow: hidden; position: relative; }
+
+.full-width { width: 100%; }
+.inp90 { width: 88%; float:right; }
+.set-width { width: 18rem; }
+.set-inp {float: right; width: 12rem; }
+
+/* https://stackoverflow.com/questions/20300138/is-it-possible-to-add-placeholder-in-div-tag */
+
+[contentEditable=true]:empty:not(:focus):before{ content:attr(data-text) }
+
+
+/* mobile */
+
+#expandButton { display: none; height: 32px; position: absolute; right: 50px; top: 12px; width: 32px; }
+
+@media all and ( max-width: 640px ) {
+
+	h1 { margin-top: 20px; margin-bottom: 20px; }
+
+	#expandButton { display: block; }
+
+	#navPanel { border-bottom: 1px solid #dedede; max-height: 480px; left: 0; overflow: hidden;
+		position: absolute; right: 0; top: 0; width: 100%; z-index: 100; }
+
+	#navPanel.collapsed { height: 56px; }
+
+	#navPopup { max-width:80%; }
+
+
+	#secContent { position: absolute; left: 0; top: 90px; right: 0; bottom: 0; font-size: 17px;
+	line-height: 22px; overflow: auto; }
+
+	main { height: calc(100% - 56px); padding: 0 1rem; position: absolute; left: 0; top: 56px; width: 100%;  }
+
+}
+
+.flex-container {
+	display: flex;
+	flex-wrap: wrap;
+	background-color: DodgerBlue;
+}
+
+
+.flex-container > div {
+	background-color: #f1f1f1;
+	/* width: 22rem; */
+
+	margin: 1px 5px; padding: 0 5px;
+
+}
+
+/*
+.flex-container > div > input { display: inline-block;
+	color:red; float: right; width: 17rem;
+
+}
+*/
+
+
+.flex-container2 {
+	display: flex;
+	flex-wrap: wrap;
+	background-color: DodgerBlue;
+}
+
+.flex-container2 > div {
+	background-color: #f1f1f1;
+	width: 12rem;
+	margin: 5px;
+	padding: 5px;
+
+}
+
+.flex-container2 {
+	display: flex;
+	flex-wrap: wrap;
+	background-color: DodgerBlue;
+}
+
+
+.containerSmall {
+
+	display: flex;
+	flex-wrap: wrap;
+	background-color: pink;
+	padding: 0px 5px;
+
+}
+
+.containerSmall > div {
+
+	width: 9rem;
+	margin: 0px;
+	padding: 0px;
+
+}

@@ -1,18 +1,109 @@
-// Copyright 2019 pushMe-pullYou authors. MIT License
 /* global  */
 /* jshint esversion: 6 */
 /* jshint loopfunc: true */
 
-const BLBF = { "release": "0.1.0", "date": "2019-03-31" };
+const BLBF = {
+
+	"copyright": "Copyright 2019 pushMe-pullYou authors. MIT License",
+	"date": "2019-05-18",
+	"description": "Display bookmarks by finding a host",
+	"version": "0.4.0-1",
+
+};
 
 
-BLBF.description =
-	`
-		Display bookmarks by finding a host
-	`;
+BLBF.setMenuItemsByUrl = function( bookmarks = CM.bookmarks ){
+	// https://stackoverflow.com/questions/8498592/extract-hostname-name-from-string
+
+	let sites = [];
+	const a = document.createElement( 'a' );
+	const subdomains = ["www.", "m.", "en." ];
+
+	for ( let bookmark of bookmarks ) {
+
+		a.href = bookmark.url;
+		let site = a.hostname;
+
+		const subdomain = subdomains.filter( bit => site.startsWith( bit ) === true );
+		//console.log( 'subdomain', subdomain );
+
+		site = site.replace ( subdomain, "" );
+		//console.log( 'site', site );
+
+		let item = sites.find( item => item === site );
+		//console.log( 'item', item );
+
+		if ( !item ) { sites.push( site ); }
+
+	}
+
+	sites = sites.sort();
+	//console.log( 'sites', sites );
+
+	if ( menuItems.innerText.includes( "Search" ) === false ) {
+
+		const inputHtm =
+		`
+			<p>
+				${ BLBF.description }
+			</p>
+
+			<p>
+				Search: <input type=search name="q" oninput=BLBF.filterBookmarks(this) ;>
+			</p>
+
+			<div id=divResults ></div>
+		`;
+
+		menuItems.innerHTML = inputHtm;
+
+	}
+
+	let siteHtm = `${ bookmarks.length } links`;
+
+	for ( let site of sites ) {
+		//console.log( 'site', site );
+
+		const marks = bookmarks.filter( bookmark => bookmark.url && bookmark.url.includes( site ) );
+		//console.log( 'marks', marks );
+
+		let markHtm = "";
+
+		for ( let mark of marks) {
+
+			const index = bookmarks.indexOf( mark );
+
+			markHtm +=
+			`
+			<div style=margin-bottom:0.5rem; >
+				<button onclick=CM.parseJson("${ index }"); title="${ mark.description }"  >${ mark.name }</button>
+				<a href="${ mark.url }" target="_blank" title="open link in new tab"  >❐</a>
+			</div>
+			`;
+
+		}
+
+		siteHtm +=
+		`
+			<details>
+
+				<summary>${ site } - ${ marks.length }</summary>
+
+				${ markHtm }
+
+			</details>
+		`;
 
 
-function filterBookmarks( input ) {
+	}
+
+	divResults.innerHTML = siteHtm;
+
+};
+
+
+
+BLBF.filterBookmarks = function ( input ) {
 
 	const str = input.value;
 	//console.log( 'str', str );
@@ -63,84 +154,4 @@ function filterBookmarks( input ) {
 }
 
 
-
-BLBF.setMenuItemsByUrl = function( bookmarks ){
-	// https://stackoverflow.com/questions/8498592/extract-hostname-name-from-string
-
-	let sites = [];
-	let a = document.createElement( 'a' );
-
-	for ( let bookmark of bookmarks ) {
-
-		a.href = bookmark.url;
-		const site = a.hostname;
-
-		let item = sites.find( item => item === site );
-		//console.log( 'item', item );
-
-		if ( !item && site) { sites.push( site ); }
-
-	}
-
-	sites = sites.sort();
-	//console.log( 'sites', sites );
-
-	if ( menuItems.innerText.includes( "Search" ) === false ) {
-
-		inputHtm =
-		`
-			<p>
-				${ BLBF.description }
-			</p>
-			<p>
-				Search: <input oninput=filterBookmarks(this) ;>
-			</p>
-
-			<div id=divResults ></div>
-		`;
-
-		menuItems.innerHTML = inputHtm;
-
-	}
-
-	let siteHtm = ``;
-
-	for ( let site of sites ) {
-		//console.log( 'site', site );
-
-		const marks = bookmarks.filter( bookmark => bookmark.url && bookmark.url.includes( site ) );
-		//console.log( 'marks', marks );
-
-		let markHtm = "";
-
-		for ( let mark of marks) {
-
-			const index = bookmarks.indexOf( mark );
-
-			markHtm +=
-			`
-			<div style=margin-bottom:0.5rem; >
-				<button onclick=CM.parseJson("${ index }"); title="View bookmark data"  >${ mark.name }</button>
-			</div>
-			`;
-
-		}
-
-		siteHtm +=
-		`
-			<details>
-
-				<summary>${ site } - ${ marks.length }</summary>
-
-				${ markHtm }
-
-			</details>
-		`;
-
-
-	}
-
-	divResults.innerHTML = siteHtm;
-
-};
-
+window.addEventListener( "onBookmarksParsed", BLBF.setMenuItemsByUrl, false );

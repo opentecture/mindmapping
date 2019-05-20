@@ -2,32 +2,45 @@
 /* jshint esversion: 6 */
 /* jshint loopfunc: true */
 
+
 const CM = {
-	"copyright": "Copyright 2019 pushMe-pullYou authors. MIT License",
-	"date": "2019-04-20",
-	"release": "0.4.0"
+	"copyright": "Copyright 2019 Opentecture authors. MIT License",
+	"date": "2019-05-18",
+	"version": "0.4.0-2"
 };
 
 CM.bookmarks = [];
+CM.comments = [];
 CM.jsonLines = [];
 CM.urlJson = "opentecture-bookmarks.json";
+
+
 
 CM.tags = [
 
 	"2d", "3d", "api", "architecture", "assembly", "association", "bim", "building",
 	"cad", "collaboration", "component", "configure", "consultant",
-	"design", "designer", "developer", "diy", "education", "engineering", "environment", "fabricate", "gallery", "gbxml","hardware",
-	"ifc", "interactive", "justice",
+	"design", "designer", "developer", "diy",
+	"economics", "education", "engineering", "environment", "fabricate", "gallery", "gbxml","hardware",
+	"ifc", "injustice", "interactive", "justice",
 	"landscape", "lego", "modular", "mvp", "news", "online",
-	 "open-source", "parametric design", "performance", "planning", "printing",
-	 "rendering", "reference", "repository", "research", "robotics",
-	 "schema", "science", "service", "software", "space", "standards", "structure", "sustainability", "system",
-	 "tools", "urban", "visualization"
+	"open-source", "parametric design", "performance", "planning", "printing",
+	"rendering", "reference", "repository", "research", "robotics",
+	"schema", "science", "service", "software", "space", "standards", "structure", "sustainability", "system",
+	"tools", "urban", "visualization"
 ];
 
-CM.options = CM.tags.map ( tag => `<option>${ tag }</option>` );
+CM.optionsTag = CM.tags.map ( tag => `<option>${ tag }</option>` );
 
 // called by HTML file init()
+
+
+CM.optionsYear = 	[];
+
+for ( let i = 2020; i > 1989; i-- ) { CM.optionsYear.push( `<option>${ i }</option>` ); };
+
+
+
 
 CM.parseFile = function( obj ) {
 
@@ -74,9 +87,9 @@ CM.parseFile = function( obj ) {
 	}
 	//console.log( 'bookmarks', CM.bookmarks );
 
-	//BLBS.setMenuHeaders(); // will change to setting an event here
+	//window.dispatchEvent( CM.event );
 
-	BLBF.setMenuItemsByUrl( CM.bookmarks );
+	BLBF.setMenuItemsByUrl();
 
 };
 
@@ -86,7 +99,7 @@ CM.parseJson = function( index ) {
 
 	divContents.innerHTML = tmpNewBookmark.innerHTML;
 
-	bookmark = CM.bookmarks[ index ];
+	const bookmark = CM.bookmark = CM.bookmarks[ index ];
 	//console.log( 'bookmark', bookmark );
 
 	aUrl.href = bookmark.url;
@@ -109,7 +122,10 @@ CM.parseJson = function( index ) {
 
 	}
 
-	selTag.innerHTML = CM.options;
+	selYear.innerHTML = CM.optionsYear;
+	selTag.innerHTML = CM.optionsTag;
+
+	divComments.innerHTML = COM.getContents();
 
 
 /*
@@ -140,7 +156,8 @@ CM.newBookmark = function() {
 
 	divContents.innerHTML=tmpNewBookmark.innerHTML
 
-	selTag.innerHTML = CM.options;
+	selYear.innerHTML = CM.optionsYear;
+	selTag.innerHTML = CM.optionsTag;
 
 };
 
@@ -305,7 +322,8 @@ function tagsAdd( id ){
 
 }
 
-function commentAdd( id ){
+
+function xxxcommentAdd( id ){
 
 	const date =  new Date( txt3[ 1 ] * 0.0001 ).toISOString();
 	txtComments.value =
@@ -335,7 +353,7 @@ function addImage( id ){
 
 
 
-function commentUpdate( id ){
+function xxxcommentUpdate( id ){
 
 	let index = CM.jsonLines.findIndex( line => line.includes( `\"id":\"${ id }\"` ) );
 	//console.log( 'index', index );

@@ -1,20 +1,23 @@
-// Copyright 2019 pushMe-pullYou authors. MIT License
 /* globals */
 /* jshint esversion: 6 */
 /* jshint loopfunc: true */
 
 const FM = {
 
-	"release": "1.1",
-	"date": "2019-03-31"
+	"copyright": "Copyright 2019 pushMe-pullYou authors. MIT License",
+	"date": "2019-05-18",
+	"version": "0.4.0-2"
 
 };
+
+FM.xhr = new XMLHttpRequest();
 
 FM.urlCORS = 'https://cors-anywhere.herokuapp.com/';
 
 FM.requestFile = function( url, callback ) {
 
-	const xhr = new XMLHttpRequest();
+	xhr = FM.xhr;
+
 	xhr.crossOrigin = 'anonymous';
 	xhr.open( 'GET', url, true );
 	xhr.onerror = function( xhr ) { console.log( 'error:', xhr  ); };
