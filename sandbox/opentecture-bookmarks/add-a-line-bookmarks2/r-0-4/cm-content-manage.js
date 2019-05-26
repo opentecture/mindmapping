@@ -59,6 +59,7 @@ CM.parseFile = function( obj ) {
 
 		if ( line.slice( 0, 1 ) !== "{" ) { continue; }
 
+		console.log( 'line', line );
 		const jsonl = JSON.parse( line );
 		//console.log( 'jsonl', jsonl );
 
