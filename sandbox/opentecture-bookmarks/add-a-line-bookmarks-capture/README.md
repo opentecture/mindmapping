@@ -1,12 +1,12 @@
 
-<span style=display:none; >[You are now in a GitHub source code view - click this link to view Read Me file as a web page]( https://opentecture.github.io/mindmapping/#sandbox/opentecture-bookmarks/add-a-line-bookmarks/README.md "View file as a web page." ) </span>
+<span style=display:none; >[You are now in a GitHub source code view - click this link to view Read Me file as a web page]( https://opentecture.github.io/mindmapping/#sandbox/opentecture-bookmarks/add-a-line-bookmarks-capture/README.md "View file as a web page." ) </span>
 
-<div><input type=button class = "btn btn-secondary btn-sm" onclick=window.location.href="https://github.com/opentecture/mindmapping/blob/master/sandbox/opentecture-bookmarks/add-a-line-bookmarks/README.md"
+<div><input type=button class = "btn btn-secondary btn-sm" onclick=window.location.href="https://github.com/opentecture/mindmapping/blob/master/sandbox/opentecture-bookmarks/add-a-line-bookmarks-capture/README.md"
 value="You are now in a GitHub web page view - Click this button to view this read me file as source code" ></div>
 
 <br>
 
-# [Opentecture Bookmarks Add-a-line Read Me]( #add-a-line-bookmarks/README.md )
+# [Add-a-line  Bookmarks Capture Read Me]( #add-a-line-bookmarks-capture/README.md )
 
 <!--
 <iframe src=https://opentecture.github.io/mindmapping/sandbox/add-a-line-bookmarks/add-a-line-bookmarks.html width=100% height=500px >Iframes are not viewable in GitHub source code views</iframe>
@@ -61,12 +61,12 @@ Enhancing the Script
 
 ### 2019-05-26 ~ Theo
 
-Rename to Add-a-line Bookmarks Capture
+Rename to 'Add-a-line Bookmarks Capture' V-0-3-0
 
 Has a single function:
 
-* Opentecture Bookmarks file creator: open, parse and save your browser's bookmarks to a JSON lines file
-
+* Bookmarks file creator: open, parse, refactor and save your browser's bookmarks to a JSON lines file
+* Follows SenVer.org
 
 ### 2019-02-11 ~ Theo
 
