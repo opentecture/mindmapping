@@ -13,7 +13,7 @@ value="You are now in a GitHub web page view - Click this button to view this re
 _<small>Opentecture Bookmarks Add-a-line /small>_
 -->
 
-## Full Screen: [Opentecture Bookmarks Add-a-line ]( https://opentecture.github.io/mindmapping/sandbox/opentecture-bookmarks/add-a-line-bookmarks/index.html )
+## Full Screen: [Opentecture Bookmarks Add-a-line ]( https://opentecture.github.io/mindmapping/sandbox/opentecture-bookmarks/add-a-line-bookmarks-capture/index.html )
 
 
 ## Concept
@@ -57,6 +57,15 @@ Enhancing the Script
 
 
 ## Change Log
+
+
+### 2019-05-26 ~ Theo
+
+Rename to Add-a-line Bookmarks Capture
+
+Has a single function:
+
+* Opentecture Bookmarks file creator: open, parse and save your browser's bookmarks to a JSON lines file
 
 
 ### 2019-02-11 ~ Theo

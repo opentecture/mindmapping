@@ -1,0 +1,368 @@
+<!doctype html>
+<html lang = "en" >
+<head>
+<meta charset = "utf-8" >
+<meta name = "viewport" content= "width=device-width, initial-scale=1" >
+<meta name = "description" content = "Opentecture Bookmarks file creator: open, parse and save your browser's bookmarks to a JSON lines file" >
+<meta name = "keywords" content = "JavaScript,GitHub,FOSS" >
+<meta name = "date" content = "2019-05-26" >
+<meta name = "version" content = "0.3.1" >
+<title>Add-a-line-bookmarks-capture</title>
+<style>
+
+	body { font: 12pt monospace; margin: 0 auto; max-width: 800px; }
+	a { color: crimson; text-decoration: none; }
+	a:hover, a:focus, a:active { background-color: yellow; color: #aaa; text-decoration: underline }
+
+	button, input[type=button] { background-color: #ddd; border: none; color: #322; cursor: pointer; padding: 3px 5px; }
+	button:hover { background: #ccc; color: #fff }
+
+	/*
+	#navMenu { background-color: #eee; left: 0; margin: 20px; max-width: 300px; padding: 0 10px; position: absolute; top: 0; }
+	*/
+
+</style>
+</head>
+<body>
+
+	<nav id="navMenu" >
+
+		<div id="divTitle" ></div>
+
+		<p>
+			<input type=file id=inpFile onchange=openFile(this); >
+		</p>
+
+		<p>
+			<input id=inpBookmarksUrl onchange=setLocalStorage(this); style=width:100%; >
+		</p>
+
+		<p>
+			Bookmarks folder to search: <input id=inpFolderToSearch onchange=setLocalStorage(this); title="leave blank to export all bookmarks" >
+		</p>
+
+		<p>
+			<button onclick=requestFile(inpBookmarksUrl.value); >Open Bookmarks File URL:</button>
+
+			<button onclick=saveFile(); >Save File</button>
+		</p>
+
+	</nav>
+
+	<div id=divLog ></div>
+
+	<div id="divContents" >
+
+		<details>
+
+			<summary>Two methods to access your bookmarks file</summary>
+
+			<h4>1. Opening your browser bookmarks file using your explorer/navigator dialog</h4>
+
+			Click the 'Choose File' button above, then look for the file as follows:
+
+			<h4>Chrome</h4>
+
+			* %\APPDATA\Local\Google\Chrome\User Data\Default<br>
+			* In search bar, type Bookmarks, you will see a list of files named Bookmarks and/or Bookmarks.bak.
+
+			<h4>Firefox</h4>
+
+			* %APPDATA%\Mozilla\Firefox\Profiles\<br>
+			* Or use bookmark manager and export as JSON
+
+			<h4>2. Opening your browser booksmarks using a file URL </h4>
+
+			Once you have found your bookmarks file you may automate the opening process of opening the bookmarks file.
+
+			Create a file URL and paste it into the file URL input box then click the button.
+			The URL is store in your local storage so load automatically with each new session.<br>
+			<br>
+			A file URL in Windows looks line this:<br>
+			<br>
+			file:///C:/Users/%YOURUSERNAME%/AppData/Local/Google/Chrome/User%20Data/Default/Bookmarks<br>
+			<br>
+
+			You can create a file URL by dragging the file to your browser and copying the URL in the address bar.
+
+			<h3>Folder to Search</h3>
+
+			If you need just a subset of the bookmarks you may enter a folder name in the 'Bookmarks folder to search' input box.
+
+			This feature currently only works on top level folders.
+
+			<h3>Notes</h3>
+
+			<p>The script does not yet do a good job of adding all sub-folders as tags. We are working on this.
+				Current files opened by the view-a-line have been edited manually.</p>
+
+			<p>
+
+
+		</details>
+
+	</div>
+
+<script>
+
+
+const BM = {
+
+	folderTop: "",
+	json: "",
+	folders: [],
+	filebookmarks: [],
+	tagd: []
+
+};
+
+
+const urlSourceCode = "https://github.com/opentecture/mindmapping/tree/master/sandbox/opentecture-bookmarks/";
+const urlSourceCodeIcon = "https://pushme-pullyou.github.io/github-mark-64.png";
+
+init();
+
+function init() {
+
+	divTitle.innerHTML = getTitle();
+
+	const bookmarksUrl = localStorage.getItem( 'inpBookmarksUrl' );
+
+	inpBookmarksUrl.value = bookmarksUrl ? bookmarksUrl : '' ;
+
+	const folderToSearch = localStorage.getItem( 'inpFolderToSearch' );
+
+	inpFolderToSearch.value = folderToSearch ? folderToSearch : '' ;
+
+}
+
+
+
+function setLocalStorage( input ) {
+
+	localStorage.setItem( `${ input.id }`, input.value );
+
+}
+
+
+
+function openFile( files ) {
+
+	//var fileData, reader, data;
+
+	const reader = new FileReader();
+	reader.onload = function( event ) {
+
+		BM.json = JSON.parse( reader.result );
+		console.log( 'json', json );
+
+		BM.parseFile();
+
+	}
+
+	reader.readAsText( files.files[ 0 ] );
+
+}
+
+
+
+function requestFile( url ) {
+
+	divContents.innerText = "";
+
+	const xhr = new XMLHttpRequest();
+	xhr.crossOrigin = 'anonymous';
+	xhr.open( 'GET', url, true );
+	xhr.onerror = function( xhr ) { console.log( 'error:', xhr  ); };
+	xhr.onprogress = function( xhr ) { divLog.innerHTML = `<p>Bytes loaded: ${xhr.loaded.toLocaleString() }</p>` }; /// or something
+	xhr.onload = callback;
+	xhr.send( null );
+
+}
+
+
+
+function callback( xhr ) {
+
+	const response = xhr.target.response;
+	//console.log( 'response', response );
+
+	BM.json = JSON.parse( response );
+	console.log( 'BM.json', BM.json );
+
+	BM.parseFile();
+
+}
+
+
+
+BM.parseFile = function() {
+
+	BM.bookmarks = [];
+
+	const bookmarkStrings = [];
+	let folders = [];
+	let folderTop;
+	let parent = "";
+	let folderCurrent = "";
+	let tags = [];
+
+	const bookmarksChildren = BM.json.roots.bookmark_bar.children;
+	//console.log( 'bookmarksChildren', bookmarksChildren );
+
+	if ( inpFolderToSearch.value !== "" ) {
+
+		folderTop = bookmarksChildren.find( item => item.name === inpFolderToSearch.value );
+		//console.log( 'folderTop', folderTop );
+
+	}
+
+	const bookmarksBar = folderTop ? folderTop : bookmarksChildren;
+	//console.log( 'bookmarksBar', bookmarksBar );
+
+
+	traverse( bookmarksBar );
+
+	divLog.innerHTML += `<p>Folders: ${ folders.length.toLocaleString() } - Bookmarks: ${ bookmarkStrings.length.toLocaleString() }</p>`;
+
+	BM.bookmarks = bookmarkStrings.join( "\n" );
+
+	divContents.innerText = BM.bookmarks;
+
+
+		function traverse( json ) {
+
+			const parent = folderCurrent;
+
+			for ( let key in json ) {
+				//console.log( "key", key );
+
+				data = json[ key ];
+				//console.log( 'data', data );
+
+				if ( !!data && typeof( data ) === "object" ) {
+
+					if ( data.type === "folder" ) {
+
+						if ( data.name !== folderCurrent ) {
+
+							folderCurrent = data.name;
+
+							tags = parent ? `"${ parent }", "${ folderCurrent }"` : `"${ folderCurrent }"`;
+							//console.log( tags );
+
+							folders.push( data.name );
+
+						}
+
+					}
+
+					if ( !!data && data.type === "url" ) {
+
+						const bookmark = BM.refactorData( data, tags );
+						//console.log( '', bookmark );
+
+						bookmarkStrings.push( bookmark );
+
+					}
+
+					traverse( data );
+
+				}
+
+			}
+
+		}
+
+};
+
+
+
+BM.refactorData = function( data, tags ) {
+	//console.log( 'data', data );
+
+	const date = BM.getDateTime( data.date_added );
+	const update = data.meta_info ? BM.getDateTime( data.meta_info.last_visited_desktop ) : "";
+	data.name = data.name.replace( /"/g, '\\"' );
+
+	const txt =
+`{
+"url": "${ data.url }",
+"name": "${ data.name }",
+"dateAdd": "${ date }",
+"dateUpdate": "${ update }",
+"id": "${ BM.uuidv4() }",
+"type": "${ data.type }",
+"tags": [ ${ tags } ],
+"images": [],
+"description": ""
+}`;
+
+	return txt.replace( /\n/g, " " );
+
+};
+
+
+
+BM.uuidv4 = function() {
+
+	return ( [ 1e7 ] +-1e3 + -4e3 + -8e3 + -1e11 ).replace( /[018]/g, c =>
+		( c ^ crypto.getRandomValues( new Uint8Array( 1 ) )[ 0 ] & 15 >> c / 4 ).toString( 16 ) );
+
+};
+
+
+
+ BM.getDateTime = function( nanoSeconds ) {
+
+// https://stackoverflow.com/questions/51343828/how-to-parse-chrome-bookmarks-date-added-value-to-a-date
+
+	const dateTime = new Date( Date.UTC( 1601, 0, 1 ) + nanoSeconds / 1000 ).toISOString();
+
+	return dateTime;
+
+};
+
+
+
+//////////
+
+function saveFile() {
+
+	let blob = new Blob( [ divContents.innerText ] );
+	let a = document.body.appendChild( document.createElement( 'a' ) );
+	a.href = window.URL.createObjectURL( blob );
+	a.download = 'bookmarks.json';
+	a.click();
+	a = null;
+
+}
+
+
+
+
+function getTitle() {
+
+	const version = document.head.querySelector( "[ name=version ]" ).content;
+
+	const htm =
+	`
+		<h2>
+			<a href=${ urlSourceCode } target=_top title="Source code on GitHub" >
+				<img src=${ urlSourceCodeIcon } height=18 >
+			</a>
+			<a href="" title="Click to reload this page" >${ document.title } ${ version }</a>
+		</h2>
+
+		<p>
+			${ document.head.querySelector( "[ name=description ]" ).content }
+		</p>
+	`;
+
+	return htm;
+
+}
+
+</script>
+</body>
+</html>
