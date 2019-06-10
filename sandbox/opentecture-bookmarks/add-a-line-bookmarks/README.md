@@ -61,6 +61,22 @@ Add UUID
 
 ## Change Log
 
+### 2019-06-10 ~ Theo
+
+* First commit Add-a-line Bookmarks v 0.5.0
+
+To do items dealt with
+
+* 2019-05-13 ~ delete www for page titles
+* 2019-05-13 ~ Start adding comments
+* 2019-05-13 ~ Enable adding new tags
+* 2019-05-13 ~ Close button on popup help
+* 2019-05-13 ~ Links to sites in left menu
+* 2019-03-17 ~ Enable creating new bookmarks from scratch
+* 2019-03-17 ~ Make it easier to add new images
+* 2019-03-17 ~ Be able to edit bookmarks with same tools from any of the viewers
+
+
 ### 2019-05-19 ~ Theo
 
 * F - COM.js: Add comments manage module

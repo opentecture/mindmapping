@@ -6,7 +6,7 @@ value="You are now in a GitHub web page view - Click this button to view this re
 
 <br>
 
-# [Add-a-line  Bookmarks Capture Read Me]( #add-a-line-bookmarks-capture/README.md )
+# [Add-a-line Bookmarks Capture Read Me]( #add-a-line-bookmarks-capture/README.md )
 
 <!--
 <iframe src=https://opentecture.github.io/mindmapping/sandbox/add-a-line-bookmarks/add-a-line-bookmarks.html width=100% height=500px >Iframes are not viewable in GitHub source code views</iframe>
@@ -35,7 +35,7 @@ _<small>Opentecture Bookmarks Add-a-line /small>_
 
 
 <!--
-## Things you can do u
+## Things you can do
 
 Using the Script
 
@@ -57,6 +57,14 @@ Enhancing the Script
 
 
 ## Change Log
+
+### 2019-06-10 ~ Theo
+
+Add-a-line Bookmarks Capture V-0-4-1
+
+* C - Rejig text in UI
+* F - Add: BM.tagSetsDefault
+* F - Add: create tags from folders in source bookmarks file
 
 
 ### 2019-05-26 ~ Theo

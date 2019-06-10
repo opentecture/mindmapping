@@ -4,10 +4,10 @@
 
 <meta charset = "utf-8">
 <meta name = "copyright" content ="PushMe-PullYou authors" >
-<meta name = "date" content = "2019-06-08" >
-<meta name = "description" content = "Basic bookmark manager" >
+<meta name = "date" content = "2019-06-10" >
+<meta name = "description" content = "Basic bookmark manager and editor with tagging, descriptions and comments" >
 <meta name = "keywords" content = "JavaScript,GitHub,FOSS" >
-<meta name = "version" content = "0.5.0-1" >
+<meta name = "version" content = "0.5.0" >
 <meta name = "viewport" content = "width=device-width, initial-scale=1" >
 
 <title>Add-a-line Bookmarks</title>
@@ -39,6 +39,7 @@
 
 #divContents { border: 0px solid red; margin: 0 auto; max-width: 50rem; width: 90%; }
 
+/* for placeholder text in drag&drop area */
 [contentEditable=true]:empty:not(:focus):before{ content:attr( data-text) }
 
 </style>
@@ -193,12 +194,15 @@
 FOB.urlDefaultFile = 'bookmarks.json';
 
 FGA.urlGitHubPage = "";
-// For main menu header
-MNU.urlSourceCode = "https://github.com/opentecture/mindmapping/tree/master/sandbox/opentecture-bookmarks/add-a-line-bookmarks2";
 
-MNU.homeText  = ""; //"pushMe-pullYou";
-MNU.homeTitle = ""; //"Very simple JavaScript files to help you explore and build new tools on GitHub.";
-MNU.homeUrl   = ""; //"https://pushme-pullyou.github.io";
+// For main menu header
+
+MNU.helpFile = "https://opentecture.github.io/mindmapping/sandbox/opentecture-bookmarks/README.md"
+MNU.urlSourceCode = "https://github.com/opentecture/mindmapping/tree/master/sandbox/opentecture-bookmarks/add-a-line-bookmarks";
+
+MNU.homeText  = "Opentecture / MindMapping";
+MNU.homeTitle = "Mindmapping is a collection of basic plain-vanilla JavaScript scripts for idea management using GitHub pages, 3D and whatever else comes to mind";
+MNU.homeUrl   = "https://opentecture.github.io/mindmapping/";
 
 MNU.repoText  = ""; //"TooToo14";
 MNU.repoTitle = ""; //Basic html templates with sliding menu, css selection, markdown capability and frequently used pages";

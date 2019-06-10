@@ -12,16 +12,25 @@ value="You are now in a GitHub web page view - Click this button to view this re
 
 ## Full screen: [Add-a-line Bookmarks]( https://opentecture.github.io/mindmapping/sandbox/opentecture-bookmarks/add-a-line-bookmarks/index.html )
 
+* Basic bookmark manager and editor with tagging, descriptions and comments
+
 ## Full screen: [Add-a-line Bookmarks Capture]( https://opentecture.github.io/mindmapping/sandbox/opentecture-bookmarks/add-a-line-bookmarks-capture/index.html )
+
+* Bookmarks file creator: open, parse and save your browser's bookmarks to a JSON lines file
 
 ## Full screen: [Add-a-line Bookmarks Scrape]( https://opentecture.github.io/mindmapping/sandbox/opentecture-bookmarks/add-a-line-bookmarks-scrape/index.html )
 
-## [bookmarks.json]( bookmarks.json )
+* Add descriptions and favicons to bookmarks by scraping the source URL
+
+### [bookmarks.json]( bookmarks.json )
 
 * The current Opentecture bookmarks JSON Lines file
 
-<!--
+_Coming next: a script to display bookmarks in an attractive, memorable and usable manner._
 
+***
+
+<!--
 * Links that are not CORS-compatible are in process of being identified.
 	* Currently checked up to and including BIM
 * Currently includes bookmark description and comments lines for all bookmarks under Academia heading
@@ -29,13 +38,7 @@ value="You are now in a GitHub web page view - Click this button to view this re
 * The file needs a lot more curatorial effort in order to be useful. In particular:
 	* if a web page cannot be loaded then a suitable image from the web site should loaded instead of the blank iframe.
 	* Every bookmark should include the text of the home page's description meta tag. If suitable text is not found then text should copied from elsewhere in the HTML file
-
-### [opentecture-bookmarks-original.json]( opentecture-bookmarks-original.json )
-
-* The original source file created by add-a-line-bookmark.html
 -->
-
-***
 
 ## Concept
 
@@ -117,14 +120,7 @@ Convert bookmark dates to UTC
 
 ## Wish List / To Do
 
-* 2019-05-13 ~ delete www for page titles
-* 2019-05-13 ~ Start adding comments
-* 2019-05-13 ~ Enable adding new tags
-* 2019-05-13 ~ Close button on popup help
-* 2019-05-13 ~ Links to sites in left menu
-* 2019-03-17 ~ Enable creating new bookmarks from scratch
-* 2019-03-17 ~ Make it easier to add new images
-* 2019-03-17 ~ Be able to edit bookmarks with same tools from any of the viewers
+* 2019-06-10 ~ Theo ~ Add readme files for all the modules
 * 2019-03-17 ~ Gallery page for all the bookmarks
 
 
@@ -133,6 +129,21 @@ Convert bookmark dates to UTC
 
 
 ## Change Log
+
+### 2019-06-10 ~ Theo
+
+* First commit Add-a-line Bookmarks v 0.5.0
+
+To do items dealt with
+
+* 2019-05-13 ~ delete www for page titles
+* 2019-05-13 ~ Start adding comments
+* 2019-05-13 ~ Enable adding new tags
+* 2019-05-13 ~ Close button on popup help
+* 2019-05-13 ~ Links to sites in left menu
+* 2019-03-17 ~ Enable creating new bookmarks from scratch
+* 2019-03-17 ~ Make it easier to add new images
+* 2019-03-17 ~ Be able to edit bookmarks with same tools from any of the viewers
 
 ### 2019-05-12 ~ Theo
 

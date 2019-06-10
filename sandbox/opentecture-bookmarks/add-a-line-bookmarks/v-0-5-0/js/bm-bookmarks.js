@@ -6,9 +6,9 @@
 const BM = {
 
 	"copyright": "Copyright 2019 pushMe-pullYou authors. MIT License",
-	"date": "2019-06-08",
-	"description": "Display data of bookmark selected from left menu or drag and drop a URL here",
-	"version": "0.5.0-4",
+	"date": "2019-06-10",
+	"description": "Display data of bookmark selected from left menu or drag & drop a link into this box",
+	"version": "0.5.0-5",
 
 };
 
@@ -20,7 +20,7 @@ BM.getMenuBookmarks = function() {
 	`
 		<details open >
 
-			<summary>Bookmark ~ V ${ TAG.version } ~ ${ TAG.date }</summary>
+			<summary>Bookmark ~ BM V ${ BM.version } ~ ${ BM.date }</summary>
 
 			<p contenteditable=true id="BMNdivDrop" title="Drag a URL into this area" data-text="${ BM.description }" ></p>
 
