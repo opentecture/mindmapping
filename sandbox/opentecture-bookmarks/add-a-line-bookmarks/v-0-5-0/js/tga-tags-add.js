@@ -20,7 +20,7 @@ TGA.getMenuTagsAdd = function() {
 	`
 	<details ontoggle=TGA.onToggle(); >
 
-		<summary>Tags Add ~ V ${ TGA.version } ~ ${ TGA.date }</summary>
+		<summary>Tags Add ~ TGA V ${ TGA.version } ~ ${ TGA.date }</summary>
 
 		<p>${ TGA.description }</p>
 

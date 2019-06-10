@@ -96,9 +96,12 @@ Clicking on one of the boxes, will bring up the full page for the site including
 
 ## Make development of the viewing and curating tools simple enough for programming beginners to have fun with
 
+* Data stored as JSON lines files
 * Hosting on no-charge static servers such as GitHub or Glitch
 * Nothing to download. Nothing to install. All FOSS.
-* Written in plain-vanilla JavaScript. Very few dependencies. Files of just a few hundred lines
+* Reference scripts written in plain-vanilla JavaScript
+	* Very few dependencies. Files of just a few hundred lines
+	* Should be easy to rebuild for use with tools of your choice
 
 
 ## Collaborate and manage the process with a number of peeps

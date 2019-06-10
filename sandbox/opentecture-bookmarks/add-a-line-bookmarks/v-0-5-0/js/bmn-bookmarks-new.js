@@ -19,7 +19,7 @@ BMN.getMenuBookmarkNew = function() {
 	`
 		<details ontoggle=BMN.onToggle(); >
 
-			<summary>Bookmark New ~ V ${ BMN.version } ~ ${ BMN.date }</summary>
+			<summary>Bookmark New ~ BMN V ${ BMN.version } ~ ${ BMN.date }</summary>
 
 			<p>${ BMN.description }</p>
 

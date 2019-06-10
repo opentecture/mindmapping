@@ -20,7 +20,7 @@ COM.getMenuCommentAdd = function() {
 	`
 	<details ontoggle=COM.onToggle(); >
 
-		<summary>Comment Add/Edit ~ V ${ COM.version } ~ ${ COM.date }</summary>
+		<summary>Comment Add/Edit ~ COM V ${ COM.version } ~ ${ COM.date }</summary>
 
 			<p>${ COM.description }</p>
 

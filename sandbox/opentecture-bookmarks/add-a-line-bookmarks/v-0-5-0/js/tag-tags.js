@@ -21,7 +21,7 @@ TAG.getMenuTagSets = function() {
 	`
 	<details ontoggle=TAG.onToggle(); >
 
-		<summary>Tag Sets Edit ~ V ${ TAG.version } ~ ${ TAG.date }</summary>
+		<summary>Tag Sets Edit ~ TAG V ${ TAG.version } ~ ${ TAG.date }</summary>
 
 		<p>${ TAG.description }</p>
 

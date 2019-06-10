@@ -18,7 +18,7 @@ BDM.getMenuBookmarksDomain = function() {
 	`
 	<details id=BDMdet ontoggle=BDM.setMenuItemsByUrl() >
 
-		<summary>Bookmarks by domain</summary>
+		<summary>Bookmarks by domain BDM V${ BDM.version }</summary>
 
 		<p>${ BDM.description }</p>
 

@@ -18,7 +18,7 @@ BTG.getMenuBookmarksTag = function() {
 	`
 	<details id=BTGdet ontoggle=BTG.setMenuItemsByTag() >
 
-		<summary>Bookmarks by tag</summary>
+		<summary>Bookmarks by tag ~ BTG V ${ BTG.version }</summary>
 
 		<p>${ BTG.description }</p>
 
