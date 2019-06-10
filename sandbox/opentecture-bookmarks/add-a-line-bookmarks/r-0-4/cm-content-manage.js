@@ -77,7 +77,7 @@ CM.parseFile = function( obj ) {
 
 		} else if ( jsonl.type === "tags" ) {
 
-				CM.tags.push( jsonl );
+			CM.tags.push( jsonl );
 
 		} else {
 

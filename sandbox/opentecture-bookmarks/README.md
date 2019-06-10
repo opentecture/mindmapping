@@ -10,12 +10,18 @@ value="You are now in a GitHub web page view - Click this button to view this re
 # [Opentecture Bookmarks Read Me]( #sandbox/opentecture-bookmarks/README.md )
 
 
-## Full screen: [Add-a-line Bookmarks2]( https://opentecture.github.io/mindmapping/sandbox/opentecture-bookmarks/add-a-line-bookmarks/index.html )
+## Full screen: [Add-a-line Bookmarks]( https://opentecture.github.io/mindmapping/sandbox/opentecture-bookmarks/add-a-line-bookmarks/index.html )
 
+## Full screen: [Add-a-line Bookmarks Capture]( https://opentecture.github.io/mindmapping/sandbox/opentecture-bookmarks/add-a-line-bookmarks-capture/index.html )
 
-## [opentecture-bookmarks.json]( opentecture-bookmarks.json )
+## Full screen: [Add-a-line Bookmarks Scrape]( https://opentecture.github.io/mindmapping/sandbox/opentecture-bookmarks/add-a-line-bookmarks-scrape/index.html )
+
+## [bookmarks.json]( bookmarks.json )
 
 * The current Opentecture bookmarks JSON Lines file
+
+<!--
+
 * Links that are not CORS-compatible are in process of being identified.
 	* Currently checked up to and including BIM
 * Currently includes bookmark description and comments lines for all bookmarks under Academia heading
@@ -27,6 +33,7 @@ value="You are now in a GitHub web page view - Click this button to view this re
 ### [opentecture-bookmarks-original.json]( opentecture-bookmarks-original.json )
 
 * The original source file created by add-a-line-bookmark.html
+-->
 
 ***
 

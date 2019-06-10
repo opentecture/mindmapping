@@ -5,8 +5,8 @@
 <meta name = "viewport" content= "width=device-width, initial-scale=1" >
 <meta name = "description" content = "Opentecture Bookmarks file creator: open, parse and save your browser's bookmarks to a JSON lines file" >
 <meta name = "keywords" content = "JavaScript,GitHub,FOSS" >
-<meta name = "date" content = "2019-06-09" >
-<meta name = "version" content = "0.4.1" >
+<meta name = "date" content = "2019-05-26" >
+<meta name = "version" content = "0.3.1" >
 <title>Add-a-line-bookmarks-capture</title>
 <style>
 
@@ -29,9 +29,33 @@
 
 		<div id="divTitle" ></div>
 
+		<p>
+			<input type=file id=inpFile onchange=openFile(this); >
+		</p>
+
+		<p>
+			<input id=inpBookmarksUrl onchange=setLocalStorage(this); style=width:100%; >
+		</p>
+
+		<p>
+			Bookmarks folder to search: <input id=inpFolderToSearch onchange=setLocalStorage(this); title="leave blank to export all bookmarks" >
+		</p>
+
+		<p>
+			<button onclick=requestFile(inpBookmarksUrl.value); >Open Bookmarks File URL:</button>
+
+			<button onclick=saveFile(); >Save File</button>
+		</p>
+
+	</nav>
+
+	<div id=divLog ></div>
+
+	<div id="divContents" >
+
 		<details>
 
-			<summary>Two methods to access your browser's  bookmarks file</summary>
+			<summary>Two methods to access your bookmarks file</summary>
 
 			<h4>1. Opening your browser bookmarks file using your explorer/navigator dialog</h4>
 
@@ -47,7 +71,7 @@
 			* %APPDATA%\Mozilla\Firefox\Profiles\<br>
 			* Or use bookmark manager and export as JSON
 
-			<h4>2. Opening your browser bookmarks using a file URL </h4>
+			<h4>2. Opening your browser booksmarks using a file URL </h4>
 
 			Once you have found your bookmarks file you may automate the opening process of opening the bookmarks file.
 
@@ -61,56 +85,21 @@
 
 			You can create a file URL by dragging the file to your browser and copying the URL in the address bar.
 
-			<hr>
+			<h3>Folder to Search</h3>
 
-		</details>
+			If you need just a subset of the bookmarks you may enter a folder name in the 'Bookmarks folder to search' input box.
 
-		<p>
-			<input type=file id=inpFile onchange=openFile(this); >
-		</p>
-
-		<p>
-			<input id=inpBookmarksUrl onchange=setLocalStorage(this); style=width:100%; >
-		</p>
-
-
-		<p>
-			Bookmarks folder to search: <input id=inpFolderToSearch onchange=setLocalStorage(this); title="leave blank to export all bookmarks" >
-		</p>
-
-		<details>
-
-			<summary>Folder to Search</summary>
-
-			<p>
-				If you need just a subset of the bookmarks you may enter a folder name in the 'Bookmarks folder to search' input box.
-			</p>
-
-			This feature currently only works on the most top level folders.
+			This feature currently only works on top level folders.
 
 			<h3>Notes</h3>
 
 			<p>The script does not yet do a good job of adding all sub-folders as tags. We are working on this.
-				Current files opened by the view-a-line have been edited manually.
-			</p>
+				Current files opened by the view-a-line have been edited manually.</p>
 
-			<hr>
+			<p>
+
 
 		</details>
-
-		<p>
-			<button onclick=requestFile(inpBookmarksUrl.value); >Open Bookmarks File URL:</button>
-
-			<button onclick=saveFile(); >Save File</button>
-		</p>
-
-	</nav>
-
-	<div id=divLog ></div>
-
-	<div id="divContents" >
-
-		<p>JSON lines data created from your bookmarks file will appear here</p>
 
 	</div>
 
@@ -126,13 +115,6 @@ const BM = {
 	tagd: []
 
 };
-
-BM.tagSetsDefault =
-	`
-	{"name":"year","dateAdd":"2019-06-02T22:38:51.801Z","dateUpdate":"2019-06-02T22:38:51.801Z","id":"24baae80-3941-4250-bfd6-719411351417","type":"tagset","tags":["2000","2001","2002","2003","2004","2005","2006","2007","2008","2009","2010","2011","2012","2013","2014","2015","2016","2017","2018","2019"],"description":"Year of appearance of web page on the web"}
-	{"name":"source","dateAdd":"2019-06-03T02:24:25.466Z","dateUpdate":"2019-06-03T02:24:25.466Z","id":"5347dd2a-75c1-4617-b112-f112a6109f29","type":"tagset","tags":["academia","organization","person","publisher","reference","vendor","wikipedia"],"description":"type of orginator"}
-	{"name":"status","dateAdd":"2019-06-03T05:10:55.020Z","dateUpdate":"2019-06-03T05:10:55.020Z","id":"43d390e5-46a2-45da-93b3-6dcc3833cd87","type":"tagset","tags":["iframe-ok","noframe","dead","stale","off-topic","favorite"],"description":"availability and usefulness"}
-	`;
 
 
 const urlSourceCode = "https://github.com/opentecture/mindmapping/tree/master/sandbox/opentecture-bookmarks/";
@@ -206,7 +188,7 @@ function callback( xhr ) {
 	//console.log( 'response', response );
 
 	BM.json = JSON.parse( response );
-	//console.log( 'BM.json', BM.json );
+	console.log( 'BM.json', BM.json );
 
 	BM.parseFile();
 
@@ -217,11 +199,9 @@ function callback( xhr ) {
 BM.parseFile = function() {
 
 	BM.bookmarks = [];
-	BM.tags = [];
-	BM.tagSet = inpFolderToSearch.value || "";
-	BM.folders = [];
 
 	const bookmarkStrings = [];
+	let folders = [];
 	let folderTop;
 	let parent = "";
 	let folderCurrent = "";
@@ -243,17 +223,11 @@ BM.parseFile = function() {
 
 	traverse( bookmarksBar );
 
-	divLog.innerHTML += `<p>Folders: ${ BM.folders.length.toLocaleString() } - Bookmarks: ${ bookmarkStrings.length.toLocaleString() }</p>`;
+	divLog.innerHTML += `<p>Folders: ${ folders.length.toLocaleString() } - Bookmarks: ${ bookmarkStrings.length.toLocaleString() }</p>`;
 
 	BM.bookmarks = bookmarkStrings.join( "\n" );
 
-	BM.tags = BM.getTags();
-
-	//console.log( 'BM.tags', BM.tags );
-
-	divContents.innerText =
-
-	BM.tagSetsDefault + BM.tags + "\n" + BM.bookmarks;
+	divContents.innerText = BM.bookmarks;
 
 
 		function traverse( json ) {
@@ -277,7 +251,7 @@ BM.parseFile = function() {
 							tags = parent ? `"${ parent }", "${ folderCurrent }"` : `"${ folderCurrent }"`;
 							//console.log( tags );
 
-							BM.folders.push( data.name );
+							folders.push( data.name );
 
 						}
 
@@ -321,37 +295,12 @@ BM.refactorData = function( data, tags ) {
 "type": "${ data.type }",
 "tags": [ ${ tags } ],
 "images": [],
-"favicon": "",
 "description": ""
 }`;
 
 	return txt.replace( /\n/g, " " );
 
 };
-
-
-
-BM.getTags = function() {
-
-	tags= [...new Set( BM.folders ) ].sort().map( item => `"${ item }"` );
-	//console.log( 'tags', tags );
-
-	const date = new Date().toISOString();
-
-	const txt =
-`{
-"name": "${ BM.tagSet}",
-"dateAdd": "${ date}",
-"dateUpdate": "${ date }",
-"id": "${ BM.uuidv4() }",
-"type": "tagset",
-"tags": [ ${ tags } ],
-"description": "tags"
-}`;
-
-	return txt.replace( /\n/g, " " );
-
-}
 
 
 
