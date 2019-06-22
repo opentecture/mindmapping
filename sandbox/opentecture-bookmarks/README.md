@@ -127,11 +127,25 @@ Convert bookmark dates to UTC
 * 2019-03-17 ~ Gallery page for all the bookmarks
 
 
+
 ## Issues
 
 
 
+
 ## Change Log
+
+
+### 2019-06-22 ~ Theo
+
+* what is the Stack Overflow for answers?
+* What is the Yelp for knowledge
+* What is the Apple or GitHub for curated content?
+
+More
+
+* There are an infinite amount of possible urls, with perhaps many trillions already in use. How can we find, retain, and return to the good ones?
+
 
 ### 2019-06-10 ~ Theo
 
