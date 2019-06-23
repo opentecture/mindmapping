@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name = "viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+<meta name = "description" content = "Basic bookmark manager" >
+<meta name = "keywords" content = "JavaScript,GitHub,FOSS" >
+<meta name = "date" content = "2019-04-20" >
+<title>Add-a-Line Bookmarks</title>
+<link href="https://fonts.googleapis.com/css?family=Inconsolata" rel="stylesheet" >
+<link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<body>
+<script src = "https://cdnjs.cloudflare.com/ajax/libs/showdown/1.9.0/showdown.min.js" ></script>
+<script src = "fm-file-manage.js" ></script>
+<script src = "cm-content-manage.js" ></script>
+<script src = "com-comments-manage.js" ></script>
+<script src = "ba-bookmark-add.js" ></script>
+<script src = "blbf-bookmarks-list-by-find.js" ></script>
+
+
+	<nav id="navPanel">
+
+		<header>
+
+			<h1>
+				<a href="https://github.com/opentecture/mindmapping/tree/master/sandbox/opentecture-bookmarks/add-a-line-bookmarks2" title="Source on GitHub" >
+					<img src="https://pushme-pullyou.github.io/github-mark-64.png" style=height:1rem;opacity:0.8; ></a>
+				<a href="" title="Click to reload this page" >
+					<script> document.write( document.title ); </script>
+				</a>
+				<button id=butId onclick="setPopupShowHide(butId,'../../README.md');" style=float:right; >?</button>
+			</h1>
+
+			<section><i>
+				<script> document.write( document.head.querySelector( "[ name=description ]" ).content ); </script>
+			</i></section>
+
+			<button id="expandButton" onclick=navPanel.classList.toggle('collapsed'); >☰</button>
+
+		</header>
+
+
+		<section id="secContent" >
+
+			<details open>
+
+				<summary>Edit Bookmarks
+					<button id=butTest1 onclick="setPopupShowHide(butTest1,'Hello, World!');" style=float:right; >?</button>
+				</summary>
+
+				<p>
+					<input type=file id=inpFile onchange=FM.openFile(this); accept = '.json' >
+				</p>
+
+				<p><button onclick=CM.newBookmark(); >add new bookmark</button></p>
+
+				<p>
+					<button id=but onclick=FM.saveFile(); >save edits to file</button>
+				</p>
+
+				<!--
+
+					<button onclick=BA.bookmarkAddInit(); >add new bookmark </button>
+				<div ><button onclick=BLBS.setMenuHeaders(); >Bookmarks by source</button></div>
+
+				<div ><button >Bookmarks by host</button></div>
+
+				<div ><button onclick=setMenuItemsByUrl(FM.bookmarks); >Bookmarks list by find</button></div>
+				-->
+			</details>
+
+
+			<details open>
+
+				<summary>View Bookmarks</summary>
+
+				<div id=menuItems ></div>
+
+			</details>
+
+
+			<footer>
+
+				<hr>
+
+				<h1 onclick=navPanel.scrollTop=0; style=cursor:pointer;text-align:center; title="go to top of menu" > ❦ </h1>
+
+			</footer>
+
+
+		</section>
+
+	</nav>
+
+	<nav>
+
+		<button id="butViewSource" target=_blank; hidden >view source</button>
+
+	</nav>
+
+	<nav id="navPopup" hidden >
+
+		<div id="divPopupData" ></div>
+
+		<div id="divMessage" ></div>
+
+	</nav>
+
+	<main>
+
+		<div id=divContents ></div>
+
+	</main>
+
+
+	<div id=divIframe class="thumbnail-container" >
+
+		<div class="thumbnail" ><iframe id=ifr ></iframe></div>
+
+	</div>
+
+
+	<template id=tmpNewBookmark >
+
+		<h3>Add new bookmark <a href="" id=aUrl target=_blank ></a>
+			<button onclick=BA.onInput(); >set parameters</button>
+			<button onclick=BA.getDescription(); title="wait until iframe appears before clicking here" >get description</button>
+		</h3>
+<!--
+		<div contentEditable=true id="divDrop"  data-text="Drag a URL into this area" ></div>
+
+		<p>
+
+			/ test:
+			<button onclick=BA.addTest(0); >add goog</button>
+			<button onclick=BA.addTest(1); >add wiki</button>
+			<button onclick=BA.addTest(2); >add dfab</button>
+			<button onclick=FM.requestFile("${FM.urlCORS + bookmark.url}",parseHtmlGetDescription); title="wait until iframe appears before clicking here" >get description</button>
+		</p>
+
+		-->
+
+
+		<div class="flex-container">
+
+			<div class=full-width >url <input class=inp90 id=inpUrl ></div>
+
+			<div class=full-width >name <input class=inp90 id=inpName ></div>
+
+			<div class=set-width >date add <input class=set-inp id=inpDateAdd ></div>
+
+			<div class=set-width >update <input class=set-inp id=inpDateUpdate ></div>
+
+			<div class=set-width >id <input class=set-inp id=inpId ></div>
+
+			<div class=set-width >type <input class=set-inp id=inpType ></div>
+
+			<div class=full-width >images <input class=inp90 id=inpImages ></div>
+
+			<div class=full-width >tags <input class=inp90 id=inpTags ></div>
+
+			<div class=full-width >description <textarea class=inp90 id=txtDescription ></textarea></div>
+
+		</div>
+
+		<div class=containerSmall >
+			<div>source<br>
+				<select id=selSource size=9 style=width:8rem; >
+					<option>academia</option>
+					<option>community</option>
+					<option>organization</option>
+					<option>person</option>
+					<option>publisher</option>
+					<option>reference</option>
+					<option>vendor</option>
+					<option>wikipedia</option>
+					<option>other</option>
+				</select>
+			</div>
+
+
+			<div>status:<br>
+				<select id=selStatus size=8 style=width:8rem; >
+					<option>iframe-ok</option>
+					<option>noframe</option>
+					<option>dead</option>
+					<option>stale</option>
+					<option>off-topic</option>
+					<option>favorite</option>
+					<option>other</option>
+					<option></option>
+					<option></option>
+				</select>
+			</div>
+
+			<div>year:<br>
+				<select id=selYear onchange=addTag(this.value); size=8 style=width:8rem; ></select>
+			</div>
+
+			<div>tags:<br>
+
+				<input type=search id=inpTag name="q" oninput=filterTags(this); onchange=console.log(this);>
+
+				<button id=butAddNewTag onclick=addToList() disabled >add to list of tags</button>
+
+				<select id=selTag onchange=addTag(this.value); size=10 style=width:10rem ></select>
+
+			</div>
+
+		</div>
+
+
+		<p>
+			<button onclick=BA.bookmarkAddUpdateTextarea() >update bookmark JSON</button>
+			<button onclick=BA.bookmarkAdd(); >add bookmark JSON to bookmarks </button>
+		</p>
+			Bookmark JSON data:<br>
+			<textarea id=BAtxtBookmark style=height:10rem;width:100%; ></textarea>
+
+		<div id="divComments" ></div>
+
+	</template>
+
+<script>
+
+
+//const urlDefault = "opentecture-bookmarks.json";
+const urlDefault = "bookmarks.json";
+let popupId;
+
+init();
+
+
+function init() {
+
+	if ( /(iPad|iPhone|iPod)/g.test( navigator.userAgent ) ) { /* I hate having to add this */
+
+		divContents.style.width = getComputedStyle( divContents ).width;
+		divContents.style.height = getComputedStyle( divContents ).height;
+		divContents.setAttribute( 'scrolling', 'no' );
+
+	}
+
+	const options = 	[];
+
+	for ( let i = 2020; i > 1989; i-- ) { options.push( `<option>${ i }</option>` ); };
+
+
+	FM.requestFile( urlDefault, CM.parseFile );
+
+	divContents.innerHTML = tmpNewBookmark.innerHTML;
+
+	selYear.innerHTML = options;
+
+	selTag.innerHTML = CM.optionsTag;
+
+	divComments.innerHTML = COM.getContents();
+
+}
+
+
+
+function setPopupShowHide( id, text ) {
+	//console.log( 'id', id );
+
+	popupId = id;
+
+	popupId.classList.toggle( "active" );
+
+	if ( popupId.classList.contains( 'active' ) ) {
+
+		navPopup.hidden = false;
+
+		if ( text.toLowerCase().endsWith( ".md" ) ) { requestFile( text, divPopupData ); }
+
+		const htm =
+			`
+				<div style=text-align:right; ><button onclick=setPopupShowHide(popupId,""); >×</button></div>
+				${ text }
+			`;
+		divPopupData.innerHTML = popupId.classList.contains( 'active' ) ? htm : '';
+
+		divContents.addEventListener( 'click', onClickContainer, false );
+		divContents.addEventListener( 'touchstart', onClickContainer, false );
+
+	} else {
+
+		onClickContainer();
+
+	}
+
+}
+
+
+
+function onClickContainer() {
+
+	navPopup.hidden = true;
+	popupId.classList.remove( "active" );
+	divPopupData.innerHTML = "";
+	divContents.removeEventListener( 'click', onClickContainer, false );
+	divContents.removeEventListener( 'touchstart', onClickContainer, false );
+
+}
+
+
+
+function requestFile( url, target ) {
+
+	const xhr = new XMLHttpRequest();
+	xhr.open( 'GET', url, true );
+	xhr.onerror = ( xhr ) => console.log( 'error:', xhr  );
+	xhr.onprogress = ( xhr ) => console.log( 'loaded', xhr.loaded );
+	xhr.onload = ( xhr ) => callbackMarkdown( xhr.target.response, target );
+	xhr.send( null );
+
+};
+
+
+
+function callbackMarkdown( markdown, target ) {
+	//console.log( '', markdown );
+
+	showdown.setFlavor('github');
+	const converter = new showdown.Converter();
+	const html = converter.makeHtml( markdown );
+
+	target.innerHTML = html;
+	//console.log( '', html );
+
+	window.scrollTo( 0, 0 );
+
+};
+
+
+
+
+//Make the DIV element draggable / but no touch support
+dragElement( document.getElementById( "divIframe" ) );
+
+function dragElement( elmnt ) {
+	var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
+	if (document.getElementById(elmnt.id + "header")) {
+		/* if present, the header is where you move the DIV from:*/
+		document.getElementById(elmnt.id + "header").onmousedown = dragMouseDown;
+	} else {
+		/* otherwise, move the DIV from anywhere inside the DIV:*/
+		elmnt.onmousedown = dragMouseDown;
+	}
+
+	function dragMouseDown( e ) {
+		e = e || window.event;
+		e.preventDefault();
+		// get the mouse cursor position at startup:
+		pos3 = e.clientX;
+		pos4 = e.clientY;
+		document.onmouseup = closeDragElement;
+		// call a function whenever the cursor moves:
+		document.onmousemove = elementDrag;
+	}
+
+	function elementDrag( e ) {
+		e = e || window.event;
+		e.preventDefault();
+		// calculate the new cursor position:
+		pos1 = pos3 - e.clientX;
+		pos2 = pos4 - e.clientY;
+		pos3 = e.clientX;
+		pos4 = e.clientY;
+		// set the element's new position:
+		elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
+		elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
+	}
+
+	function closeDragElement() {
+		/* stop moving when mouse button is released:*/
+		document.onmouseup = null;
+		document.onmousemove = null;
+	}
+
+}
+
+
+//////////
+vvtags = [
+
+	"2d", "3d", "api", "architecture", "assembly", "association", "bim", "building",
+	"cad", "collaboration", "component", "configure", "consultant",
+	"design", "designer", "developer", "diy",
+	"economics","education", "engineering", "environment", "fabricate",
+	"gallery", "gbxml","hardware",
+	"ifc", "injustice", "interactive", "justice",
+	"landscape", "lego", "modular", "mvp", "news", "online",
+	 "open-source", "parametric design", "performance", "planning", "printing",
+	 "rendering", "reference", "repository", "research", "robotics",
+	 "schema", "science", "service", "software", "space", "standards", "structure", "sustainability", "system",
+	 "tools", "urban", "visualization"
+];
+
+
+//let options = tags.map ( tag => `<option>${ tag }</option>` );
+
+//selTag.innerHTML = options;
+
+
+function filterTags( input ) {
+
+	const str = input.value;
+	//console.log( 'str', str );
+
+	tagsFiltered = [];
+
+	if ( str === "" ) {
+
+		tagsFiltered = tags.slice();
+
+	} else {
+
+		tagsFiltered = tags.filter( tag => tag.includes( str ) );
+
+	}
+
+	if ( tagsFiltered.length === 0 && str.length > 0 ) {
+
+		butAddNewTag.disabled = false;
+
+	}
+
+	const options = tagsFiltered.map ( tag => `<option>${ tag }</option>` );
+
+	selTag.innerHTML = CM.optionsTag;
+
+}
+
+
+
+function addTag ( text ) {
+
+	inpTags.value += `${ text },`;
+
+}
+
+
+function addToListTag () {
+
+ 	tag = inpTag.value.toLowerCase();
+
+	if ( tags.includes( tag ) === false ) {
+
+		tags.push( tag );
+
+		tags = [ ...new Set( tags ) ].sort();
+
+		console.log( 'tags', tags );
+
+	} else {
+
+		alert( 'tag exists already' );
+
+	}
+
+}
+
+</script>
+</body>
+</html>
