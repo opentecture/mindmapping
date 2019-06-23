@@ -126,6 +126,17 @@ Links we have enjoyed while preparing this code
 * https://support.mozilla.org/en-US/questions/996823
 * https://codereview.stackexchange.com/questions/88433/creating-a-menu-as-nested-unordered-lists-from-json-data
 
+"Knowledge managers"
+
+* https://www.intercom.com
+
+> We make customer messaging apps for sales, marketing, and support, connected on one platform. Our mission is to make business personal again.
+
+* https://www.zendesk.com/guide/
+* https://www.knoco.com/knowledge-management-consulting-services.htm
+* http://www.equals3.ai/
+
+
 Convert bookmark dates to UTC
 
 * https://stackoverflow.com/questions/51343828/how-to-parse-chrome-bookmarks-date-added-value-to-a-date
