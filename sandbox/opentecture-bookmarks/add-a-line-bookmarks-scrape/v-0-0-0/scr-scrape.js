@@ -4,11 +4,11 @@
 
 
 const SCR = {
-	"copyright": "Copyright 2019 Ladybug Tools authors. MIT License",
-	"date": "2019-06-09",
+	"copyright": "Copyright 2019 Opentecture authors. MIT License",
+	"date": "2019-06-2019-06-23",
 	"description": "template",
-	"helpFile": "tmp-template/README.md",
-	"release": "0.0.0-0",
+	"helpFile": "README.md",
+	"release": "0.0.01-0",
 };
 
 SCR.a = document.createElement( 'a' );
@@ -19,9 +19,9 @@ SCR.getMenuScrape = function() {
 
 	const htm =
 		`
-			<details id=SCRdet ontoggle="SCRdivTmp1.innerHTML=SCR.getScrape();" >
+			<details id=SCRdet ontoggle="SCRdivTmp1.innerHTML=SCR.getScrape();" open >
 
-				<summary id=SCRsumSurfaces >Scrape
+				<summary id=SCRsumSurfaces class=sumMenuTitle >Scrape
 					<button id=butScrape class=butHelp onclick="MNU.setPopupShowHide(butScrape,SCR.helpFile);" style=float:right; >?</button>
 				</summary>
 
@@ -41,9 +41,11 @@ SCR.getScrape = function() {
 
 	const timeStart = performance.now();
 
+	//document.body.addEventListener( 'FOBonJsonFileLoad', SCR.onLoad, false );
+
 	const htm =
 	`
-		<p><i>Scrape</i></p>
+		<p><i>Scraping will start as soon a a bookmarks JSON file is loaded</i></p>
 
 		<button onclick=SCR.showContent(); >show content</button>
 
@@ -67,6 +69,8 @@ SCR.onLoad = function() {
 
 	SCR.lines = FOB.text.split(/\r\n|\n/);
 
+	divContents.innerHTML = `<h1>Data source: ${ FOB.name }</h1>`;
+
 	for ( let line of SCR.lines ) {
 		//console.log( 'line', line );
 
@@ -85,6 +89,7 @@ SCR.onLoad = function() {
 
 	SCR.count = 0;
 	SCR.fetchText();
+
 };
 
 
@@ -124,6 +129,7 @@ SCR.fetchText = function(){
 			return response.text();
 
 		} )
+
 		.then( text => SCR.parseText( text, bookmark ) )
 
 		.catch( function( err ) {
@@ -145,9 +151,11 @@ SCR.fetchText = function(){
 SCR.parseText = function( text, bookmark ) {
 	//console.log( 'url', bookmark.url );
 
-	if ( !text ) { console.log( '', 33 ); }
+	if ( !text ) { console.log( 'no text', bookmark ); }
+
 	const parser = new DOMParser();
 
+	bookmark.length = text.length;
 	const doc = parser.parseFromString( text, "text/html" );
 	//console.log( 'doc', doc );
 
@@ -173,7 +181,8 @@ SCR.parseText = function( text, bookmark ) {
 	`
 		<h3>
 			<img src="${ iconHref }" height=24 > ${ SCR.count }
-			<a href=${ bookmark.url } >${ bookmark.url.replace( /http(.*):\/\//i, "" ) }: ${ doc.title }</a>
+			- <a href=${ bookmark.url } >${ bookmark.url.replace( /http(.*):\/\//i, "" ) }: ${ doc.title }</a>
+			-  ${ bookmark.length.toLocaleString() } bytes
 		</h3>
 
 		<p>Description:<br>${ bookmark.description }</p>
@@ -188,7 +197,7 @@ SCR.parseText = function( text, bookmark ) {
 	if ( SCR.count < SCR.bookmarks.length ) {
 
 		SCR.fetchText();
-		
+
 	}
 
 };

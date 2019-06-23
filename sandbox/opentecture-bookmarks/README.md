@@ -172,8 +172,8 @@ Add UUID
 
 ### 2019-06-22 ~ Theo
 
-* what is the Stack Overflow for answers?
-* What is the Yelp for knowledge
+* what is the Stack Overflow for good answers?
+* What is the Yelp for deep knowledge
 * What is the Apple or GitHub for curated content?
 * Where are the Amazon comments for [STEM]( https://en.wikipedia.org/wiki/Science,_technology,_engineering,_and_mathematics ) topics?
 
@@ -183,7 +183,7 @@ More
 * How can we catalog and share the URLs that point to good science?
 
 
-For any topic that you may be interested in, you may gather dozens, maybe even hundreds, of bookmarks linking to blog posts, Wikipedia articles, journal articles and other sources.
+For any topic that you may be interested in, you may gather dozens, maybe even hundreds, of bookmarks linking to blog posts, Wikipedia articles, journal articles and other sources. What are good waus of dealing with all these URLs?
 
 ***
 

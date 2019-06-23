@@ -18,9 +18,14 @@ _sandbox/opentecture-bookmarks/add-a-line-bookmarks-scrape.html_
 
 ## Concept
 
+* Add descriptions and favicons to bookmarks by scraping the data made available from the source URL
 
 ## To Do / Wish List
 
+* 2019-06-23 ~ Theo ~ Add pause/play toggle button
+* 2019-06-23 ~ Theo ~ Add start and finish frame settings
+* 2019-06-23 ~ Theo ~ Add enter any URL
+* 2019-06-23 ~ Theo ~ Capture a checksum for the file or file length
 
 ## Issues
 
@@ -30,6 +35,15 @@ _sandbox/opentecture-bookmarks/add-a-line-bookmarks-scrape.html_
 
 
 ## Change Log
+
+### 2019-06-23 ~ Theo
+
+SCR
+C - update readme and menu messages
+B - ABS: Set read me as default file
+F - SCR: Add file onload event listener
+F - SCR: Add capture file length
+
 
 ### 2019-06-10 ~ Theo
 

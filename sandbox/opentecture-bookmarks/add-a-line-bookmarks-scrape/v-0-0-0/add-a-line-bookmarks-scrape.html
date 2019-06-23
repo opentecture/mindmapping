@@ -4,15 +4,15 @@
 
 <meta charset = "utf-8">
 <meta name = "copyright" content ="Opentecture authors" >
-<meta name = "date" content = "2019-06-10" >
-<meta name = "description" content = "Add descriptions and favicons to bookmarks by scraping the source URL" >
-<meta name = "keywords" content = "JavaScript,GitHub,FOSS" >
-<meta name = "version" content = "0.0.1" >
+<meta name = "date" content = "2019-06-23" >
+<meta name = "description" content = "Add descriptions and favicons to bookmarks by scraping the data made available from the source URL" >
+<meta name = "keywords" content = "Bookmarks,JavaScript,GitHub,FOSS" >
+<meta name = "version" content = "0.0.02" >
 <meta name = "viewport" content = "width=device-width, initial-scale=1" >
 
 <title>Add-a-line Bookmark Scrape</title>
 
-<link rel = "canonical" href = "https://pushme-pullyou.github.io" />
+<link rel = "canonical" href = "https://pushme-pullyou.github.io" >
 <link rel = "license" href = "https://creativecommons.org/licenses/by/4.0/">
 <link rel = "stylesheet" href = "https://fonts.googleapis.com/css?family=Inconsolata"  >
 <link rel = "stylesheet" href = "https://pushme-pullyou.github.io/tootoo14/js-14-1/style.css" >
@@ -132,8 +132,9 @@
 THM.themeUrlStorage = 'tootoo14ThemeUrlTemplate'; // set for each instance in HTML file
 THM.cssBasic = "https://pushme-pullyou.github.io/tootoo14/js-14-1/style.css";
 
-FOB.urlDefaultFile = "bookmarks.json";
-
+// FOB creates events onload
+//FOB.urlDefaultFile = "bookmarks.json";
+FOB.urlDefaultFile = "../README.md";
 
 FGA.branch = '/master/';
 FGA.user = 'pushme-pullyou';
@@ -202,6 +203,7 @@ function init() {
 
 	MNUdivFooterPopup.innerHTML = MNU.getNavFooterPopup();
 
+	// let's go - see FOB for next events and outcomes
 	if ( !location.hash ) { location.hash=FOB.urlDefaultFile; } else { FOB.onHashChange(); }
 
 	aViewSource.style.display = "block";
