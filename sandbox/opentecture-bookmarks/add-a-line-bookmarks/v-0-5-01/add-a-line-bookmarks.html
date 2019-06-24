@@ -4,7 +4,7 @@
 
 <meta charset = "utf-8">
 <meta name = "copyright" content ="PushMe-PullYou authors" >
-<meta name = "date" content = "2019-06-22" >
+<meta name = "date" content = "2019-06-23" >
 <meta name = "description" content = "Basic bookmark manager and editor with tagging, descriptions and comments" >
 <meta name = "keywords" content = "JavaScript,GitHub,FOSS" >
 <meta name = "version" content = "0.5.01" >
@@ -12,9 +12,9 @@
 
 <title>Add-a-line Bookmarks</title>
 
-<link rel = "canonical" href = "https://pushme-pullyou.github.io" />
-<link rel = "license" href="https://creativecommons.org/licenses/by/4.0/">
-<link rel = "stylesheet" href="https://fonts.googleapis.com/css?family=Inconsolata"  >
+<link rel = "canonical" href = "https://pushme-pullyou.github.io" >
+<link rel = "license" href = "https://creativecommons.org/licenses/by/4.0/" >
+<link rel = "stylesheet" href = "https://fonts.googleapis.com/css?family=Inconsolata"  >
 <link rel = "stylesheet" href = "https://pushme-pullyou.github.io/tootoo14/js-14-03/style.css" >
 
 <style>
@@ -43,6 +43,7 @@
 [contentEditable=true]:empty:not(:focus):before{ content:attr( data-text) }
 
 </style>
+
 </head>
 
 <body>
@@ -135,9 +136,13 @@
 
 			<footer>
 
-				<div id="MNUdivFooter" ></div>
+				<details>
 
-				<div id="MNUdivFooterPopup" ></div>
+					<summary class=sumMenuTitle >Help menu</summary>
+
+					<div id="MNUdivFooterPopup" ></div>
+
+				</details>
 
 				<h1 onclick="navPanel.scrollTop=0;" style="cursor:pointer;text-align:center;" title="go to top of menu" >
 					❦
@@ -152,21 +157,7 @@
 
 	<main id=main >
 
-		<div id=divContents>
-
-			<div id=BMdivBookmark></div>
-
-			<div id=BMEdivBookmarkEdit></div>
-
-			<div id=BMNdivBookmarkNew ></div>
-
-			<div id=COMdivCommentAdd ></div>
-
-			<div id=TGAdivTagsAdd ></div>
-
-			<div id=TAGdivTagSets ></div>
-
-		</div>
+		<div id=divContents ></div>
 
 	</main>
 
@@ -191,9 +182,6 @@
 
 <script>
 
-THM.themeUrlStorage = 'addALineTheme'; // set for each instance in HTML file
-THM.cssBasic = "https://pushme-pullyou.github.io/tootoo14/js-14-1/style.css";
-
 init();
 
 
@@ -207,8 +195,8 @@ function init() {
 
 	}
 
-	//THMdivMenuThemeSelect.innerHTML = THM.getMenuThemeSelect();
-	//THM.init();
+	THMdivMenuThemeSelect.innerHTML = THM.getMenuThemeSelect();
+	THM.init();
 
 	MNUdivHeader.innerHTML = MNU.getNavHeader();
 
@@ -232,22 +220,9 @@ function init() {
 
 	MNUdivFooterPopup.innerHTML = MNU.getNavFooterPopup();
 
-	//window.addEventListener( "bingo", BLBF.onLoad, false );
-
-	//BMdivBookmark.innerHTML = BM.getMenuBookmarks();
-
-	//BMNdivBookmarkNew.innerHTML = BMN.getMenuBookmarkNew();
-
-	//BMEdivBookmarkEdit.innerHTML = BME.getMenuBookmarkEdit();
-
-	//COMdivCommentAdd.innerHTML = COM.getMenuCommentAdd();
-
-	//TGAdivTagsAdd.innerHTML = TGA.getMenuTagsAdd();
-
-	//TAGdivTagSets.innerHTML = TAG.getMenuTagSets();
-
 	POPdivPopup.innerHTML = POP.getMenuDivPopup();
 
+	// let's go / FOB to load default and fire onload events
 	if ( !location.hash ) { location.hash=FOB.urlDefaultFile; } else { FOB.onHashChange(); }
 
 	aViewSource.style.display = "block";

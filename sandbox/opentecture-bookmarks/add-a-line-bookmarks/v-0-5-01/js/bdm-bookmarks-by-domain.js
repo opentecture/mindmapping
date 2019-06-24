@@ -5,9 +5,9 @@
 const BDM = {
 
 	"copyright": "Copyright 2019 opentecture authors. MIT License",
-	"date": "2019-06-22",
-	"description": "Fiter bookmarks by domain",
-	"version": "0.5.01-0",
+	"date": "2019-06-23",
+	"description": "Filter bookmarks by domain",
+	"version": "0.5.01-1bdm",
 
 };
 
@@ -16,21 +16,21 @@ BDM.getMenuBookmarksDomain = function() {
 
 	const htm =
 	`
-	<details id=BDMdet ontoggle=BDM.setMenuItemsByUrl(); >
+		<details id=BDMdet ontoggle=BDM.setMenuItemsByUrl(); >
 
-		<summary>1. Filter bookmarks by domain BDM V${ BDM.version }</summary>
+			<summary>1. Filter bookmarks by domain ~ BDM v${ BDM.version }</summary>
 
-		<p>${ BDM.description }</p>
+			<p>${ BDM.description }</p>
 
-		<p>
-			Search: <input type=search name="q" oninput=BDM.filterBookmarks(this); placeholder="enter a domain name">
-		</p>
+			<p>
+				Search: <input type=search name="q" oninput=BDM.filterBookmarks(this); placeholder="enter a domain name" >
+			</p>
 
-		<div id=BDMdivBookmarksDomain ></div>
+			<div id=BDMdivBookmarksDomain ></div>
 
-		<hr>
+			<hr>
 
-	</details>
+		</details>
 	`;
 
 	return htm;

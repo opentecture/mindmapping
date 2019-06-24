@@ -15,9 +15,10 @@ const COR = {
 
 THM.themeUrlStorage = 'addALineTheme'; // set for each instance in HTML file
 THM.cssBasic = "https://pushme-pullyou.github.io/tootoo14/js-14-03/style.css";
-THM.backgroundColor = "#eed"
+THM.backgroundColor = "#ded";
 
-FOB.urlDefaultFile = "../../bookmarks.json";
+//FOB.urlDefaultFile = "../../bookmarks.json";
+FOB.urlDefaultFile = "../README.md";
 
 // For main menu header
 MNU.helpFile = "../../README.md";

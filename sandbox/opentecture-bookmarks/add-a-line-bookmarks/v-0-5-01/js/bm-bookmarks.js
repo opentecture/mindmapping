@@ -5,63 +5,10 @@
 
 const BM = {
 
-	"copyright": "Copyright 2019 pushMe-pullYou authors. MIT License",
-	"date": "2019-06-10",
+	"copyright": "Copyright 2019 Opetecture authors. MIT License",
+	"date": "2019-06-23",
 	"description": "Display data of bookmark selected from left menu or drag & drop a link into this box",
-	"version": "0.5.0-5",
-
-};
-
-
-
-BM.getMenuBookmarks = function() {
-
-	const htm =
-	`
-		<details open >
-
-			<summary>Bookmark ~ BM V ${ BM.version } ~ ${ BM.date }</summary>
-
-			<p contenteditable=true id="BMNdivDrop" title="Drag a URL into this area" data-text="${ BM.description }" ></p>
-
-			<div class=container >
-
-				<div id=BMdivUrl >url </div><div><input id=BMinpUrl ></div>
-
-				<div>name </div><div><input id=BMinpName ></div>
-
-			</div>
-
-			<div class=container4 >
-
-				<div>date add </div><div><input id=BMinpDateAdd ></div>
-
-				<div>update </div><div><input id=BMinpDateUpdate ></div>
-
-				<div>id </div><div><input id=BMinpId ></div>
-
-				<div>type </div><div><input id=BMinpType ></div>
-
-			</div>
-
-			<div class=container >
-
-				<div>images </div><div><input id=BMinpImages ></div>
-
-				<div>favicon </div><div><input id=BMinpFavicon ></div>
-
-				<div>tags </div><div><input id=BMinpTags ></div>
-
-				<div>description </div><div><textarea id=BMtxtDescription ></textarea></div>
-
-				<div>comment </div><div><textarea id=BMtxtComment ></textarea></div>
-
-			</div>
-
-		</details>
-	`;
-
-	return htm;
+	"version": "0.5.01-2bm",
 
 };
 
@@ -142,7 +89,7 @@ BM.setBookmarks = function ( bookmarks = BM.jsonLines ) {
 
 
 
-BM.getBookmarks = function () {
+BM.xxxgetBookmarks = function () {
 	//console.log( '', FOB.text );
 
 	BM.lines = FOB.text.split(/\r\n|\n/);
@@ -174,9 +121,11 @@ BM.getBookmarks = function () {
 
 
 
+//////////
+
 BM.setContents = function ( index ) {
 
-	htm =
+	const htm =
 	`
 	<div id=BMdivBookmark></div>
 
@@ -193,7 +142,7 @@ BM.setContents = function ( index ) {
 
 	divContents.innerHTML = htm;
 
-	BMdivBookmark.innerHTML = BM.getMenuBookmarks();
+	//BMdivBookmark.innerHTML = BM.getBookmarksData();
 
 	BMNdivBookmarkNew.innerHTML = BMN.getMenuBookmarkNew();
 
@@ -216,7 +165,7 @@ BM.setContents = function ( index ) {
 
 BM.parseJson = function( index ) {
 
-	BMdivBookmark.innerHTML = BM.getMenuBookmarks();
+	BMdivBookmark.innerHTML = BM.getBookmarksData();
 
 	const bookmark = BM.bookmark = BM.jsonLines[ index ];
 	//console.log( 'bookmark', bookmark );
@@ -256,6 +205,61 @@ BM.parseJson = function( index ) {
 };
 
 
+
+BM.getBookmarksData = function() {
+
+	const htm =
+	`
+		<details open >
+
+			<summary>Bookmark ~ BM V ${ BM.version } ~ ${ BM.date }</summary>
+
+			<p contenteditable=true id="BMNdivDrop" title="Drag a URL into this area" data-text="${ BM.description }" ></p>
+
+			<div class=container >
+
+				<div id=BMdivUrl >url </div><div><input id=BMinpUrl ></div>
+
+				<div>name </div><div><input id=BMinpName ></div>
+
+			</div>
+
+			<div class=container4 >
+
+				<div>date add </div><div><input id=BMinpDateAdd ></div>
+
+				<div>update </div><div><input id=BMinpDateUpdate ></div>
+
+				<div>id </div><div><input id=BMinpId ></div>
+
+				<div>type </div><div><input id=BMinpType ></div>
+
+			</div>
+
+			<div class=container >
+
+				<div>images </div><div><input id=BMinpImages ></div>
+
+				<div>favicon </div><div><input id=BMinpFavicon ></div>
+
+				<div>tags </div><div><input id=BMinpTags ></div>
+
+				<div>description </div><div><textarea id=BMtxtDescription ></textarea></div>
+
+				<div>comment </div><div><textarea id=BMtxtComment ></textarea></div>
+
+			</div>
+
+		</details>
+	`;
+
+	return htm;
+
+};
+
+
+
+/////////
 
 BM.uuidv4 = function() {
 

@@ -22,7 +22,7 @@ SCR.getMenuScrape = function() {
 			<details id=SCRdet ontoggle="SCRdivTmp1.innerHTML=SCR.getScrape();" open >
 
 				<summary id=SCRsumSurfaces class=sumMenuTitle >Scrape
-					<button id=butScrape class=butHelp onclick="MNU.setPopupShowHide(butScrape,SCR.helpFile);" style=float:right; >?</button>
+					<button id=butScrape class=butHelp onclick="POP.setPopupShowHide(butScrape,SCR.helpFile);" style=float:right; >?</button>
 				</summary>
 
 				<div id=SCRdivTmp1 ></div>
