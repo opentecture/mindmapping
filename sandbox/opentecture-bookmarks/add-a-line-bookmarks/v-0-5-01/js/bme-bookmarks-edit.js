@@ -64,6 +64,7 @@ BME.setTextareaJson = function() {
 	"id": "${ BMinpId.value }",
 	"type": "${ BMinpType.value }",
 	"images": [ ${ BMinpImages.value } ],
+	"favicon": "${ BMinpFavicon.value }",
 	"tags": ${ tags },
 	"description": "${ BMtxtDescription.value }"
 }`;

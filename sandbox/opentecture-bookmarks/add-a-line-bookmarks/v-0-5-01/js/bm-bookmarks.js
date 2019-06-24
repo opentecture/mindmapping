@@ -71,7 +71,7 @@ BM.setBookmarks = function ( bookmarks = BM.jsonLines ) {
 			htm +=
 			`<p>
 				 <a href=${bookmark.url } target="_blank" >
-					 <img src=${ bookmark.favicon } height=16px >
+					 <img src="${ bookmark.favicon }" height=16px >
 					<b>${ bookmark.name }</b> - <i>${ site }</i>
 				</a><br>
 				tags: <i>${ bookmark.tags }</i> - added: ${ bookmark.dateAdd.slice( 0, 10 ) }<br>
@@ -179,7 +179,6 @@ BM.parseJson = function( index ) {
 	BMinpImages.value = bookmark.images || "";
 	BMinpFavicon.value = bookmark.favicon;
 	BMinpTags.value = bookmark.tags;
-
 	BMtxtDescription.value = bookmark.description;
 
 	BMdivUrl.innerHTML = `<a href="${  bookmark.url }" target="_blank"><img src="${ bookmark.favicon }" height=32></a>`;
