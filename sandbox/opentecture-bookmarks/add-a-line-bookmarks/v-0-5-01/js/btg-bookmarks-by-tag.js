@@ -1,13 +1,13 @@
-/* global  */
+/* global BM, BDMdet, BTGdivBookmarksByTag */
 /* jshint esversion: 6 */
 /* jshint loopfunc: true */
 
 const BTG = {
 
 	"copyright": "Copyright 2019 Opentecture authors. MIT License",
-	"date": "2019-06-22",
+	"date": "2019-06-23",
 	"description": "Display bookmarks by tags",
-	"version": "0.5.01-0",
+	"version": "0.5.01-1btg",
 
 };
 
@@ -18,7 +18,7 @@ BTG.getMenuBookmarksTag = function() {
 	`
 	<details id=BTGdet ontoggle=BTG.setMenuItemsByTag(); >
 
-		<summary>2. Filter bookmarks by tag ~ BTG v${ BTG.version }</summary>
+		<summary>2. Filter bookmarks by tag ~ v${ BTG.version }</summary>
 
 		<p>${ BTG.description }</p>
 <!--
@@ -26,7 +26,7 @@ BTG.getMenuBookmarksTag = function() {
 			Search: <input type=search name="q" oninput=BTG.filterBookmarks(this) ;>
 		</p>
 -->
-		<div id=BTGdivBookmarksDomain ></div>
+		<div id=BTGdivBookmarksByTag ></div>
 
 		<hr>
 
@@ -44,10 +44,7 @@ BTG.setMenuItemsByTag = function( bookmarks = BM.jsonLines ){
 
 	BDMdet.open = false;
 
-	const a = document.createElement( 'a' );
-	const subdomains = ["www.", "m.", "en." ];
-
-	tags = [];
+	let tags = [];
 
 	for ( let bookmark of bookmarks ) {
 
@@ -55,39 +52,21 @@ BTG.setMenuItemsByTag = function( bookmarks = BM.jsonLines ){
 
 		tags.push( ...bookmark.tags );
 
-		/*
-		a.href = bookmark.url;
-		let tag = a.hostname;
-
-		const subdomain = subdomains.filter( bit => tag.startsWith( bit ) === true );
-		//console.log( 'subdomain', subdomain );
-
-		tag = tag.replace ( subdomain, "" );
-		//console.log( 'tag', tag );
-
-		let item = tags.find( item => item === tag );
-		//console.log( 'item', item );
-
-		if ( !item ) { tags.push( tag ); }
-		*/
-
 	}
-
 	tags = [ ...new Set( tags ) ].sort();
 	//console.log( 'tags', tags );
 
-	bookmarksSelected = [];
+	BTG.bookmarksSelected = [];
 	let indexSelected = 0;
 
 	let tagHtm = `${ tags.length } tags`;
-
 
 	for ( let tag of tags ) {
 		//console.log( 'tag', tag );
 
 		const marks = bookmarks.filter( bookmark => bookmark.url && bookmark.tags && bookmark.tags.includes( tag ) );
 		//console.log( 'marks', marks );
-		bookmarksSelected.push( marks || [] );
+		BTG.bookmarksSelected.push( marks || [] );
 
 		let markHtm = "";
 
@@ -98,7 +77,7 @@ BTG.setMenuItemsByTag = function( bookmarks = BM.jsonLines ){
 			markHtm +=
 			`
 			<div style=margin-bottom:0.5rem; >
-				<button onclick=BM.parseJson("${ index }"); title="${ mark.description }"  >${ mark.name }</button>
+				<button onclick=BM.setContents("${ index }"); title="${ mark.description }"  >${ mark.name }</button>
 				<a href="${ mark.url }" target="_blank" title="open link in new tab"  >❐</a>
 			</div>
 			`;
@@ -123,7 +102,7 @@ BTG.setMenuItemsByTag = function( bookmarks = BM.jsonLines ){
 
 	}
 
-	BTGdivBookmarksDomain.innerHTML = tagHtm;
+	BTGdivBookmarksByTag.innerHTML = tagHtm;
 
 	BM.setBookmarks( bookmarks );
 
@@ -133,7 +112,7 @@ BTG.setMenuItemsByTag = function( bookmarks = BM.jsonLines ){
 
 BTG.filter = function ( index ) {
 
-	BM.setBookmarks( bookmarksSelected[ index ] );
+	BM.setBookmarks( BTG.bookmarksSelected[ index ] );
 
 };
 
@@ -187,6 +166,6 @@ BTG.filterBookmarks = function ( input ) {
 
 	BTG.setMenuItemsByUrl( BTG.bookmarks );
 
-	BM.setBookmarks( bookmarksSelected || bookmarks );
+	BM.setBookmarks( BTG.bookmarksSelected || bookmarks );
 
 };

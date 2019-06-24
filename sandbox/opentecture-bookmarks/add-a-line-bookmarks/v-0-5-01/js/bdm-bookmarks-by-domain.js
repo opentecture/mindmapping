@@ -1,4 +1,4 @@
-/* global  */
+/* global BM, BTGdet, BDMdivBookmarksDomain */
 /* jshint esversion: 6 */
 /* jshint loopfunc: true */
 
@@ -35,7 +35,8 @@ BDM.getMenuBookmarksDomain = function() {
 
 	return htm;
 
-}
+};
+
 
 
 BDM.setMenuItemsByUrl = function( bookmarks = BM.jsonLines ){

@@ -13,9 +13,9 @@ const COR = {
 
 
 
-THM.themeUrlStorage = 'addALineTheme'; // set for each instance in HTML file
-THM.cssBasic = "https://pushme-pullyou.github.io/tootoo14/js-14-03/style.css";
-THM.backgroundColor = "#eed"
+//THM.themeUrlStorage = 'addALineTheme'; // set for each instance in HTML file
+//THM.cssBasic = "https://pushme-pullyou.github.io/tootoo14/js-14-03/style.css";
+//THM.backgroundColor = "#eed"
 
 FOB.urlDefaultFile = "../../bookmarks.json";
 
