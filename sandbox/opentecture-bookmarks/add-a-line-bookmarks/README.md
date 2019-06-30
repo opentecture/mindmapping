@@ -28,6 +28,28 @@ See also [Opentecture Bookmarks View-a-line Read Me]( https://opentecture.github
 
 ## To Do / Wish List
 
+
+
+
+## Issues
+
+
+## Links of Interest
+
+## Change Log
+
+### 2019-06-22 ~ Theo
+
+Add-a-line Bookmarks v 0.5.01
+
+* F - AAL: display all bookmarks on open
+* F - AAL: display bookmarks by filter
+
+
+
+Dealt with or no longer applicable
+
+* 2019-03-17 ~ Gallery page for all the bookmarks
 * 2019-05-19 ~ Go back to two columns / build on details tags
 * 2019-05-19 ~ Start 0.5 / refactor code into more sensible modules
 * 2019-05-19 ~ Create 'edit bookmark' details view
@@ -36,30 +58,8 @@ See also [Opentecture Bookmarks View-a-line Read Me]( https://opentecture.github
 * 2019-05-19 ~ Move buttons to title
 * 2019-05-18 ~ Add 'sort name'
 * 2019-03-31 ~ Add view links in a single page gallery
-
-
-## Issues
-
 * 2019-05-19 ~ BLBF: incorrect link used when using input search
 
-## Links of Interest
-
-Compare
-* https://npmcompare.com/compare/apidoc,documentation,esdoc,gitbook,jsdoc
-
-Scripts
-
-* https://www.gitbook.com/
-* http://usejsdoc.org/about-getting-started.html
-* https://github.com/jsdoc3/jsdoc - 9,044 stars
-* https://github.com/esdoc/esdoc - 2,385 stars
-* https://github.com/apidoc/apidoc - 7,207 stars
-
-
-Add UUID
-* https://stackoverflow.com/questions/105034/create-guid-uuid-in-javascript
-
-## Change Log
 
 ### 2019-06-10 ~ Theo
 

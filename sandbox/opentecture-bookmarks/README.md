@@ -46,7 +46,14 @@ The scripts here are a side project of the <a href="https://www.ladybug.tools/sp
 
 The scripts here are also an attempt to explore ways of managing browser bookmarks in a collaborative, simple and open-source manner.
 
+* Access very large numbers of bookmarks
+* View contents of many sites in a speedy fashion
+* View bookmarks listed by host name with ease and speed
+* Speed up identification with descriptions added on-the-fly
+* Curate the output using comments
+
 See also a more fully developed concept at [Annotated Bibliography Read Me]( https://opentecture.github.io/mindmapping/#sandbox/annotated-bibliography/README.md )
+
 
 
 ## Problem to be solved
@@ -59,10 +66,11 @@ There are many excellent lists on the web. For example:
 
 You may spend many enjoyable hours exploring the links in these lists.  There are, however, a number of issues with this process.
 
-* Given hundreds of uninformative/uncurated links, how can you prioritize what you want to see?
-* Having seen a number of good pages, how can you come back to the list and return to the pages you like and not return to the pages you did not feel were useful to your current search?
-* Given hundreds of links, how can you use search tools to help you find sites of current interest?
+* Given hundreds of uninformative/un-curated links, how can you prioritize what you want to see?
+* Having seen a number of good pages, at some later date how can you come back to the list and return to the pages you like and not return to the pages you did not feel were useful to your current search?
+* Given hundreds of links on general interest, how can you use search tools to help you find sites of immediate interest?
 * How do you prevent parsing very long read me files with naked links from becoming a tedious process?
+* How can you view lots of sites yet minimize the number of clicks to do so
 * What is a good workflow for adding links to bookmarks in your browser then getting these links into markdown?
 
 # Objectives
@@ -112,26 +120,74 @@ Clicking on one of the boxes, will bring up the full page for the site including
 
 ## Links of interest
 
+Links we have enjoyed while preparing this code
+
 * https://github.com/sindresorhus/awesome
 * https://support.mozilla.org/en-US/questions/996823
 * https://codereview.stackexchange.com/questions/88433/creating-a-menu-as-nested-unordered-lists-from-json-data
+
+"Knowledge managers"
+
+* https://www.intercom.com
+
+> We make customer messaging apps for sales, marketing, and support, connected on one platform. Our mission is to make business personal again.
+
+* https://www.zendesk.com/guide/
+* https://www.knoco.com/knowledge-management-consulting-services.htm
+* http://www.equals3.ai/
+
 
 Convert bookmark dates to UTC
 
 * https://stackoverflow.com/questions/51343828/how-to-parse-chrome-bookmarks-date-added-value-to-a-date
 
+Compare document generators
+
+* https://npmcompare.com/compare/apidoc,documentation,esdoc,gitbook,jsdoc
+
+Scripts to generate documents from code
+
+* https://www.gitbook.com/
+* http://usejsdoc.org/about-getting-started.html
+* https://github.com/jsdoc3/jsdoc - 9,044 stars
+* https://github.com/esdoc/esdoc - 2,385 stars
+* https://github.com/apidoc/apidoc - 7,207 stars
+
+
+Add UUID
+
+* https://stackoverflow.com/questions/105034/create-guid-uuid-in-javascript
+
 
 ## Wish List / To Do
 
 * 2019-06-10 ~ Theo ~ Add readme files for all the modules
-* 2019-03-17 ~ Gallery page for all the bookmarks
 
 
 ## Issues
 
 
-
 ## Change Log
+
+
+### 2019-06-22 ~ Theo
+
+* what is the Stack Overflow for good answers?
+* What is the Yelp for deep knowledge
+* What is the Apple or GitHub for curated content?
+* Where are the Amazon comments for [STEM]( https://en.wikipedia.org/wiki/Science,_technology,_engineering,_and_mathematics ) topics?
+
+More
+
+* There are an infinite amount of possible URLs, with perhaps many trillions already in use. How can we find, retain, and return to the good ones?
+* How can we catalog and share the URLs that point to good science?
+
+
+For any topic that you may be interested in, you may gather dozens, maybe even hundreds, of bookmarks linking to blog posts, Wikipedia articles, journal articles and other sources. What are good waus of dealing with all these URLs?
+
+***
+
+For software updates see also [#sandbox/opentecture-bookmarks/add-a-line-bookmarks/README.md]( #sandbox/opentecture-bookmarks/add-a-line-bookmarks/README.md )
 
 ### 2019-06-10 ~ Theo
 
