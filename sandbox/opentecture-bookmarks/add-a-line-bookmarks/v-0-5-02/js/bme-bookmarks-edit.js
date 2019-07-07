@@ -6,9 +6,9 @@
 BME = {
 
 	"copyright": "Copyright 2019 pushMe-pullYou authors. MIT License",
-	"date": "2019-06-08",
-	"description": "Edit bookmark data above then view and save or delete here",
-	"version": "0.5.0-1",
+	"date": "2019-07-06",
+	"description": "Edit bookmark data above, then view and save your edits or delete bookmark",
+	"version": "0.5.02-2bme",
 
 };
 
@@ -21,20 +21,20 @@ BME.getMenuBookmarkEdit = function() {
 	`
 		<details ontoggle=>
 
-			<summary>Bookmark Edit ~ BME V ${ BME.version } ~ ${ BME.date }</summary>
+			<summary>Bookmark edit ~ BME Vv${ BME.version } ~ ${ BME.date }</summary>
 
 			<p>${ BME.description }</p>
 
-
 			<p>
 
-				<button onclick=BME.setTextareaJson(); >Set bookmark JSON</button>
+				<button onclick=BME.setTextareaJson(); >1. Set bookmark JSON</button>
 
-				<button onclick=BME.setJsonTagSets(); >Add bookmark to JSON in memory</button>
+				<button onclick=BME.setJsonTagSets(); >2. Add bookmark to JSON in memory</button>
 
+				<button onclick=BM.butSaveFile(); >3. Save edits to file</button>
+				/
 				<button onclick=BME.setJsonDelete(); >Delete bookmark JSON in memory</button>
 
-				<button onclick=BM.butSaveFile(); >Save edits to file</button>
 
 			</p>
 
@@ -82,6 +82,8 @@ BME.setJsonTagSets = function() {
 	const index = BM.lines.findIndex( line => line.includes( `\"${ BMinpId.value }\"` ) );
 	//console.log( 'index', index );
 
+	if ( BMEtxtJson.value === "" ) { alert( "First click and edit 'Set bookmark JSON'"); return; }
+
 	const json = JSON.parse( BMEtxtJson.value );
 	const line = JSON.stringify( json );
 	//console.log( 'line', line );
@@ -113,6 +115,8 @@ BME.setJsonDelete = function() {
 
 	BM.lines.splice( index, 1 );
 
-	console.log( 'BM.lines', BM.lines.length );
+	BMEtxtJson.value = "Remember to 'Save edits to file'";
+
+	console.log( 'BM.lines delete', index, BM.lines.length );
 
 };

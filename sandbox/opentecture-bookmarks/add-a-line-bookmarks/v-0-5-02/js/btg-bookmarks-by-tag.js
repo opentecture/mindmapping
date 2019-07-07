@@ -5,9 +5,9 @@
 const BTG = {
 
 	"copyright": "Copyright 2019 Opentecture authors. MIT License",
-	"date": "2019-06-23",
+	"date": "2019-07-06",
 	"description": "Display bookmarks by tags",
-	"version": "0.5.01-1btg",
+	"version": "0.5.02-1btg",
 
 };
 
@@ -64,7 +64,7 @@ BTG.setMenuItemsByTag = function( bookmarks = BM.jsonLines ){
 	for ( let tag of tags ) {
 		//console.log( 'tag', tag );
 
-		const marks = bookmarks.filter( bookmark => bookmark.url && bookmark.tags && bookmark.tags.includes( tag ) );
+		const marks = bookmarks.filter( bookmark => bookmark.url && bookmark.type === "url" && bookmark.tags && bookmark.tags.includes( tag ) );
 		//console.log( 'marks', marks );
 		BTG.bookmarksSelected.push( marks || [] );
 

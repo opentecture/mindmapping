@@ -52,7 +52,7 @@ BM.setBookmarks = function ( bookmarks = BM.jsonLines ) {
 
 	BM.comments = comments.map( comment => JSON.parse( comment ) ) || [];
 
-	for ( let bookmark of bookmarks ) {
+	bookmarks.forEach( (bookmark ) => {
 
 		if ( bookmark.type === "url" ) {
 
@@ -68,6 +68,8 @@ BM.setBookmarks = function ( bookmarks = BM.jsonLines ) {
 			const comment = BM.comments.find( comment => comment.bookmarkId === bookmark.id ) || "";
 			//console.log( 'comment', comment );
 
+			index = BM.jsonLines.findIndex( line => line.id === bookmark.id );
+
 			htm +=
 			`<p>
 				 <a href=${bookmark.url } target="_blank" >
@@ -76,12 +78,14 @@ BM.setBookmarks = function ( bookmarks = BM.jsonLines ) {
 				</a><br>
 				tags: <i>${ bookmark.tags }</i> - added: ${ bookmark.dateAdd.slice( 0, 10 ) }<br>
 				${ bookmark.description.startsWith ("No description" ) ? "" : bookmark.description }
-				<p style=color:blue >${ comment.text || "" }</p>
+				<p style=color:blue ><button onclick="BM.setContents(${ index });" >edit</button>
+				${ comment.text ? ( "comment: " + comment.text + " tags: " + comment.tags ) : "" }</p>
+				<hr>
 			</p>`;
 
 		}
 
-	}
+	});
 
 	divContents.innerHTML = htm;
 
@@ -191,9 +195,9 @@ BM.parseJson = function( index ) {
 
 		const comment = JSON.parse( BM.comments[ 0 ] );
 		console.log( 'comment', comment );
-		
+
 		BMtxtComment.value =
-		`${ comment.text }\n\nTags: ${ comment.tags }`;
+		`comment: ${ comment.text }\n\ntags: ${ comment.tags }`;
 
 	} else {
 
@@ -248,7 +252,7 @@ BM.getBookmarksData = function() {
 
 				<div>description </div><div><textarea id=BMtxtDescription ></textarea></div>
 
-				<div>comment </div><div><textarea id=BMtxtComment ></textarea></div>
+				<div>comment </div><div><textarea id=BMtxtComment onclick=alert("not here"); placeholder="No editing here. Use 'Comment add/edit'" ></textarea></div>
 
 			</div>
 
