@@ -18,6 +18,8 @@ const COR = {
 
 FOB.urlDefaultFile = "../../bookmarks.json";
 
+POP.license = "../../../../license"
+
 // For main menu header
 MNU.helpFile = "../../README.md";
 

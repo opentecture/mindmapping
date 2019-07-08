@@ -60,7 +60,7 @@ BME.setTextareaJson = function() {
 	"url": "${ BMinpUrl.value }",
 	"name": "${ BMinpName.value }",
 	"dateAdd": "${ BMinpDateAdd.value }",
-	"dateUpdate": "${ BMinpDateUpdate.value }",
+	"dateUpdate": "${ new Date().toISOString() }",
 	"id": "${ BMinpId.value }",
 	"type": "${ BMinpType.value }",
 	"images": [ ${ BMinpImages.value } ],

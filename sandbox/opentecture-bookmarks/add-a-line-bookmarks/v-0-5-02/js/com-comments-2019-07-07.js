@@ -6,9 +6,9 @@
 const COM = {
 
 	"copyright": "Copyright 2019 pushMe-pullYou authors. MIT License",
-	"date": "2019-07-07",
+	"date": "2019-06-08",
 	"description": "Add your comments to a bookmark",
-	"version": "0.5.02-2com",
+	"version": "0.5.0-1",
 
 };
 
@@ -20,13 +20,13 @@ COM.getMenuCommentAdd = function() {
 	`
 	<details ontoggle=COM.onToggle(); >
 
-		<summary>Comment add/edit ~ COM v${ COM.version } ~ ${ COM.date }</summary>
+		<summary>Comment Add/Edit ~ COM V ${ COM.version } ~ ${ COM.date }</summary>
 
 			<p>${ COM.description }</p>
 
 			<div class=container >
 
-			<div >tags </div><div title="TBD: save values in local storage in between sessions" ><input id=COMinpTags ></div>
+			<div>tags </div><div><input id=COMinpTags ></div>
 
 			<div>bookmark id </div><div><input id=COMinpBookmarkId ></div>
 

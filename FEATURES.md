@@ -48,6 +48,7 @@ Completed Features are documented here, for context.
 What's out there that we want to meet or exceed?
 
 ### Mind Maps
+
 * https://en.wikipedia.org/wiki/Mind_map
 > A mind map is a diagram used to visually organize information. A mind map is hierarchical and shows relationships among pieces of the whole.[1] It is often created around a single concept, drawn as an image in the center of a blank page, to which associated representations of ideas such as images, words and parts of words are added. Major ideas are connected directly to the central concept, and other ideas branch out from those.
 

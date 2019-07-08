@@ -33,6 +33,11 @@ BM.onLoad = function() {
 	}
 	//console.log( 'BM.jsonLines', BM.jsonLines.length );
 
+	const metatags = BM.lines.filter( line => line.includes( `"type":"meta"` ) );
+	//console.log( 'metatags', metatags );
+
+	BM.metatags = metatags.map( metatag => JSON.parse( metatag ) ) || [];
+
 	BM.setBookmarks();
 
 
@@ -45,14 +50,22 @@ BM.setBookmarks = function ( bookmarks = BM.jsonLines ) {
 	const a = document.createElement( 'a' );
 	const subdomains = ["www.", "m.", "en." ];
 
-	htm = `<h1>Bookmarks from: ${ FOB.urlDefaultFile }</h1>`;
+	const title = BM.metatags.find( meta => meta.tags.includes( "title" ) ).text || "title";
+	const subtitle = BM.metatags.find( meta => meta.tags.includes( "subtitle" ) ).text || "subtitle";
+	const copyright = BM.metatags.find( meta => meta.tags.includes( "copyright" ) ).text || "copyright";
+	const license = BM.metatags.find( meta => meta.tags.includes( "license" ) ).text || "license";
+
+	let htm =
+		`<h1>${ title }</h1>
+		<p><i>${ subtitle }. ${copyright }. ${ license }.</i></p>`;
 
 	const comments = BM.lines.filter( line => line.includes( `"type":"comment"` ) );
 	//console.log( 'comments', comments );
 
 	BM.comments = comments.map( comment => JSON.parse( comment ) ) || [];
 
-	bookmarks.forEach( (bookmark ) => {
+	count = 1;
+	bookmarks.forEach( bookmark => {
 
 		if ( bookmark.type === "url" ) {
 
@@ -72,14 +85,17 @@ BM.setBookmarks = function ( bookmarks = BM.jsonLines ) {
 
 			htm +=
 			`<p>
-				 <a href=${bookmark.url } target="_blank" >
+				${ count++ } <a href=${bookmark.url } target="_blank" >
 					 <img src="${ bookmark.favicon }" height=16px >
 					<b>${ bookmark.name }</b> - <i>${ site }</i>
 				</a><br>
-				tags: <i>${ bookmark.tags }</i> - added: ${ bookmark.dateAdd.slice( 0, 10 ) }<br>
+				tags: <i>${ bookmark.tags }</i>
+				- added: ${ bookmark.dateAdd.slice( 0, 10 ) }
+				- update: ${ bookmark.dateUpdate.slice( 0, 10 ) }
+				<br>
 				${ bookmark.description.startsWith ("No description" ) ? "" : bookmark.description }
 				<p style=color:blue ><button onclick="BM.setContents(${ index });" >edit</button>
-				${ comment.text ? ( "comment: " + comment.text + " tags: " + comment.tags ) : "" }</p>
+				${ comment.text ? ( "comment: " + comment.text + " / tags: " + comment.tags ) : "" }</p>
 				<hr>
 			</p>`;
 
@@ -93,35 +109,7 @@ BM.setBookmarks = function ( bookmarks = BM.jsonLines ) {
 
 
 
-BM.xxxgetBookmarks = function () {
-	//console.log( '', FOB.text );
 
-	BM.lines = FOB.text.split(/\r\n|\n/);
-
-	BM.jsonLines = [];
-
-	for ( let line of BM.lines ) {
-		//console.log( 'line', line );
-
-		if ( line.slice( 0, 1 ) !== "{" ) { continue; }
-
-		const jsonl = JSON.parse( line );
-		//console.log( 'jsonl', jsonl );
-
-		BM.jsonLines.push( jsonl );
-
-	}
-
-	const comments = BM.lines.filter( line => line.includes( `"type":"comment"` ) );
-	//console.log( 'comments', comments );
-
-	BM.comments = comments.map( comment => JSON.parse( comment ) ) || [];
-
-	//BM.setBookmarks();
-
-	BBF.setMenuItemsByUrl();
-
-};
 
 
 
@@ -142,6 +130,8 @@ BM.setContents = function ( index ) {
 	<div id=TGAdivTagsAdd ></div>
 
 	<div id=TAGdivTagSets ></div>
+
+	<div id=METdivMetaAdd ></div>
 	`;
 
 	divContents.innerHTML = htm;
@@ -158,6 +148,7 @@ BM.setContents = function ( index ) {
 
 	TAGdivTagSets.innerHTML = TAG.getMenuTagSets();
 
+	METdivMetaAdd.innerHTML = MET.getMenuMetaAdd();
 
 	BM.parseJson( index );
 
@@ -204,6 +195,12 @@ BM.parseJson = function( index ) {
 		BMtxtComment.value = "";
 
 	}
+
+	const metatags = BM.lines.filter( line => line.includes( `"type":"meta"` ) );
+	//console.log( 'metatags', metatags );
+
+	BM.metatags = metatags.map( metatag => JSON.parse( metatag ) ) || [];
+
 
 	BMEtxtJson.value = "";
 	COM.onToggle();

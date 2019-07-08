@@ -14,13 +14,14 @@ Basic bookmark manager
 
 <summary>To Do / Wish List</summary>
 
+* 2019-07-07 ~ Theo ~ Create tag chains usable to tie Mind Map elements
 * 2019-06-23 ~ Theo ~ Filter by multiple tags
 * 2019-06-23 ~ Theo ~ Filter by content
 * 2019-06-23 ~ Theo ~ Add tags to multiple bookmarks at same time
 * 2019-06-23 ~ Theo ~ Refresh memory after a deletion
 * 2019-06-23 ~ Theo ~ meta tags with description of entire project, copyright, license etc
 * 2019-06-03 ~ Theo ~ Save to and read from gists
-* 2019-06-03 ~ Theo ~ Remove dead links
+* 2019-06-03 ~ Theo ~ Remove dead links/ or retrieve version from Internet Archive
 
 </details>
 
@@ -28,14 +29,29 @@ Basic bookmark manager
 
 <summary>Issues</summary>
 
-* 2019-06-23 ~ Theo ~ Adding commenys broken?
-* 2019-06-23 ~ Theo ~ Add comments by url instead of bookmark id - or keep both?
 
 </details>
 
 <details>
 
 <summary>Change Log</summary>
+
+### 2019-07-07 ~ Theo
+
+Add-a-line Bookmarks v0.5.02
+
+Content
+
+* F - BM.js: Add item numbers and date update
+* F - MET.js: first commit
+* F - AAL: Update popup text, add license and link
+
+
+Dealt with
+
+* 2019-06-23 ~ Theo ~ Adding comment broken?
+* 2019-06-23 ~ Theo ~ Add comments by url instead of bookmark id - or keep both?
+
 
 ### 2019-06-23 ~ Theo
 

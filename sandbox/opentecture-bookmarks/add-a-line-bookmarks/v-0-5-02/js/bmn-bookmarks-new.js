@@ -153,14 +153,16 @@ BMN.parseText = function( text, url ) {
 
 	const parser = new DOMParser();
 
-	//bookmark.length = text.length;
 	const doc = parser.parseFromString( text, "text/html" );
 	//console.log( 'doc', doc );
 
 	const descriptionMeta = doc ? doc.head.querySelector( '[name=description]' ) : "" ;
+	console.log( 'descriptionMeta', descriptionMeta, descriptionMeta.content );
+
 	BMtxtDescription.value = descriptionMeta ? descriptionMeta.content : "No description element found in HTML file";
 
 	let iconLink = doc ? doc.head.querySelector( '[rel=icon]' ) : "";
+	console.log( 'iconLink', iconLink );
 
 	BMN.a.href = url;
 	const site = BMN.a.hostname;
@@ -174,32 +176,5 @@ BMN.parseText = function( text, url ) {
 
 
 	BMinpFavicon.value= iconHref;
-
-
-	/*
-	htm =
-	`
-		<h3>
-			<img src="${ iconHref }" height=24 > ${ BMN.count }
-			- <a href=${ bookmark.url } >${ bookmark.url.replace( /http(.*):\/\//i, "" ) }: ${ doc.title }</a>
-			-  ${ bookmark.length.toLocaleString() } bytes
-		</h3>
-
-		<p>Description:<br>${ bookmark.description }</p>
-	`;
-
-	divContents.innerHTML += htm;
-
-	//console.log( 'target', target );
-
-	BMN.count ++;
-
-	if ( BMN.count < BMN.bookmarks.length ) {
-
-		BMN.fetchText();
-
-	}
-
-	*/
 
 };

@@ -33,10 +33,19 @@ See also [Opentecture Bookmarks View-a-line Read Me]( https://opentecture.github
 
 ## Issues
 
+* 2019-07-06 ~ Theo ~ Get themes working
 
 ## Links of Interest
 
 ## Change Log
+
+### 2019-07-06 ~ Theo
+
+Add-a-line Bookmarks v 0.5.02
+
+* Add edit button and better comment display to contents list
+* Add scraping for data in editing bm
+* Working with <TooToo14 class="04"></TooToo14>
 
 ### 2019-06-22 ~ Theo
 
