@@ -1,0 +1,285 @@
+<!doctype html>
+<html lang = "en" >
+<head>
+
+<meta charset = "utf-8">
+<meta name = "copyright" content ="PushMe-PullYou authors" >
+<meta name = "date" content = "2019-07-28" >
+<meta name = "description" content = "Basic bookmark manager and editor with tagging, descriptions and comments" >
+<meta name = "keywords" content = "JavaScript,GitHub,FOSS" >
+<meta name = "version" content = "0.5.03" >
+<meta name = "viewport" content = "width=device-width, initial-scale=1" >
+
+<title>Add-a-line Bookmarks</title>
+
+<link rel = "canonical" href = "https://pushme-pullyou.github.io" >
+<link rel = "license" href = "https://creativecommons.org/licenses/by/4.0/" >
+<link rel = "stylesheet" href = "https://fonts.googleapis.com/css?family=Inconsolata"  >
+<link rel = "stylesheet" href = "https://pushme-pullyou.github.io/tootoo14/js-14-06/style.css" >
+
+<style>
+
+.container { display: grid; grid-template-columns: 7rem 4fr; grid-gap: 20px; margin-bottom: 1rem; }
+
+.container > div { border-radius: 5px; padding: 10px; background-color: rgb(207,232,220);
+	border: 2px solid rgb(79,185,227); }
+
+.container4 { display: grid; grid-template-columns: 1fr 3fr 1fr 3fr; grid-gap: 20px; margin-bottom: 1rem; }
+
+.container4 > div { border-radius: 5px; padding: 10px; background-color: rgb(207,232,220);
+	border: 2px solid rgb(79,185,227); }
+
+.container > div > input { width: 100% }
+.container > div > textarea { height: 5rem; width: 100% }
+.container4 > div > input { width: 100% }
+
+#TAGtxtJson, #BMEtxtJson, #COMtxtJson, #METtxtJson { height: 10rem; width: 100%; }
+
+#BMNdivDrop { border: 1px dotted #aaaaaa; height: 3rem; padding: 1rem; width: 100%; }
+
+#divContents { border: 0px solid red; margin: 0 auto; max-width: 50rem; width: 90%; }
+
+/* for placeholder text in drag&drop area */
+[contentEditable=true]:empty:not(:focus):before{ content:attr( data-text) }
+
+</style>
+
+</head>
+
+<body>
+
+<script src = "https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.5/jszip.min.js" ></script>
+<script src = "https://cdnjs.cloudflare.com/ajax/libs/showdown/1.9.0/showdown.min.js" ></script>
+
+<!-- menus generally -->
+<script src = "https://pushme-pullyou.github.io/tootoo14/js-14-06/mnu-menu/mnu-menu.js" ></script>
+<script src = "https://pushme-pullyou.github.io/tootoo14/js-14-06/pop-popup/pop-popup.js" ></script>
+<script src = "https://pushme-pullyou.github.io/tootoo14/js-14-06/gat-github-access-token/gat-github-access-token.js" ></script>
+
+<!-- File menu panel -->
+<script src = "https://pushme-pullyou.github.io/tootoo14/js-14-06/fga-files-github-api/fga-files-github-api.js" ></script>
+<script src = "https://pushme-pullyou.github.io/tootoo14/js-14-06/fob-file-open-basic/fob-file-open-basic.js" ></script>
+
+<!-- Edit Menu -->
+
+<!-- Settings menu
+
+	<script src = "https://pushme-pullyou.github.io/tootoo14/js-14-06/thm-theme/thm-theme.js" ></script>
+-->
+<script src = "https://pushme-pullyou.github.io/tootoo14/js-14-06/tmp-template/tmp-template.js" ></script>
+
+<script src = "js/bm-bookmarks.js" ></script>
+<script src = "js/bme-bookmarks-edit.js" ></script>
+<script src = "js/bmn-bookmarks-new.js" ></script>
+<script src = "js/tga-tags-add.js" ></script>
+<script src = "js/tag-tags.js" ></script>
+<script src = "js/com-comments.js" ></script>
+<script src = "js/met-meta.js" ></script>
+
+<script src = "js/mfo-menu-file-order.js" ></script>
+<script src = "js/bdm-bookmarks-by-domain.js" ></script>
+<script src = "js/btg-bookmarks-by-tag.js" ></script>
+<script src = "js/mjl-menu-json-lines.js" ></script>
+
+<script src = "js/cor-core.js" ></script>
+
+	<button id="expandButton" onclick="toggleNavPanel();" >☰</button>
+
+	<nav id="navPanel" >
+
+		<section class="secContent" >
+
+			<header>
+
+				<div id="MNUdivHeader" ></div>
+
+			</header>
+
+
+			<details open >
+
+				<summary class=sumMenuTitle >Bookmark filters</summary>
+
+				<p>Three filter techniques working:</p>
+
+
+				<div id=BDMdivMenuBookmarksDomain ></div>
+
+				<br>
+
+				<div id=BTGdivMenuBookmarksTag ></div>
+
+				<br>
+
+				<div id=MJLdivMenuJsonLines ></div>
+
+			</details>
+
+
+			<details>
+
+				<summary class="sumMenuTitle" >File menu</summary>
+
+				<div id=SFMsecPrototypes ></div>
+
+				<div id="FGAdivMenuRepoFilesFolders" ></div>
+
+				<div id="GATdivGithubAccessToken" ></div>
+
+				<div id=FOBdivFileOpenBasic ></div>
+
+				<div id=FOBdivFileSaveBasic ></div>
+
+			</details>
+
+
+			<details>
+
+				<summary class=sumMenuTitle >Settings menu</summary>
+
+				<div id=THMdivMenuThemeSelect ></div>
+
+				<div id=TMPdivTemplate ></div>
+
+			</details>
+
+
+			<footer>
+
+				<details>
+
+					<summary class=sumMenuTitle >Help menu</summary>
+
+					<div id="MNUdivFooterPopup" ></div>
+
+				</details>
+
+				<h1 onclick="navPanel.scrollTop=0;" style="cursor:pointer;text-align:center;" title="go to top of menu" >
+					❦
+				</h1>
+
+			</footer>
+
+		</section>
+
+	</nav>
+
+
+	<main id=main >
+
+		<div id=divContents ></div>
+
+	</main>
+
+
+	<nav id="navDragMove"  >
+
+		<section id="secDragMove" >
+
+			<div id=divDragMoveHeader >
+
+				<span title="Move and resize me" >&#x2766;</span>
+
+				<div style=float:right; >
+					<button id=butPopupClose onclick="POP.setPopupShowHide(butPopupClose);" >&times;</button>
+				</div>
+
+			</div>
+
+			<div id="divDragMoveContent" ></div>
+
+			<div id="divDragMoveFooter" ></div>
+
+		</section>
+
+	</nav>
+
+
+	<nav>
+
+		<a href="" id="aViewSource" target="_blank" hidden >view source</a>
+
+	</nav>
+
+
+<script>
+
+init();
+
+
+function init() {
+
+	if ( /(iPad|iPhone|iPod)/g.test( navigator.userAgent ) ) { /* I hate having to add this */
+
+		divContents.style.width = getComputedStyle( divContents ).width;
+		divContents.style.height = getComputedStyle( divContents ).height;
+		divContents.setAttribute( 'scrolling', 'no' );
+
+	}
+
+	//THMdivMenuThemeSelect.innerHTML = THM.getMenuThemeSelect();
+	//THM.init();
+
+	MNUdivHeader.innerHTML = MNU.getNavHeader();
+
+	//FGAdivMenuRepoFilesFolders.innerHTML = FGA.getMenuFilesGithubApi();
+
+	//FGA.getFiles();
+
+	//GATdivGithubAccessToken.innerHTML = GAT.getMenuGitHubAccessToken();
+
+	MJLdivMenuJsonLines.innerHTML = MJL.getMenuJsonLines();
+
+	BDMdivMenuBookmarksDomain.innerHTML = BDM.getMenuBookmarksDomain();
+
+	BTGdivMenuBookmarksTag.innerHTML = BTG.getMenuBookmarksTag();
+
+	FOBdivFileOpenBasic.innerHTML = FOB.getMenuFileOpenBasic();
+
+	//FOBdivFileSaveBasic.innerHTML = FOB.getMenuFileSaveBasic();
+
+	TMPdivTemplate.innerHTML = TMP.getMenuTemplate();
+
+	//MNUdivFooter.innerHTML = MNU.getNavFooter();
+
+	MNUdivFooterPopup.innerHTML = MNU.getNavFooterPopup();
+
+	//POPdivPopup.innerHTML = POP.getMenuDivPopup();
+
+	// let's go / FOB to load default and fire onload events
+
+	if ( !location.hash ) { location.hash=FOB.urlDefaultFile; } else { FOB.onHashChange(); }
+
+	aViewSource.style.display = "block";
+	aViewSource.href = MNU.urlSourceCode;
+
+	document.body.addEventListener( 'FOBonJsonFileLoad', BM.onLoad, false );	// Loads divContents
+
+	POP.init();
+
+	//COR.init();
+
+	POP.setPopupShowHide( butPopupClose, "popup.md" );
+
+	//butPopupClose.classList.remove( 'active' );
+
+	//main.addEventListener( 'click', POP.onClickClose, false );
+	//main.addEventListener( 'touchstart', POP.onClickClose, false );
+
+	//BMNdivDrop.addEventListener( "input", BMN.onInput, false);
+
+}
+
+
+
+function toggleNavPanel() {
+
+	expandButton.classList.toggle( 'collapsed' );
+	navPanel.classList.toggle( 'collapsed' );
+	main.classList.toggle( 'collapsed' );
+
+}
+
+</script>
+</body>
+</html>
