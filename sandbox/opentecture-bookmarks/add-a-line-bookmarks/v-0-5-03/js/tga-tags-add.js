@@ -38,23 +38,23 @@ TGA.getMenuTagsAdd = function() {
 TGA.onToggle = function() {
 
 
-	const tagSets = BM.lines.filter( line => line.includes( "tagset" ) );
+	const tagSets = BM.jsonLines.filter( line => line.type === "tagset" );
 	//console.log( '', tagSets );
 
 	let htm = "";
 
 	for ( let tagSet of tagSets ) {
 
-		const json = JSON.parse( tagSet );
+		//const json = JSON.parse( tagSet );
 
-		const options = json.tags.map( tag => `<option>${ tag }</option>` ).join();
+		const options = tagSet.tags.map( tag => `<option>${ tag }</option>` ).join();
 		//console.log( 'options ', options );
 
 		htm +=
-		`<p style=display:inline-block title="${ json.description }" >
+		`<p style=display:inline-block title="${ tagSet.description }" >
 
-			${json.name }<br>
-			<select id=TGSsel${ json.name } onclick=TGA.addTag(this); size=8>${ options }</select>
+			${tagSet.name }<br>
+			<select id=TGSsel${ tagSet.name } onclick=TGA.addTag(this); size=8>${ options }</select>
 
 		</p> &nbsp;`;
 

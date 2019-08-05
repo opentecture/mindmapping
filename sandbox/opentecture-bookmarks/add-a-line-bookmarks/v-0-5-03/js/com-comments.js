@@ -75,7 +75,7 @@ COM.onToggle = function() {
 
 	if ( BM.comments && BM.comments.length ) {
 
-		const comment = JSON.parse( BM.comments[ 0 ] );
+		const comment = BM.comments[ 0 ]; //JSON.parse( BM.comments[ 0 ] );
 
 		COMinpBookmarkId.value = comment.bookmarkId;
 		COMinpTags.value = comment.tags;

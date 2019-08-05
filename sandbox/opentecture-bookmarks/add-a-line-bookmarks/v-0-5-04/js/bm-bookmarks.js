@@ -1,6 +1,6 @@
 /* global FOB, TAG, BLBF, crypto */
-/* jshint esversion: 6 */
-/* jshint loopfunc: true */
+// jshint esversion: 6
+// jshint loopfunc: true
 
 
 const BM = {
@@ -20,7 +20,7 @@ BM.onLoad = function() {
 		.filter( line => line.slice( 0, 1 ) === "{"  )
 		.map( line => JSON.parse( line ) );
 
-	BM.metatags = BM.jsonLines.filter( jsonl => jsonl.type === "meta" );
+	BM.metaTags = BM.jsonLines.filter( jsonl => jsonl.type === "meta" );
 
 	BM.comments = BM.jsonLines.filter( jsonl => jsonl.type === "comment" );
 
@@ -37,10 +37,10 @@ BM.setBookmarks = function ( bookmarks = BM.bookmarks ) {
 	const a = document.createElement( 'a' );
 	const subdomains = ["www.", "m.", "en." ];
 
-	const title = BM.metatags.find( meta => meta.tags === "title" ).text;
-	const subtitle = BM.metatags.find( meta => meta.tags === "subtitle" ).text;
-	const copyright = BM.metatags.find( meta => meta.tags === "copyright" ).text || "copyright";
-	const license = BM.metatags.find( meta => meta.tags === "license" ).text || "license";
+	const title = BM.metaTags.find( meta => meta.tags === "title" ).text;
+	const subtitle = BM.metaTags.find( meta => meta.tags === "subtitle" ).text;
+	const copyright = BM.metaTags.find( meta => meta.tags === "copyright" ).text || "copyright";
+	const license = BM.metaTags.find( meta => meta.tags === "license" ).text || "license";
 
 	let htm =
 		`<h1>${ title }</h1>
@@ -156,14 +156,14 @@ BM.parseJson = function( index ) {
 
 	BMdivUrl.innerHTML = `<a href="${  bookmark.url }" target="_blank"><img src="${ bookmark.favicon }" height=32></a>`;
 
-	comments = BM.comments.filter( line => line.bookmarkId === bookmark.id && line.type === "comment" );
+	comments = BM.comments.filter( line => line.includes( bookmark.id ) && line.includes( `"type":"comment"` ) );
 
 	//console.log( 'comments', BM.comments );
 
 	if ( comments.length ) {
 
 		const comment = comments[ 0 ];
-		//console.log( 'comment', comment );
+		console.log( 'comment', comment );
 
 		BMtxtComment.value =
 		`comment: ${ comment.text }\n\ntags: ${ comment.tags }`;
@@ -174,10 +174,10 @@ BM.parseJson = function( index ) {
 
 	}
 
-	//const metatags = BM.lines.filter( line => line.includes( `"type":"meta"` ) );
+	const metatags = BM.lines.filter( line => line.includes( `"type":"meta"` ) );
 	//console.log( 'metatags', metatags );
 
-	//BM.metatags = metatags.map( metatag => JSON.parse( metatag ) ) || [];
+	BM.metaTags = metatags.map( metatag => JSON.parse( metatag ) ) || [];
 
 
 	BMEtxtJson.value = "";
