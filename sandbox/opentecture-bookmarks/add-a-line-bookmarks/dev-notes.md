@@ -1,14 +1,27 @@
 ## dev notes
 
 
-### 2019-07-07
+## 2019-08-10
 
-##
+Looking quite good
 
-## The problem that needs solving
+To Do
+
+* aving in genneral
+* Saving duplicate tage
+* Daving tagSets clean ups
+* Colored tags
+* New bookmarks topics??
+
+
+## 2019-07-07
+
+### The problem that needs solving
 
 * You have some knowledge you want to share with others
 * Several of you have knowledge you would like to share
+* Help others stand on the shoulders of giants
+* Share your sources of inspiration with the world
 
 
 ### Standing on the shoulders of Giants
@@ -58,5 +71,5 @@
 
 ### Longer term vision
 
-	* You may fork the data
-	* You may add and edit the content and comments
+* You may fork the data
+* You may add and edit the content and comments
