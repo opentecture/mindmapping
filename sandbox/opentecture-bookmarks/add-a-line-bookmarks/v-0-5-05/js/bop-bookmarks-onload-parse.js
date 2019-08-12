@@ -1,3 +1,5 @@
+"use strict";
+
 /* global FOB  */
 // jshint esversion: 6
 // jshint loopfunc: true
@@ -48,7 +50,7 @@ BOP.setBookmarks = function ( bookmarks = BOP.bookmarks ) {
 	const license = BOP.metaTags.find( meta => meta.tags === "license" ).text || "license";
 
 	let htm =
-		`<h1>${ title }</h1>
+		`<h1>${ title } ~ ${ bookmarks.length } items</h1>
 		<p><i>${ subtitle }. ${copyright }. ${ license }.</i></p>`;
 
 	let count = 1;
@@ -66,7 +68,7 @@ BOP.setBookmarks = function ( bookmarks = BOP.bookmarks ) {
 		const comment = BOP.comments.find( comment => comment.bookmarkId === bookmark.id ) || "";
 		//console.log( 'comment', comment );
 
-		const index = BOP.jsonLines.findIndex( line => line.id === bookmark.id );
+		const index = BOP.bookmarks.findIndex( line => line.id === bookmark.id );
 
 		htm +=
 		`<p>
@@ -74,7 +76,7 @@ BOP.setBookmarks = function ( bookmarks = BOP.bookmarks ) {
 					<img src="${ bookmark.favicon }" height=16px >
 				<b>${ bookmark.name }</b> - <i>${ site }</i>
 			</a><br>
-			tags: <i>${ bookmark.tags }</i>
+			tags: <i style=color:blue >${ bookmark.tags }</i>
 			- added: ${ bookmark.dateAdd.slice( 0, 10 ) }
 			- update: ${ bookmark.dateUpdate.slice( 0, 10 ) }
 			<br>
@@ -87,5 +89,23 @@ BOP.setBookmarks = function ( bookmarks = BOP.bookmarks ) {
 	} );
 
 	BOP.target.innerHTML = htm;
+
+};
+
+
+
+BOP.butSaveFile = function() {
+
+	const name = FOB.name;
+
+	const strings = BOP.jsonLines.map( jsonl => JSON.stringify( jsonl ) ).join( "\n" );
+	//console.log( 'str', strings );
+
+	const blob = new Blob( [ strings ] );
+	let a = document.body.appendChild( document.createElement( 'a' ) );
+	a.href = window.URL.createObjectURL( blob );
+	a.download = name;
+	a.click();
+	a = null;
 
 };

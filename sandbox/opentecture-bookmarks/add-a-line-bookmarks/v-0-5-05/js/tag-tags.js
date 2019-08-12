@@ -70,7 +70,7 @@ TAG.getMenuTagSets = function() {
 		</p>
 
 		<p>
-			<textarea id=TAGtxttagSet style="height:5rem;width:100%;" ></textarea>
+			<textarea id=TAGtxttagSet style="height:15rem;width:100%;" ></textarea>
 		</p>
 
 	</details>
@@ -151,17 +151,17 @@ TAG.settagSetTagSets = function( ) {
 	const index = BOP.jsonLines.findIndex( line => line.name === TAGinpName.value );
 	console.log( 'index', index );
 
-	const tagSet = tagSet.parse( TAGtxttagSet.value );
-	const line = tagSet.stringify( tagSet );
-	console.log( 'line', line );
+	const tagSet = JSON.parse( TAGtxttagSet.value );
+	//const jsonL = JSON.stringify( tagSet );
+	//console.log( 'jsonL', jsonL );
 
 	if ( index >= 0 ) {
 
-		BOP.jsonLines[ index ] = line;
+		BOP.jsonLines[ index ] = tagSet;
 
 	} else if ( tagSet.name !== "" ) {
 
-		BOP.jsonLines.push( line );
+		BOP.jsonLines.push( tagSet );
 
 	} else {
 
@@ -200,9 +200,12 @@ TAG.settagSetTagSets = function( ) {
 
 TAG.butFilterAndClean = function() {
 
+
 	const sets = BOP.tagSets.slice();
 
 	let reference = sets.pop();
+
+	TAGselTagset.value = reference.name;
 
 	let refTags = reference.tags;
 
@@ -214,6 +217,8 @@ TAG.butFilterAndClean = function() {
 
 	reference.tags = refTags.sort();
 
-	//console.log( '', reference.tags );
+	TAG.onSelectChange();
+
+	console.log( '', reference );
 
 };

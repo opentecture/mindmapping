@@ -46,7 +46,7 @@ COM.getMenuCommentAdd = function() {
 
 		<div class=xxcontainer >
 
-			<div>comments </div><div><textarea id=COMtxtComments style="width:100%;" ></textarea></div>
+			<div>comments </div><div><textarea id=COMtxtComments style="height:2rem;width:100%;" ></textarea></div>
 
 		</div>
 
@@ -59,7 +59,7 @@ COM.getMenuCommentAdd = function() {
 		</p>
 
 		<p>
-			<textarea id=COMtxtJson ></textarea>
+			<textarea id=COMtxtJson style="height:5rem;width:100%;" ></textarea>
 		</p>
 
 	</details>
@@ -72,6 +72,8 @@ COM.getMenuCommentAdd = function() {
 
 
 COM.onToggle = function() {
+
+	if ( COMdet.open === false ) return;
 
 	if ( BED.comments && BED.comments.length ) {
 
@@ -97,11 +99,13 @@ COM.onToggle = function() {
 
 COM.setBookmarkNew = function() {
 
-	COMinpBookmarkId.value = BOPinpId.value;
+	if ( !window.BEDinpId ) { COMtxtJson.value = "First selected a bookmark to edit"; return; }
+
+	COMinpBookmarkId.value = BEDinpId.value;
 	COMinpTags.value = "theo";
 	COMinpDateAdd.value = new Date().toISOString();
 	COMinpDateUpdate.value = COMinpDateAdd.value;
-	COMinpId.value = BOP.uuidv4();
+	COMinpId.value = BMN.uuidv4();
 	COMinpType.value = "comment";
 	COMtxtComments.value = "";
 
@@ -129,20 +133,22 @@ COM.setTextareaJson = function() {
 
 COM.setJsonTagSets = function( ) {
 
-	const index = BOP.lines.findIndex( line => line.includes( `\"${ COMinpId.value }\"` ) );
+	const index = BOP.jsonLines.findIndex( line => line.id === COMinpId.value );
+
+	//const index = BOP.jsonLines.indexOf( BED.bookmark );
 	console.log( 'index', index );
 
-	const json = JSON.parse( COMtxtJson.value );
-	const line = JSON.stringify( json );
-	console.log( 'line', line );
+	const jsonLine = JSON.parse( COMtxtJson.value );
+	//const line = JSON.stringify( json );
+	//console.log( 'line', line );
 
 	if ( index >= 0 ) {
 
-		BOP.lines[ index ] = line;
+		BOP.jsonLines[ index ] = jsonLine;
 
-	} else if ( json.name !== "" ) {
+	} else if ( jsonLine ) {
 
-		BOP.lines.push( line );
+		BOP.jsonLines.push( jsonLine );
 
 	} else {
 

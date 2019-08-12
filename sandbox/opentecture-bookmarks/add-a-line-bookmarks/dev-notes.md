@@ -7,9 +7,9 @@ Looking quite good
 
 To Do
 
-* aving in genneral
-* Saving duplicate tage
-* Daving tagSets clean ups
+* Saving in general
+* Saving duplicate tags
+* Saving tagSets clean ups
 * Colored tags
 * New bookmarks topics??
 
@@ -38,7 +38,7 @@ To Do
 
 ### Sharing
 
-* The knowledge in each link must be made availble with a click or twp
+* The knowledge in each link must be made available with a click or twp
 * No paywalls
 * Much of the knowledge is available in small chunks
 	* Just-in-time learning

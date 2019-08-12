@@ -44,7 +44,6 @@ MFO.getMenuFileOrder= function() {
 
 MFO.setMenuJsonLines = function( bookmarks = BOP.jsonLines ){
 
-
 	if ( MFOdet.open === false ) return;
 
 	let markHtm = `<p>${ BOP.bookmarks.length } links</p>`;

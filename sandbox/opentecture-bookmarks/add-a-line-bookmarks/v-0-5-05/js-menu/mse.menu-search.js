@@ -28,7 +28,7 @@ MSE.getMenuSearch= function() {
 				Search: <input type=search name="q" oninput=MSE.filterBookmarks(this) ;>
 			</p>
 
-			<div id=MSEdivJsonLines ></div>
+			<div id=MSEdivJsonLines style=height:20rem;overflow:scroll;resize:both;></div>
 
 			<hr>
 
@@ -53,12 +53,20 @@ MSE.setMenuSearch = function( bookmarks = BOP.bookmarks ){
 
 		const index = BOP.bookmarks.indexOf( bookmark );
 
+		const colorTags = bookmark.tags.length <=1 ? "background-color:pink;" : "";
+
+		const comments = BOP.comments.filter( comment => comment.bookmarkId === bookmark.id );
+
+		//console.log( 'com', comments.length  );
+
+		const colorComments = comments.length < 1 ? "background-color:pink;" : "";
+
 		markHtm +=
 		`
 			<div style=margin-bottom:0.5rem; >
-				<div style="display:inline-block" >${ count + 1 }. </div>
+				<div style="${ colorTags }display:inline-block;" >${ count + 1 }</div>
 				<div style="display:inline-block;width:80%;" ><button onclick=BED.setTargetToEditDialog("${ index }"); title="${ bookmark.description }"  >${ bookmark.name }</button></div>
-				<div style="display:inline-block" ><a href="${ bookmark.url }" target="_blank" title="open link in new tab"  >❐</a></div>
+				<div style="display:inline-block;${ colorComments }" ><a href="${ bookmark.url }" target="_blank" title="open link in new tab"  >❐</a></div>
 			</div>
 		`;
 

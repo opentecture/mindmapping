@@ -45,7 +45,7 @@ MDU.setMenuDuplicates = function( bookmarks = BOP.bookmarks ){
 
 	if ( MDUdet.open === false ) return;
 
-	inpTagsIgnore.value = "duplicates";
+	inpTagsIgnore.value = "";
 
 	bookmarks = COR.getBookmarksFilterByTagsToIgnore( bookmarks );
 
@@ -55,11 +55,18 @@ MDU.setMenuDuplicates = function( bookmarks = BOP.bookmarks ){
 
 	bookmarks.forEach( ( bookmark, count ) => {
 
-		const match = BOP.bookmarks.filter( bopmark => bopmark.url === bookmark.url );
+		const matches = BOP.bookmarks.filter( bopmark => bopmark.url === bookmark.url );
 
-		if ( match.length > 1 ) {
+		if ( matches.length > 1 ) {
 
-			console.log( '', match );
+			let color;
+			if ( matches.find( match => match.tags.includes( "duplicate" ) ) ) {
+
+				//console.log( 'matches', matches );
+				color = bookmark.tags.includes( "duplicate" ) ? "style=background-color:pink;" : "style=background-color:lightgreen;" ;
+
+				console.log( '', 23 );
+			}
 
 			const index = BOP.bookmarks.indexOf( bookmark );
 
@@ -67,7 +74,7 @@ MDU.setMenuDuplicates = function( bookmarks = BOP.bookmarks ){
 			`
 				<div style=margin-bottom:0.5rem; >
 					<div style="display:inline-block" >${ count + 1 }. </div>
-					<div style="display:inline-block;width:80%;" ><button onclick=BED.setTargetToEditDialog("${ index }"); title="${ bookmark.description }"  >${ bookmark.name }</button></div>
+					<div style="display:inline-block;width:80%;" ><button ${ color } onclick=BED.setTargetToEditDialog("${ index }"); title="${ bookmark.description }"  >${ bookmark.name }</button></div>
 					<div style="display:inline-block" ><a href="${ bookmark.url }" target="_blank" title="open link in new tab"  >❐</a></div>
 				</div>
 			`;
@@ -81,7 +88,7 @@ MDU.setMenuDuplicates = function( bookmarks = BOP.bookmarks ){
 	MDUdivJsonLines.innerHTML = markHtm;
 
 	pDupes.innerHTML = `${ dupes.length } duplicates`;
-	
+
 	BOP.setBookmarks( dupes.sort() );
 
 };
