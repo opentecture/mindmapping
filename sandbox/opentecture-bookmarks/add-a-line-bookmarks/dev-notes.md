@@ -1,6 +1,28 @@
 ## dev notes
 
 
+## 2019-08-11
+
+Questions for Ryan
+
+* Target audience: contractor or handyman or DIY
+* Relevant?: Lego, 3D-printing, commercial proprietary prefab, commercial services
+* Relevant?: toys, furniture, large buildings or campuses, city-planning
+* Relevant?: computer languages, games
+* Relevant?: Rammed earth, adobe
+
+* modular components that may be assembled and reassembled into safe habitable good-looking structures
+* Software for designing and managing the above
+* Tools and hardware for making the above
+* Licensing, laws, codes and documentation
+* People and organizations
+* Publications and other news sources
+* Standards
+
+
+
+
+
 ## 2019-08-10
 
 Looking quite good

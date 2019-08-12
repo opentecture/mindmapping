@@ -14,14 +14,27 @@ Basic bookmark manager and editor with tagging, descriptions and comments
 
 <summary>To Do / Wish List</summary>
 
+### Popup
+
+* Details about items visible at load time
+
+### Json file
+
+* 2019-08-11 ~ Theo ~ Comments for every entry
+* 2019-08-11 ~ Theo ~ Excellent set of tags
+* 2019-08-11 ~ Theo ~ Every entry well-tagged
+
+
 ### Tags
 
+* 2019-08-11 ~ Theo  Filter by tags menu subdivided similar to edit tag sets
 * 2019-07-07 ~ Theo ~ Create tag chains usable to tie Mind Map elements
 * 2019-06-23 ~ Theo ~ Filter by multiple tags
 * 2019-06-23 ~ Theo ~ Add tags to multiple bookmarks at same time
 
 ### File handling
 
+* 2019-08-11 ~ Theo ~ Update json lines data with each edit
 * 2019-06-23 ~ Theo ~ Refresh memory after a deletion
 * 2019-06-03 ~ Theo ~ Save to and read from gists
 
