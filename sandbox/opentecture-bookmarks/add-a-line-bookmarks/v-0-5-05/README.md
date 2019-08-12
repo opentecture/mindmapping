@@ -16,7 +16,17 @@ Basic bookmark manager and editor with tagging, descriptions and comments
 
 ### Popup
 
-* Details about items visible at load time
+* 2019-08-11 ~ Theo ~ Details about items visible at load time
+* 2019-08-11 ~ Theo ~ Move down below title
+
+
+### Main contents
+
+* 2019-08-11 ~ Theo ~ Add images
+
+### Main edit page
+
+* 2019-08-11 ~ Theo ~ Nicer CSS
 
 ### Json file
 
@@ -43,6 +53,8 @@ Basic bookmark manager and editor with tagging, descriptions and comments
 * 2019-07-28 ~ Theo ~ Set menu type using local storage
 
 ### Menu
+
+* 2019-08-11 ~ Theo ~ Add notes about item colors
 
 
 

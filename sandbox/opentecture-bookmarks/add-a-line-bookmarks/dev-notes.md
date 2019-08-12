@@ -17,7 +17,7 @@ Questions for Ryan
 * Licensing, laws, codes and documentation
 * People and organizations
 * Publications and other news sources
-* Standards
+* Standards, style guides and guidelines
 
 
 
