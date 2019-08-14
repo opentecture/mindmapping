@@ -11,6 +11,8 @@ Questions for Ryan
 * Relevant?: computer languages, games
 * Relevant?: Rammed earth, adobe
 
+More
+
 * modular components that may be assembled and reassembled into safe habitable good-looking structures
 * Software for designing and managing the above
 * Tools and hardware for making the above
