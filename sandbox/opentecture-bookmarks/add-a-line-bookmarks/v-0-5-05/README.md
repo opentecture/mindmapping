@@ -37,8 +37,8 @@ Basic bookmark manager and editor with tagging, descriptions and comments
 
 ### Tags
 
-* 2019-08-11 ~ Theo  Filter by tags menu subdivided similar to edit tag sets
-* 2019-07-07 ~ Theo ~ Create tag chains usable to tie Mind Map elements
+* 2019-08-11 ~ Theo ~ Filter by tags menu subdivided similar to edit tag sets
+* 2019-07-07 ~ Theo ~ Create tag chains usable to tie or link as Mind Map elements
 * 2019-06-23 ~ Theo ~ Filter by multiple tags
 * 2019-06-23 ~ Theo ~ Add tags to multiple bookmarks at same time
 
@@ -71,6 +71,14 @@ Basic bookmark manager and editor with tagging, descriptions and comments
 <details>
 
 <summary>Change Log</summary>
+
+### 2019-08-24 ~ Theo
+
+Many updates bookmarks.json
+
+* Adding tags
+* Updating tag sets
+* Adding comments
 
 ### 2019-08-11 ~ Theo
 
