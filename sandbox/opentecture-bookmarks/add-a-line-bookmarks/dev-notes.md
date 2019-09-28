@@ -1,5 +1,32 @@
 ## dev notes
 
+## 2019-09-28
+
+### Paths
+
+We want to be able to put our chunks of knowledge - JSON lines or bookmarks - into books and have them organized by category - just like we organize files into folders. and we want to be able to reuse the bookmark in various books. you may want your bookmark in one folder and I may want it in another folder. Both locations should be okay. So you would have a set of path types that you want for this project. And I would have my set of path types that I would use for that project
+
+Paths should be like comments and tags - completely separate lines.
+
+{ type: path, uuid: xxx, path: "aaa/bbb/123", bookmarks: "123,456,987...", tags: "theo,gbxml" }
+
+### Collections
+
+Bookmarks are like icons or cards in a library catalog. They link or represent real item somewhere else.
+
+we can use these links in order to create Assemblies of the actual objects represented themselves.
+
+All we need to do is take the object represented by the bookmark and indicate its new location. for example, we could take a file located in some folder somewhere, and then transfer it into a 3D representation of that data in some virtual world somewhere.
+
+all we need is a list of the bookmarks and a list of the new locations or instructions as to what to do with the data represented by the bookmarks.
+
+Add-a-line objects?
+
+{ type: location, uuid: "xxx", bookmark: "aaa", location: "www.example.com/doit.html#aaa", tags: "" }
+{ type: time ...
+{ type: action ...
+
+
 
 ## 2019-08-11
 
