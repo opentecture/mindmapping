@@ -1,6 +1,32 @@
 ## dev notes
 
 
+## 2019-09-29
+
+* A lego set for knowledge
+* A Yelp for ethics - see parallel constitution
+* A movie set for objects
+* wormholes into time for history students
+* a card catalog for knowledge
+* an index to what is know
+* what would be nice to add to Wikipedia articles if we had enough time
+* Wikipedia articles from a director's or maintainer's point of view
+
+path { type: path, uuid: "xxx", path: "aaa.bbb/123", tag: "Cynthia,work" }
+
+who: see comments??
+when { type: time, uuid: "xxx"}
+where { type: "location", lat: "38", longitude: "-122", zoomLevel: "16" }
+how: scale, rotation, other?
+what { type: "action", uuid: "" }
+why: see meta?
+
+
+### 2019-09-28
+
+
+_lost lots of nice text here somehow..._
+
 ## 2019-08-11
 
 Questions for Ryan

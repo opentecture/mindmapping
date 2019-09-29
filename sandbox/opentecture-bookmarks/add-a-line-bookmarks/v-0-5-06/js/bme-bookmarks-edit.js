@@ -5,10 +5,11 @@
 
 BME = {
 
-	"copyright": "Copyright 2019 pushMe-pullYou authors. MIT License",
-	"date": "2019-08-10",
-	"description": "Edit bookmark data above, then view and save your edits or delete bookmark",
-	"version": "0.5.05-0bme",
+	"copyright": "Copyright 2019 Opentecture authors. MIT License",
+	"date": "2019-09-28",
+	"description": `First click a bookmark button above, edit the data to the right,
+		then save your edits or delete bookmark here:`,
+	"version": "0.05.06-0bme",
 
 };
 
@@ -24,23 +25,21 @@ BME.getMenuBookmarkEdit = function() {
 	`
 		<details id=BMEdet>
 
-			<summary>Bookmark edit ~ BME</summary>
+			<summary>Bookmark edit (BME)</summary>
 
 			<p>${ BME.description }</p>
 
 			<p>
-
 				<button onclick=BME.setTextareaJson(); >1. Set bookmark JSON</button>
 
 				<button onclick=BME.setJsonTagSets(); >2. Add bookmark to JSON in memory</button>
 
-				<button onclick=BOP.butSaveFile(); >3. Save edits to file</button>
-				/
-				<button onclick=BME.setJsonDelete(); >Delete bookmark JSON in memory</button>
-
-
+			</p>
+			<p>
+				or <button onclick=BME.setJsonDelete(); >Delete bookmark JSON in memory</button>
 			</p>
 
+				<button onclick=BOP.butSaveFile(); >Save edits to file</button>
 			<p>
 				<textarea id=BMEtxtJson ></textarea>
 			</p>
@@ -91,7 +90,10 @@ BME.setJsonTagSets = function() {
 
 	if ( BMEtxtJson.value === "" ) { alert( "First click and edit 'Set bookmark JSON'"); return; }
 
+// add try / catch
 	const jsonl = JSON.parse( BMEtxtJson.value );
+
+	if ( !jsonl ) { alert( `oops` ) }
 	//const line = JSON.stringify( json );
 	//console.log( 'line', line );
 

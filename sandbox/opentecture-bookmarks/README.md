@@ -161,6 +161,11 @@ Add UUID
 
 ## Wish List / To Do
 
+* 2019-09-13 ~ Theo ~ Every bookmark is a separate file << not necessary any more. see dev notes
+	* Add "path" types instead
+* 2019-09-13 ~ Theo ~ Comments may have tags such as "forCynthia" or "actionNeeded"
+* 2019-09-13 ~ Theo ~ There is a "folders" type that keeps the tree info for a bookmark << yes, this is it
+* 2019-09-13 ~ Theo ~ All bookmark files may be package into a zip file
 * 2019-06-10 ~ Theo ~ Add readme files for all the modules
 
 
