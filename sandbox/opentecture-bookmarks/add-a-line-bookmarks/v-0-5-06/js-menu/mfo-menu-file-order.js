@@ -29,7 +29,7 @@ MFO.getMenuFileOrder= function() {
 			Search: <input type=search name="q" oninput=MFO.filterBookmarks(this) ;>
 		</p>
 
-		<div id=MFOdivJsonLines ></div>
+		<div id=MFOdivJsonLines class=divMenuList ></div>
 
 		<hr>
 

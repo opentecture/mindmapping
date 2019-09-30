@@ -46,12 +46,12 @@ BED.setTargetToEditDialog = function( index ) {
 		const comment = BED.comments[ 0 ];
 		//console.log( 'comment', comment );
 
-		BEDtxtComment.value =
+		BEDtxtComment.innerText =
 		`comment: ${ comment.text }\n\ntags: ${ comment.tags }`;
 
 	} else {
 
-		BEDtxtComment.value = "";
+		BEDtxtComment.innerText = "";
 
 	}
 
@@ -100,7 +100,7 @@ BED.getBookmarksData = function() {
 
 				<div>description </div><div><textarea id=BEDtxtDescription ></textarea></div>
 
-				<div>comment </div><div><textarea id=BEDtxtComment onclick=alert("not here"); placeholder="No editing here. Use 'Comment add/edit'" ></textarea></div>
+				<div>comment </div><div id=BEDtxtComment onclick=alert("not here"); placeholder="No editing here. Use 'Comment add/edit'" ></div>
 
 			</div>
 

@@ -28,7 +28,7 @@ MBD.getMenuBookmarksDomain = function() {
 				Search: <input type=search name="q" oninput=MBD.filterBookmarks(this); placeholder="enter a domain name" >
 			</p>
 
-			<div id=MBDdivBookmarksDomain ></div>
+			<div id=MBDdivBookmarksDomain class=divMenuList ></div>
 
 			<hr>
 

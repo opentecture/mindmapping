@@ -30,7 +30,7 @@ MJL.getMenuJsonLines = function() {
 
 			<p id=MJLpStats></p>
 
-			<div id=MJLdivJsonLines ></div>
+			<div id=MJLdivJsonLines class=divMenuList></div>
 
 			<hr>
 

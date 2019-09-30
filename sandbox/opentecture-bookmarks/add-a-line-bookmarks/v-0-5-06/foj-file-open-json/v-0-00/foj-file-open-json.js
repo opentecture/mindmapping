@@ -27,7 +27,7 @@ FOJ.requestFile = function( url ) {
 
 	FOJ.xhr.open( 'GET', url, true );
 	FOJ.xhr.onerror = function( xhr ) { console.log( 'error:', xhr  ); };
-	FOJ.xhr.onprogress = function( xhr ) {  console.log( 'loaded:', xhr.loaded  ); ; };
+	FOJ.xhr.onprogress = function ( xhr ) { }; //console.log( 'loaded:', xhr.loaded  ); };
 	FOJ.xhr.onload = function( xhr ) { FOJ.callbackJson( xhr.target.response ); };
 	FOJ.xhr.send( null );
 

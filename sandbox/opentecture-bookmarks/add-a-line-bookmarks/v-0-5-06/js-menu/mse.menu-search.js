@@ -28,7 +28,7 @@ MSE.getMenuSearch= function() {
 				Search: <input type=search name="q" oninput=MSE.filterBookmarks(this) ;>
 			</p>
 
-			<div id=MSEdivJsonLines style=height:20rem;overflow:scroll;resize:both;></div>
+			<div id=MSEdivJsonLines class=divMenuList ></div>
 
 			<hr>
 

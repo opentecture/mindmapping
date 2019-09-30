@@ -31,7 +31,7 @@ MBT.getMenuBookmarksTag = function() {
 
 		<p id=MTBpStats ></p>
 
-		<div id=MTBdivBookmarksByTag ></div>
+		<div id=MTBdivBookmarksByTag class=divMenuList ></div>
 
 		<hr>
 

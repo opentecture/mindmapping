@@ -38,10 +38,9 @@ BME.getMenuBookmarkEdit = function() {
 			<p>
 				or <button onclick=BME.setJsonDelete(); >Delete bookmark JSON in memory</button>
 			</p>
-
-				<button onclick=BOP.butSaveFile(); >Save edits to file</button>
+				<button onclick=BOP.butSaveFile(); >Save edits to file</button> <span id=spnMessage ></span>
 			<p>
-				<textarea id=BMEtxtJson ></textarea>
+				<textarea id=BMEtxtJson style=height:20rem; ></textarea>
 			</p>
 
 		</details>
@@ -90,10 +89,24 @@ BME.setJsonLines = function() {
 
 	if ( BMEtxtJson.value === "" ) { alert( "First click and edit 'Set bookmark JSON'"); return; }
 
-// add try / catch
-	const jsonl = JSON.parse( BMEtxtJson.value );
+	let jsonl;
 
-	if ( !jsonl ) { alert( `oops` ) }
+	try {
+
+		jsonl = JSON.parse( BMEtxtJson.value );
+		spnMessage.innerHTML = "JSON looks OK"
+		//throw 'myException'; // generates an exception
+	}
+	catch (e) {
+
+	// statements to handle any exceptions
+		//logMyErrors( e ); // pass exception object to error handler
+		console.log( 'e', e );
+
+		alert( e );
+
+	}
+
 	//const line = JSON.stringify( json );
 	//console.log( 'line', line );
 
