@@ -177,7 +177,8 @@
 <script src = "js-menu/mbt-menu-bookmarks-tag.js" ></script>
 <script src = "js-menu/mfo-menu-file-order.js" ></script>
 <script src = "js-menu/mjl-menu-json-lines.js" ></script>
-<script src = "js-menu/mdu-menu-duplicates.js" ></script>
+
+
 
 <script src = "js/bme-bookmarks-edit.js" ></script>
 <script src = "js/bmn-bookmarks-new.js" ></script>
@@ -185,6 +186,8 @@
 <script src = "js/tga-tags-add.js" ></script>
 <script src = "js/tag-tags.js" ></script>
 
+<script src = "js-lint/mdu-menu-duplicates.js" ></script>
+<script src = "js-lint/tts-tidy-tag-sets.js" ></script>
 	<button id="expandButton" onclick="toggleNavPanel();">☰</button>
 
 	<nav id="navMenu">
@@ -209,7 +212,6 @@
 
 				<div id=MBTdivMenuBookmarksTag ></div>
 
-				<div id=MDUdivMenuDuplicates ></div>
 
 				<p>All items</p>
 
@@ -233,6 +235,13 @@
 				<div id=TGAdivGetMenuTagsAdd ></div>
 
 				<div id=TAGdivGetMenuTagSets ></div>
+
+				<p>Tidy or "lint" the data</p>
+
+				<div id=MDUdivMenuDuplicates ></div>
+
+				<div id=TTSdivMenuTagSets ></div>
+
 
 			</details>
 
@@ -294,6 +303,8 @@
 			MJLdivMenuJsonLines.innerHTML = MJL.getMenuJsonLines();
 
 			MDUdivMenuDuplicates.innerHTML = MDU.getMenuDuplicates();
+
+			TTSdivMenuTagSets.innerHTML = TTS.getMenuTags();
 
 			//////////
 

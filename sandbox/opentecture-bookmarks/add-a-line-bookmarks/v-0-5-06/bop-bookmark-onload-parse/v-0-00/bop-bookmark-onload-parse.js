@@ -116,6 +116,7 @@ BOP.getBookmarksFilterByTagsToIgnore = function ( bookmarks ) {
 
 };
 
+
 BOP.butSaveFile = function() {
 
 	const name = FOJ.fileName;

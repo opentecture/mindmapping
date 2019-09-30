@@ -7,9 +7,9 @@
 const MBT = {
 
 	"copyright": "Copyright 2019 Opentecture authors. MIT License",
-	"date": "2019-08-10",
+	"date": "2019-09-29",
 	"description": "Display bookmarks by tags",
-	"version": "0.5.05-0mtb",
+	"version": "0.05.06-0mtb",
 
 };
 
@@ -19,15 +19,17 @@ MBT.getMenuBookmarksTag = function() {
 
 	const htm =
 	`
-	<details id=MBTdet ontoggle=MBT.setMenuItemsByTag(); >
+	<details id=MBTdet ontoggle=MBT.filterTags(inpTags); >
 
 		<summary>Bookmarks by tag (MBT)</summary>
 
 		<p>${ MBT.description }</p>
 
 		<p>
-			Search: <input type=search name="q" oninput=MBT.filterBookmarks(this) ;>
+			Search: <input id=inpTags type=search name="q" oninput=MBT.filterTags(this) ;>
 		</p>
+
+		<p id=MTBpStats ></p>
 
 		<div id=MTBdivBookmarksByTag ></div>
 
@@ -41,34 +43,23 @@ MBT.getMenuBookmarksTag = function() {
 };
 
 
-MBT.setMenuItemsByTag = function( bookmarks = BOP.bookmarks ){
+MBT.setMenuItemsByTag = function(){
 
 	if ( MBTdet.open === false ) return;
-
-	bookmarks = BOP.getBookmarksFilterByTagsToIgnore( bookmarks );
-
-	let tags = [];
-
-	for ( let bookmark of bookmarks ) {
-
-		//if ( !bookmark.url && !bookmark.tags ) { continue; }
-
-		tags.push( ...bookmark.tags );
-
-	}
-	tags = [ ...new Set( tags ) ].sort();
-	//console.log( 'tags', tags );
 
 	MBT.bookmarksSelected = [];
 	let indexSelected = 0;
 
-	let tagHtm = `${ tags.length } tags = ${ bookmarks.length } bookmarks`;
 
-	for ( let tag of tags ) {
+	let tagHtm = "";
+	let count = 0;
+
+	for ( let tag of MBT.tagsFiltered ) {
 		//console.log( 'tag', tag );
 
-		const marks = bookmarks.filter( bookmark => bookmark.url && bookmark.type === "url" && bookmark.tags && bookmark.tags.includes( tag ) );
+		const marks = MBT.filtered.filter( bookmark => bookmark.url && bookmark.type === "url" && bookmark.tags && bookmark.tags.includes( tag ) );
 		//console.log( 'marks', marks );
+
 		MBT.bookmarksSelected.push( marks || [] );
 
 		let markHtm = "";
@@ -87,17 +78,18 @@ MBT.setMenuItemsByTag = function( bookmarks = BOP.bookmarks ){
 
 		}
 
+		count += marks.length;
+
 		if ( marks.length ) {
 
 			tagHtm +=
 			`
-				<details ontoggle=MBT.filter(${ indexSelected })>
-					<summary>${ tag } - ${ marks.length }</summary>
+				<details ontoggle=MBT.filter(${ indexSelected }) >
+					<summary>${ tag } - ${ marks.length }x</summary>
 
 					${ markHtm }
 
 				</details>
-
 			`;
 		}
 
@@ -105,10 +97,24 @@ MBT.setMenuItemsByTag = function( bookmarks = BOP.bookmarks ){
 
 	}
 
+	MTBpStats.innerHTML = `${ MBT.tagsFiltered.length } unique tags for ${count } bookmarks`;
+
 	MTBdivBookmarksByTag.innerHTML = tagHtm;
 
 };
 
+
+MBT.getTagsUnique = function ( bookmarks ) {
+
+	const tagsEvery = bookmarks.flatMap( bookmark => bookmark.tags );
+	//console.log( 'tagsEvery', tagsEvery );
+
+	const tagsUnique = [ ...new Set( tagsEvery ) ].sort();
+	//console.log( 'tagsUnique', tagsUnique );
+
+	return tagsUnique;
+
+};
 
 
 MBT.filter = function ( index ) {
@@ -119,32 +125,17 @@ MBT.filter = function ( index ) {
 
 
 
-MBT.filterBookmarks = function ( input ) {
+MBT.filterTags = function ( input ) {
 
-	const str = input.value;
-	//console.log( 'str', str );
-	const a = document.createElement( 'a' );
+	const str = input.value.toLowerCase() || "";
 
-	MBT.bookmarks = [];
+	MBT.filtered = BOP.getBookmarksFilterByTagsToIgnore( BOP.bookmarks );
 
-	if ( str === "" ) {
+	MBT.tagsUnique = MBT.getTagsUnique( MBT.filtered );
 
-		bookmarks = BOP.bookmarks;
+	MBT.tagsFiltered = MBT.tagsUnique.filter( tag => tag.includes( str ) );
+	//console.log( 'MBT.tagsFiltered', MBT.tagsFiltered );
 
-	} else {
-
-			bookmarks = BOP.bookmarks.filter( bookmark => {
-
-				const tagsString = bookmark.tags.join();
-
-				return tagsString.includes( str );
-
-			} );
-
-	}
-
-	MBT.setMenuItemsByTag( bookmarks );
-
-	BOP.setBookmarks( bookmarks );
+	MBT.setMenuItemsByTag();
 
 };
