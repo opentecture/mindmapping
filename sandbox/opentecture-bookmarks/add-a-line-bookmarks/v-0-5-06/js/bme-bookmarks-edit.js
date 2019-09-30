@@ -31,9 +31,9 @@ BME.getMenuBookmarkEdit = function() {
 
 			<p>
 				<button onclick=BME.setTextareaJson(); >1. Set bookmark JSON</button>
-
-				<button onclick=BME.setJsonTagSets(); >2. Add bookmark to JSON in memory</button>
-
+			</p>
+			<p>
+				<button onclick=BME.setJsonLines(); >2. Add bookmark to JSON in memory</button>
 			</p>
 			<p>
 				or <button onclick=BME.setJsonDelete(); >Delete bookmark JSON in memory</button>
@@ -81,12 +81,12 @@ BME.setTextareaJson = function() {
 
 
 
-BME.setJsonTagSets = function() {
+BME.setJsonLines = function() {
 
 	//const index = BED.lines.findIndex( line => line.includes( `\"${ BEDinpId.value }\"` ) );
 
-	const index = BOP.jsonLines.indexOf( BED.bookmark );
-	//console.log( 'index', index );
+	BME.index = BOP.jsonLines.indexOf( BED.bookmark );
+	//console.log( 'BME.index', BME.index );
 
 	if ( BMEtxtJson.value === "" ) { alert( "First click and edit 'Set bookmark JSON'"); return; }
 
@@ -97,9 +97,11 @@ BME.setJsonTagSets = function() {
 	//const line = JSON.stringify( json );
 	//console.log( 'line', line );
 
-	if ( index >= 0 ) {
+	if ( BME.index >= 0 ) {
 
-		BOP.jsonLines[ index ] = jsonl;
+		BOP.jsonLines[ BME.index ] = jsonl;
+
+		//console.log( 'BOP.jsonLines[ BME.index ]', BOP.jsonLines[ BME.index ] );
 
 	} else if ( jsonl.url !== "" ) {
 

@@ -117,7 +117,11 @@ BOP.getBookmarksFilterByTagsToIgnore = function ( bookmarks ) {
 };
 
 
-BOP.butSaveFile = function() {
+BOP.butSaveFile = function () {
+
+	//const index = BME.index || 0;
+	//const line = BOP.jsonLines[ index ];
+	//console.log( 'line', line );
 
 	const name = FOJ.fileName;
 
