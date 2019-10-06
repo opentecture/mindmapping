@@ -135,4 +135,8 @@ BOP.butSaveFile = function () {
 	a.click();
 	a = null;
 
+	BOP.setHeader();
+	
+	BOP.setBookmarks();
+
 };

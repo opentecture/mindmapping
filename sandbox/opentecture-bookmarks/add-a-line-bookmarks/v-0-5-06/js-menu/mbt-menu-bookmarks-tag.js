@@ -43,13 +43,29 @@ MBT.getMenuBookmarksTag = function() {
 };
 
 
+MBT.filterTags = function ( input ) {
+
+	const str = input.value.toLowerCase() || "";
+
+	MBT.filtered = BOP.getBookmarksFilterByTagsToIgnore( BOP.bookmarks );
+
+	MBT.tagsUnique = MBT.getTagsUnique( MBT.filtered );
+
+	MBT.tagsFiltered = MBT.tagsUnique.filter( tag => tag.includes( str ) );
+	//console.log( 'MBT.tagsFiltered', MBT.tagsFiltered );
+
+	MBT.setMenuItemsByTag();
+
+};
+
+
+
 MBT.setMenuItemsByTag = function(){
 
 	if ( MBTdet.open === false ) return;
 
 	MBT.bookmarksSelected = [];
 	let indexSelected = 0;
-
 
 	let tagHtm = "";
 	let count = 0;
@@ -97,7 +113,7 @@ MBT.setMenuItemsByTag = function(){
 
 	}
 
-	MTBpStats.innerHTML = `${ MBT.tagsFiltered.length } unique tags for ${count } bookmarks`;
+	MTBpStats.innerHTML = `${ MBT.tagsFiltered.length } unique tags for ${ count } total tags`;
 
 	MTBdivBookmarksByTag.innerHTML = tagHtm;
 
@@ -120,22 +136,5 @@ MBT.getTagsUnique = function ( bookmarks ) {
 MBT.filter = function ( index ) {
 
 	BOP.setBookmarks( MBT.bookmarksSelected[ index ] );
-
-};
-
-
-
-MBT.filterTags = function ( input ) {
-
-	const str = input.value.toLowerCase() || "";
-
-	MBT.filtered = BOP.getBookmarksFilterByTagsToIgnore( BOP.bookmarks );
-
-	MBT.tagsUnique = MBT.getTagsUnique( MBT.filtered );
-
-	MBT.tagsFiltered = MBT.tagsUnique.filter( tag => tag.includes( str ) );
-	//console.log( 'MBT.tagsFiltered', MBT.tagsFiltered );
-
-	MBT.setMenuItemsByTag();
 
 };

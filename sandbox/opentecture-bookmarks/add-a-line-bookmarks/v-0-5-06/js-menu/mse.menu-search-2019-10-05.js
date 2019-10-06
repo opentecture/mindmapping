@@ -7,10 +7,10 @@
 const MSE = {
 
 	copyright: "Copyright 2019 Opentecture authors. ",
-	date: "2019-10-05",
+	date: "2019-08-10",
 	description: "Search for text strings anywhere in the record. Pink icon on left: no tags. Pink to right: no comments.",
 	license: "MIT License",
-	version: "0.05.06-1MSE",
+	version: "0.05.65-0MSE",
 
 };
 
@@ -18,14 +18,14 @@ MSE.getMenuSearch= function() {
 
 	const htm =
 	`
-		<details id=MSEdet ontoggle=MSE.filterBookmarks(MSEinpSearch); >
+		<details id=MSEdet ontoggle=MSE.setMenuSearch(); >
 
 			<summary>Bookmarks by search (MSE)</summary>
 
 			<p>${ MSE.description }</p>
 
 			<p>
-				Search: <input id=MSEinpSearch type=search name="q" oninput=MSE.filterBookmarks(this) ;>
+				Search: <input type=search name="q" oninput=MSE.filterBookmarks(this) ;>
 			</p>
 
 			<div id=MSEdivJsonLines class=divMenuList ></div>
@@ -40,32 +40,40 @@ MSE.getMenuSearch= function() {
 };
 
 
+
 MSE.filterBookmarks = function ( input ) {
 
-	const string = input.value;
+	const str = input.value;
+	//console.log( 'str', str );
+	const a = document.createElement( 'a' );
 
-	const strings = string ?	string.split( " " ) : [];
-	console.log( 'strings', strings );
+	let bookmarks = [];
 
-	MSE.bookmarks = BOP.getBookmarksFilterByTagsToIgnore( BOP.bookmarks );
+	if ( str === "" ) {
 
-	strings.forEach( string =>
+		bookmarks = BOP.bookmarks;
 
-		MSE.bookmarks = MSE.bookmarks.filter( bookmark =>
-			JSON.stringify( bookmark ).includes( string )
-		)
-	)
+	} else {
 
-	MSE.setMenuSearch( MSE.bookmarks );
+		bookmarks = BOP.bookmarks.filter( bookmark => {
 
-	BOP.setBookmarks( MSE.bookmarks );
+			const bookmarkString = JSON.stringify( bookmark );
+
+			return bookmarkString.includes( str );
+
+		} );
+
+	}
+
+	MSE.setMenuSearch ( bookmarks );
 
 };
 
-
-MSE.setMenuSearch = function( bookmarks = MSE.bookmarks ){
+MSE.setMenuSearch = function( bookmarks = BOP.bookmarks ){
 
 	if ( MSEdet.open === false ) return;
+
+	bookmarks = BOP.getBookmarksFilterByTagsToIgnore( bookmarks );
 
 	let markHtm = `<p>${ bookmarks.length } links</p>`;
 
@@ -76,6 +84,7 @@ MSE.setMenuSearch = function( bookmarks = MSE.bookmarks ){
 		const colorTags = bookmark.tags.length <=1 ? "background-color:pink;" : "";
 
 		const comments = BOP.comments.filter( comment => comment.bookmarkId === bookmark.id );
+
 		//console.log( 'com', comments.length  );
 
 		const colorComments = comments.length < 1 ? "background-color:pink;" : "";
@@ -93,4 +102,8 @@ MSE.setMenuSearch = function( bookmarks = MSE.bookmarks ){
 
 	MSEdivJsonLines.innerHTML = markHtm;
 
+	BOP.setBookmarks( bookmarks );
+
 };
+
+

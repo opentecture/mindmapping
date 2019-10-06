@@ -30,6 +30,8 @@ COM.getMenuCommentAdd = function() {
 
 			<div>bookmark id </div><div><input id=COMinpBookmarkId style="width:100%;" ></div>
 
+			<div>bookmark url </div><div><input id=COMinpBookmarkUrl style="width:100%;" ></div>
+
 		</div>
 
 		<div class=xxcontainer4 >
@@ -80,6 +82,7 @@ COM.onToggle = function() {
 		const comment = BED.comments[ 0 ]; //JSON.parse( BOP.comments[ 0 ] );
 
 		COMinpBookmarkId.value = comment.bookmarkId;
+		COMinpBookmarkUrl.value = comment.bookmarkUrl || BEDinpUrl.value;
 		COMinpTags.value = comment.tags;
 		COMinpDateAdd.value = comment.dateAdd;
 		COMinpDateUpdate.value = new Date().toISOString();
@@ -102,6 +105,7 @@ COM.setBookmarkNew = function() {
 	if ( !window.BEDinpId ) { COMtxtJson.value = "First selected a bookmark to edit"; return; }
 
 	COMinpBookmarkId.value = BEDinpId.value;
+	COMinpBookmarkUrl.value = BEDinpUrl.value;
 	COMinpTags.value = "theo";
 	COMinpDateAdd.value = new Date().toISOString();
 	COMinpDateUpdate.value = COMinpDateAdd.value;
@@ -118,6 +122,7 @@ COM.setTextareaJson = function() {
 `{
 "tags": "${ COMinpTags.value }",
 "bookmarkId": "${ COMinpBookmarkId.value }",
+"bookmarkUrl": "${ COMinpBookmarkUrl.value }",
 "dateAdd": "${ COMinpDateAdd.value }",
 "dateUpdate": "${ COMinpDateUpdate.value }",
 "id": "${ COMinpId.value }",

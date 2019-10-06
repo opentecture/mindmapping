@@ -1,8 +1,10 @@
 ## dev notes
 
 
-## 2019-09-29
+## 2019-10-05
 
+
+## 2019-09-29
 
 All beginning to look good. Might even be useful one day.
 
