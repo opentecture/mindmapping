@@ -46,7 +46,7 @@ Add-a-line Bookmarks v 0.5.02
 
 * Add edit button and better comment display to contents list
 * Add scraping for data in editing bm
-* Working with <TooToo14 class="04"></TooToo14>
+* Working with TooToo14
 
 ### 2019-06-22 ~ Theo
 

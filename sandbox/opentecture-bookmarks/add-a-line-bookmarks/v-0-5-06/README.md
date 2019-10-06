@@ -14,6 +14,9 @@ Basic bookmark manager and editor with tagging, descriptions and comments
 
 <summary>To Do / Wish List</summary>
 
+2019-09-29 ~ Theo ~ OK on mobile
+
+
 ### Popup
 
 * 2019-09-28 ~ Theo ~ displays the web page
@@ -35,19 +38,24 @@ Basic bookmark manager and editor with tagging, descriptions and comments
 * 2019-08-11 ~ Theo ~ Excellent set of tags
 * 2019-08-11 ~ Theo ~ Every entry well-tagged
 
+### Bookmarks by search (MSE)
+
+* 2019-09-29 ~ Theo ~ search for multiple strings separated by commas
+* 2019-09-29 ~ Theo ~ search terms highlighted in the text
+
 
 ### Tags
 
 * 2019-08-11 ~ Theo ~ Filter by tags menu subdivided similar to edit tag sets
 * 2019-07-07 ~ Theo ~ Create tag chains usable to tie or link as Mind Map elements
 * 2019-06-23 ~ Theo ~ Filter by multiple tags
-* 2019-06-23 ~ Theo ~ Add tags to multiple bookmarks at same time
+* 2019-06-23 ~ Theo ~ Add tags to multiple bookmarks at same time << or just use a text editor on the entire file
 
 ### File handling
 
 * 2019-08-11 ~ Theo ~ Update json lines data with each edit
 * 2019-06-23 ~ Theo ~ Refresh memory after a deletion
-* 2019-06-03 ~ Theo ~ Save to and read from gists
+* 2019-06-03 ~ Theo ~ Save to and read from GitHub gists
 
 ### onLoad
 
@@ -55,7 +63,6 @@ Basic bookmark manager and editor with tagging, descriptions and comments
 
 ### Menu
 
-* 2019-08-11 ~ Theo ~ Add notes about item colors
 
 
 
@@ -72,6 +79,13 @@ Basic bookmark manager and editor with tagging, descriptions and comments
 <details>
 
 <summary>Change Log</summary>
+
+### 2019-09-29 ~ Theo
+
+Done
+* 2019-08-11 ~ Theo ~ Add notes about item colors
+
+
 
 ### 2019-08-24 ~ Theo
 

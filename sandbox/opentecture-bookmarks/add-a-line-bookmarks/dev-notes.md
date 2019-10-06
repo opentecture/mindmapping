@@ -1,5 +1,31 @@
 ## dev notes
 
+
+## 2019-09-29
+
+
+All beginning to look good. Might even be useful one day.
+
+* A lego set for knowledge
+* A Yelp for ethics - see parallel constitution
+* A movie set for objects
+* wormholes into time for history students
+* a card catalog for knowledge
+* an index to what is know
+* what would be nice to add to Wikipedia articles if we had enough time
+* Wikipedia articles from a director's or maintainer's point of view
+
+path { type: path, uuid: "xxx", path: "aaa.bbb/123", tag: "Cynthia,work" }
+
+who: see comments??
+when { type: time, uuid: "xxx"}
+where { type: "location", lat: "38", longitude: "-122", zoomLevel: "16" }
+how: scale, rotation, other?
+what { type: "action", uuid: "" }
+why: see meta?
+
+
+
 ## 2019-09-28
 
 ### Paths
@@ -32,29 +58,9 @@ Add-a-line objects?
 Use popup to display iframe of site?
 
 
-## 2019-09-29
-
-* A lego set for knowledge
-* A Yelp for ethics - see parallel constitution
-* A movie set for objects
-* wormholes into time for history students
-* a card catalog for knowledge
-* an index to what is know
-* what would be nice to add to Wikipedia articles if we had enough time
-* Wikipedia articles from a director's or maintainer's point of view
-
-path { type: path, uuid: "xxx", path: "aaa.bbb/123", tag: "Cynthia,work" }
-
-who: see comments??
-when { type: time, uuid: "xxx"}
-where { type: "location", lat: "38", longitude: "-122", zoomLevel: "16" }
-how: scale, rotation, other?
-what { type: "action", uuid: "" }
-why: see meta?
 
 
 ### 2019-09-28
-
 
 _lost lots of nice text here somehow..._ nope
 
@@ -77,9 +83,6 @@ More
 * People and organizations
 * Publications and other news sources
 * Standards, style guides and guidelines
-
-
-
 
 
 ## 2019-08-10
@@ -154,3 +157,17 @@ To Do
 
 * You may fork the data
 * You may add and edit the content and comments
+
+
+## 2019-06-22 ~ Theo
+
+* what is the Stack Overflow for good answers?
+* What is the Yelp for deep knowledge
+* What is the Apple or GitHub for curated content?
+* Where are the Amazon comments for STEM topics?
+
+More
+
+* There are an infinite amount of possible URLs, with perhaps many trillions already in use. How can we find, retain, and return to the good ones?
+* How can we catalog and share the URLs that point to good science?
+* For any topic that you may be interested in, you may gather dozens, maybe even hundreds, of bookmarks linking to blog posts, Wikipedia articles, journal articles and other sources. What are good waus of dealing with all these URLs?
