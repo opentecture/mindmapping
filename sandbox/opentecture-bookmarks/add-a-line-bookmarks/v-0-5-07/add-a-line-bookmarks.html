@@ -1,0 +1,376 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="description" content="Basic bookmark manager and editor with tagging, descriptions and comments">
+	<meta name="keywords" content="JavaScript,GitHub,FOSS">
+	<meta name="date" content="2019-09-28">
+	<meta name="version" content="0.05.06">
+	<title></title>
+	<style>
+		* {
+			box-sizing: border-box;
+		}
+
+		:root {
+			--mnu-width: 22rem;
+			--screen-width: calc(100vw);
+			--headerHeight: 6rem;
+		}
+
+		html {
+			height: 100%;
+		}
+
+		body {
+			font: 12pt monospace;
+			margin: 0 auto;
+			max-width: 800px;
+			padding: 0 0.5rem;
+		}
+
+		a {
+			color: crimson;
+			text-decoration: none;
+		}
+
+		a:hover,
+		a:focus,
+		a:active {
+			background-color: yellow;
+			color: #aaa;
+			text-decoration: underline
+		}
+
+		button,
+		input[type=button] {
+			background-color: #ddd;
+			border: none;
+			color: #322;
+			cursor: pointer;
+			padding: 3px 5px;
+		}
+
+		button:hover {
+			background: #ccc;
+			color: #fff
+		}
+
+		summary {
+			font-weight: bold;
+		}
+
+		.divMenuList { height:25rem; overflow:auto; resize:both; }
+		.sumMenuTitle { background-color: #ccc; color: #888; margin: 10px 0; text-align: center; }
+
+		#divContents {
+			border: 0px;
+			height: 100%;
+			left: var(--mnu-width);
+			margin: 0;
+			padding: 0 1rem;
+			position: absolute;
+			width: calc(100% - var(--mnu-width));
+		}
+
+		#secMain {
+			margin: 0 auto;
+			max-width: 40rem;
+		}
+
+		#navMenu {
+			background-color: #eee;
+			height: 100%;
+			left: 0;
+			margin: 0;
+			overflow: auto;
+			padding: 0 1rem;
+			position: fixed;
+			transition: left 0.5s;
+			top: 0;
+			width: var(--mnu-width);
+			z-index: 10;
+		}
+
+		#expandButton {
+			height: 32px;
+			position: absolute;
+			left: var(--mnu-width);
+			transition: left 0.5s;
+			width: 32px;
+			z-index: 1;
+		}
+
+		#expandButton.collapsed {
+			left: 0;
+		}
+
+		#navMenu.collapsed {
+			left: calc(var(--mnu-width) * -1);
+			padding: 0;
+		}
+
+		#divContents.collapsed {
+			left: 0;
+			width: 100%;
+		}
+
+		@media all and (max-width: 640px) {
+
+			#divContents {
+				left: 0;
+				padding: 0;
+				width: 100%;
+			}
+
+			#expandButton {
+				bottom: 1rem;
+			}
+
+		}
+
+		@media all and (max-height: 640px) {
+
+			#divContents {
+				left: 0;
+				padding: 0rem;
+				width: 100%;
+			}
+
+			#expandButton {
+				bottom: 1rem;
+			}
+
+		}
+
+
+		.container { display: grid; grid-template-columns: 7rem 4fr; grid-gap: 20px; margin-bottom: 1rem; }
+
+		.container > div { border-radius: 5px; padding: 10px; background-color: rgb(207,232,220);
+			border: 2px solid rgb(79,185,227); }
+
+		.container4 { display: grid; grid-template-columns: 1fr 3fr 1fr 3fr; grid-gap: 20px; margin-bottom: 1rem; }
+
+		.container4 > div { border-radius: 5px; padding: 10px; background-color: rgb(207,232,220);
+			border: 2px solid rgb(79,185,227); }
+
+		.container > div > input { width: 100% }
+		.container > div > textarea { height: 5rem; width: 100% }
+		.container4 > div > input { width: 100% }
+
+		#TAGtxtJson, #BMEtxtJson, #COMtxtJson, #METtxtJson { height: 10rem; width: 100%; }
+
+		#BEDdivDrop { border: 1px dotted #aaaaaa; height: 3rem; padding: 1rem; width: 100%; }
+
+	</style>
+</head>
+
+<body>
+<script src="foj-file-open-json/v-0-00/foj-file-open-json.js" ></script>
+<script src="bop-bookmark-onload-parse/v-0-00/bop-bookmark-onload-parse.js" ></script>
+
+<script src = "js/bed-bookmark-edit-dialog.js" ></script>
+
+<script src = "js-menu/mse.menu-search.js" ></script>
+<script src = "js-menu/mbd-menu-bookmarks-domain.js" ></script>
+<script src = "js-menu/mbt-menu-bookmarks-tag.js" ></script>
+<script src = "js-menu/mfo-menu-file-order.js" ></script>
+<script src = "js-menu/mjl-menu-json-lines.js" ></script>
+
+
+
+<script src = "js/bme-bookmarks-edit.js" ></script>
+<script src = "js/bmn-bookmarks-new.js" ></script>
+<script src = "js/com-comments.js" ></script>
+<script src = "js/tga-tags-add.js" ></script>
+<script src = "js/tag-tags.js" ></script>
+
+<script src = "js-lint/mdu-menu-duplicates.js" ></script>
+<script src = "js-lint/tts-tidy-tag-sets.js" ></script>
+
+
+
+	<button id="expandButton" onclick="toggleNavPanel();">☰</button>
+
+	<nav id="navMenu">
+
+		<div id="divTitle"></div>
+
+		<div id=divMenu>
+
+
+			<details open >
+
+				<summary class=sumMenuTitle >Bookmark filters</summary>
+
+				<p>Filtered results</p>
+
+				<p>Items with these tags are ignored: <input id=inpTagsIgnore style=width:100%;
+					value="404error,dead,deprecated,duplicate,off-topic,redirect-error,stale" ></p>
+
+				<div id=MSEdivMenuSearch ></div>
+
+				<div id=MBDdivMenuBookmarksDomain ></div>
+
+				<div id=MBTdivMenuBookmarksTag ></div>
+
+
+				<p>All items</p>
+
+				<div id=MFOdivMenuFileOrder ></div>
+
+				<div id=MJLdivMenuJsonLines ></div>
+
+			</details>
+
+			<details open >
+
+				<summary class=sumMenuTitle >Bookmark edit</summary>
+
+				<div id=BMEdivMenuBookmarkEdit ></div>
+
+				<div id=BMNdivMenuBookmarkNew ></div>
+
+				<div id=COMdivMenuCommentAdd ></div>
+
+				<div id=TGAdivGetMenuTagsAdd ></div>
+
+				<div id=TAGdivGetMenuTagSets ></div>
+
+				<p>Tidy or "lint" the data</p>
+
+				<div id=MDUdivMenuDuplicates ></div>
+
+				<div id=TTSdivMenuTagSets ></div>
+
+
+			</details>
+
+		</div>
+
+		<hr>
+
+		<h1 onclick="navPanel.scrollTop=0;" style="color:#888; cursor:pointer; text-align:center;"
+			title="go to top of menu">
+			❦
+		</h1>
+
+	</nav>
+
+	<div id="divContents">
+
+		<section id="secMain" >
+
+			<div id="divHeader" ></div>
+
+			<main id="mainContents" ></main>
+
+			<div id="divFooter" >
+
+				<h1 onclick="navPanel.scrollTop=0;" style="color:#888; cursor:pointer; text-align:center;"
+					title="go to top of menu">
+					❦
+				</h1>
+
+			</div>
+
+		</section>
+
+	</div>
+
+
+	<script>
+
+		//const url = "https://opentecture.github.io/mindmapping/sandbox/opentecture-bookmarks/bookmarks.json";
+		const url = "../../bookmarks.json";
+
+		const urlSourceCode = "https://github.com/opentecture/mindmapping/tree/master/sandbox/opentecture-bookmarks/add-a-line-bookmarks";
+		const urlSourceCodeIcon = "https://pushme-pullyou.github.io/github-mark-64.png";
+
+		init();
+
+		function init() {
+
+			divTitle.innerHTML = getTitle();
+
+			MSEdivMenuSearch.innerHTML = MSE.getMenuSearch()
+
+			MBDdivMenuBookmarksDomain.innerHTML = MBD.getMenuBookmarksDomain();
+
+			MBTdivMenuBookmarksTag.innerHTML = MBT.getMenuBookmarksTag();
+
+			MJLdivMenuJsonLines.innerHTML = MJL.getMenuJsonLines();
+
+			MFOdivMenuFileOrder.innerHTML = MFO.getMenuFileOrder();
+
+			MJLdivMenuJsonLines.innerHTML = MJL.getMenuJsonLines();
+
+			MDUdivMenuDuplicates.innerHTML = MDU.getMenuDuplicates();
+
+			TTSdivMenuTagSets.innerHTML = TTS.getMenuTags();
+
+			//////////
+
+			BMEdivMenuBookmarkEdit.innerHTML = BME.getMenuBookmarkEdit();
+
+			BMNdivMenuBookmarkNew.innerHTML = BMN.getMenuBookmarkNew();
+
+			COMdivMenuCommentAdd.innerHTML = COM.getMenuCommentAdd();
+
+			TGAdivGetMenuTagsAdd.innerHTML = TGA.getMenuTagsAdd();
+
+			TAGdivGetMenuTagSets.innerHTML = TAG.getMenuTagSets();
+
+			document.body.addEventListener( 'FOJonJsonParse', () => {
+				console.log( 'FOJ loaded', FOJ.fileName )
+				BOP.onLoadParse( FOJ.jsonLines )
+			}, false );
+
+			FOJ.requestFile( url );
+
+			if ( window.innerWidth < 640 || window.innerHeight < 640 ) {
+				toggleNavPanel();
+			}
+
+		}
+
+
+		function getTitle() {
+
+			document.title = document.title ? document.title : location.href.split( '/' ).pop().slice( 0, -5 ).replace( /-/g, ' ' );
+			const version = document.head.querySelector( "[ name=version ]" ).content;
+			const description = document.head.querySelector( "[ name=description ]" ).content;
+
+			const htm =
+				`
+				<h2>
+					<a href=${ urlSourceCode} target=_top title="Source code on GitLab" >
+						<img src=${ urlSourceCodeIcon} height=18 style=opacity:0.5; >
+					</a>
+
+					<a href="" title="Click to reload this page" >${ document.title} ${version}</a>
+				</h2>
+
+				<p>${ description}</p>
+			`;
+
+			return htm;
+
+		}
+
+
+		function toggleNavPanel() { // move to COR??
+
+			expandButton.classList.toggle( 'collapsed' );
+			navMenu.classList.toggle( 'collapsed' );
+			divContents.classList.toggle( 'collapsed' );
+
+		}
+
+
+	</script>
+</body>
+
+</html>
